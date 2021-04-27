@@ -69,7 +69,6 @@ D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\Syste
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\System.Web.Helpers.xml
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\System.Web.Mvc.xml
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.csprojAssemblyReference.cache
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.csproj.CoreCompileInputs.cache
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.csproj.CopyComplete
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.dll
@@ -150,3 +149,7 @@ C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotros
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.csproj.CopyComplete
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.dll
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.pdb
+D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\DatabaseAccessLayer.dll
+D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\DatabaseAccessLayer.pdb
+D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\DatabaseAccessLayer.dll.config
+D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.csprojAssemblyReference.cache

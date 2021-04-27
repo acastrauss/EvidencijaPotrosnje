@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EvidencijaPotrosnjeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="StateConsumption">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="StateId" Type="Int32" />
+    <Property Name="CovRatio" Type="Int32" />
+    <Property Name="DateFrom" Type="DateTime" Precision="3" />
+    <Property Name="DateShort" Type="DateTime" Precision="3" />
+    <Property Name="DateTo" Type="DateTime" Precision="3" />
+    <Property Name="DateUTC" Type="DateTime" Precision="3" />
+    <Property Name="StateCode" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Value" Type="Double" />
+    <Property Name="ValueScale" Type="Double" />
+    <NavigationProperty Name="StateInfo" Relationship="Self.FK_StateConsumption_StateInfo" FromRole="StateConsumption" ToRole="StateInfo" />
+  </EntityType>
+  <EntityType Name="StateInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Ime" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="StateConsumptions" Relationship="Self.FK_StateConsumption_StateInfo" FromRole="StateInfo" ToRole="StateConsumption" />
+    <NavigationProperty Name="StateWeathers" Relationship="Self.FK_StateWeather_StateInfo" FromRole="StateInfo" ToRole="StateWeather" />
+  </EntityType>
+  <EntityType Name="StateWeather">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="StateId" Type="Int32" Nullable="false" />
+    <Property Name="AirTemperature" Type="Double" />
+    <Property Name="CloudCover" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="DevpointTemperature" Type="Int32" />
+    <Property Name="GustValue" Type="Int32" />
+    <Property Name="HorizontalVisibility" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Humidity" Type="Int32" />
+    <Property Name="PresentWeather" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ReducedPressure" Type="Double" />
+    <Property Name="StationPressure" Type="Double" />
+    <Property Name="WindDirection" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="WindSpeed" Type="Int32" />
+    <NavigationProperty Name="StateInfo" Relationship="Self.FK_StateWeather_StateInfo" FromRole="StateWeather" ToRole="StateInfo" />
+  </EntityType>
+  <Association Name="FK_StateConsumption_StateInfo">
+    <End Role="StateInfo" Type="Self.StateInfo" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="StateConsumption" Type="Self.StateConsumption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StateInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StateConsumption">
+        <PropertyRef Name="StateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StateWeather_StateInfo">
+    <End Role="StateInfo" Type="Self.StateInfo" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="StateWeather" Type="Self.StateWeather" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StateInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StateWeather">
+        <PropertyRef Name="StateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EvidencijaPotrosnjeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="StateConsumptions" EntityType="Self.StateConsumption" />
+    <EntitySet Name="StateInfoes" EntityType="Self.StateInfo" />
+    <EntitySet Name="StateWeathers" EntityType="Self.StateWeather" />
+    <AssociationSet Name="FK_StateConsumption_StateInfo" Association="Self.FK_StateConsumption_StateInfo">
+      <End Role="StateInfo" EntitySet="StateInfoes" />
+      <End Role="StateConsumption" EntitySet="StateConsumptions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StateWeather_StateInfo" Association="Self.FK_StateWeather_StateInfo">
+      <End Role="StateInfo" EntitySet="StateInfoes" />
+      <End Role="StateWeather" EntitySet="StateWeathers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

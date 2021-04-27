@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EvidencijaPotrosnjeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="StateConsumption">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="StateId" Type="int" />
+    <Property Name="CovRatio" Type="int" />
+    <Property Name="DateFrom" Type="datetime" />
+    <Property Name="DateShort" Type="datetime" />
+    <Property Name="DateTo" Type="datetime" />
+    <Property Name="DateUTC" Type="datetime" />
+    <Property Name="StateCode" Type="nvarchar" MaxLength="250" />
+    <Property Name="Value" Type="float" />
+    <Property Name="ValueScale" Type="float" />
+  </EntityType>
+  <EntityType Name="StateInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Ime" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="StateWeather">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="StateId" Type="int" Nullable="false" />
+    <Property Name="AirTemperature" Type="float" />
+    <Property Name="CloudCover" Type="nvarchar" MaxLength="250" />
+    <Property Name="DevpointTemperature" Type="int" />
+    <Property Name="GustValue" Type="int" />
+    <Property Name="HorizontalVisibility" Type="nchar" MaxLength="10" />
+    <Property Name="Humidity" Type="int" />
+    <Property Name="PresentWeather" Type="nvarchar" MaxLength="250" />
+    <Property Name="ReducedPressure" Type="float" />
+    <Property Name="StationPressure" Type="float" />
+    <Property Name="WindDirection" Type="nvarchar" MaxLength="250" />
+    <Property Name="WindSpeed" Type="int" />
+  </EntityType>
+  <Association Name="FK_StateConsumption_StateInfo">
+    <End Role="StateInfo" Type="Self.StateInfo" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="StateConsumption" Type="Self.StateConsumption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StateInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StateConsumption">
+        <PropertyRef Name="StateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StateWeather_StateInfo">
+    <End Role="StateInfo" Type="Self.StateInfo" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="StateWeather" Type="Self.StateWeather" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StateInfo">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StateWeather">
+        <PropertyRef Name="StateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EvidencijaPotrosnjeModelStoreContainer">
+    <EntitySet Name="StateConsumption" EntityType="Self.StateConsumption" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StateInfo" EntityType="Self.StateInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StateWeather" EntityType="Self.StateWeather" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_StateConsumption_StateInfo" Association="Self.FK_StateConsumption_StateInfo">
+      <End Role="StateInfo" EntitySet="StateInfo" />
+      <End Role="StateConsumption" EntitySet="StateConsumption" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StateWeather_StateInfo" Association="Self.FK_StateWeather_StateInfo">
+      <End Role="StateInfo" EntitySet="StateInfo" />
+      <End Role="StateWeather" EntitySet="StateWeather" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

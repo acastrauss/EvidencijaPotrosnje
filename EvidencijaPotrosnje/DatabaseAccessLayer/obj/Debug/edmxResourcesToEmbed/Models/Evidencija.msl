@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EvidencijaPotrosnjeModelStoreContainer" CdmEntityContainer="EvidencijaPotrosnjeEntities">
+    <EntitySetMapping Name="StateConsumptions">
+      <EntityTypeMapping TypeName="EvidencijaPotrosnjeModel.StateConsumption">
+        <MappingFragment StoreEntitySet="StateConsumption">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StateId" ColumnName="StateId" />
+          <ScalarProperty Name="CovRatio" ColumnName="CovRatio" />
+          <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+          <ScalarProperty Name="DateShort" ColumnName="DateShort" />
+          <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+          <ScalarProperty Name="DateUTC" ColumnName="DateUTC" />
+          <ScalarProperty Name="StateCode" ColumnName="StateCode" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="ValueScale" ColumnName="ValueScale" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StateInfoes">
+      <EntityTypeMapping TypeName="EvidencijaPotrosnjeModel.StateInfo">
+        <MappingFragment StoreEntitySet="StateInfo">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Ime" ColumnName="Ime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StateWeathers">
+      <EntityTypeMapping TypeName="EvidencijaPotrosnjeModel.StateWeather">
+        <MappingFragment StoreEntitySet="StateWeather">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StateId" ColumnName="StateId" />
+          <ScalarProperty Name="AirTemperature" ColumnName="AirTemperature" />
+          <ScalarProperty Name="CloudCover" ColumnName="CloudCover" />
+          <ScalarProperty Name="DevpointTemperature" ColumnName="DevpointTemperature" />
+          <ScalarProperty Name="GustValue" ColumnName="GustValue" />
+          <ScalarProperty Name="HorizontalVisibility" ColumnName="HorizontalVisibility" />
+          <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+          <ScalarProperty Name="PresentWeather" ColumnName="PresentWeather" />
+          <ScalarProperty Name="ReducedPressure" ColumnName="ReducedPressure" />
+          <ScalarProperty Name="StationPressure" ColumnName="StationPressure" />
+          <ScalarProperty Name="WindDirection" ColumnName="WindDirection" />
+          <ScalarProperty Name="WindSpeed" ColumnName="WindSpeed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
