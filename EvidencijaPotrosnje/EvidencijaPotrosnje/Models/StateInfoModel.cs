@@ -5,18 +5,18 @@ using System.Web;
 
 namespace EvidencijaPotrosnje.Models
 {
-	public class StateInfo
+	public class StateInfoModel
 	{
 
-		public StateWeather m_StateWeather;
-		public StateConsumption m_StateConsumption;
+		public StateWeatherModel m_StateWeather;
+		public StateConsumptionModel m_StateConsumption;
 
-		public StateInfo()
+		public StateInfoModel()
 		{
 
 		}
 
-		~StateInfo()
+		~StateInfoModel()
 		{
 
 		}
@@ -24,7 +24,7 @@ namespace EvidencijaPotrosnje.Models
 		/// 
 		/// <param name="stateWeather"></param>
 		/// <param name="stateConsumption"></param>
-		public StateInfo(StateWeather stateWeather, StateConsumption stateConsumption)
+		public StateInfoModel(StateWeatherModel stateWeather, StateConsumptionModel stateConsumption)
 		{
 
 		}

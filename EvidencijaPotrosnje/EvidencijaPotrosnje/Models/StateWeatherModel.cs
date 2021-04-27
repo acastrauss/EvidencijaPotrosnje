@@ -6,32 +6,47 @@ using System.Web;
 namespace EvidencijaPotrosnje.Models
 {
 
-	public class StateWeather
+	public class StateWeatherModel
 	{
+		private float airTemperature;
+		private string cloudCover;
+		private int devpointTemperature;
+		private int gustValue;
+		private string horizontalVisibility;
+		private int humidity;
+		private string presentWeather;
+		private string recentWeather;
+		private float reducedPressure;
+		private float stationPressure;
+		private string windDirection;
+		private int windSpeed;
+		private StateInfoModel stateInfoModel; // parent stateInfoModel
 
-		public float airTemperature;
-		public string cloudCover;
-		public int devpointTemperature;
-		public int gustValue;
-		public string horizontalVisibility;
-		public int humidity;
-		public string presentWeather;
-		public string recentWeather;
-		public float reducedPressure;
-		public float stationPressure;
-		public string windDirection;
-		public int windSpeed;
-
-		public StateWeather()
+		public StateWeatherModel()
 		{
 
 		}
 
-		~StateWeather()
+		~StateWeatherModel()
 		{
 
 		}
 
+		public StateWeatherModel(float airTemperature, string cloudCover, int devpointTemperature, int gustValue, string horizontalVisibility, int humiditiy, string presentWeather, string recentWeather, float reducedPressure, float stationPressure, string windDirection, int windSpeed)
+		{
+			this.airTemperature = airTemperature;
+			this.cloudCover = cloudCover;
+			this.devpointTemperature = devpointTemperature;
+			this.gustValue = gustValue;
+			this.horizontalVisibility = horizontalVisibility;
+			this.humidity = humiditiy;
+			this.presentWeather = presentWeather;
+			this.recentWeather = recentWeather;
+			this.reducedPressure = reducedPressure;
+			this.stationPressure = stationPressure;
+			this.windDirection = windDirection;
+			this.windSpeed = windSpeed;
+		}
 		/// 
 		/// <param name="airTemperature"></param>
 		/// <param name="cloudCover"></param>
@@ -45,10 +60,7 @@ namespace EvidencijaPotrosnje.Models
 		/// <param name="stationPressure"></param>
 		/// <param name="windDirection"></param>
 		/// <param name="windSpeed"></param>
-		public StateWeather(float airTemperature, string cloudCover, int devpointTemperature, int gustValue, string horizontalVisibility, int humiditiy, string presentWeather, string recentWeather, float reducedPressure, float stationPressure, string windDirection, int windSpeed)
-		{
 
-		}
 
 		public float AirTemperature
 		{

@@ -6,7 +6,7 @@ using System.Web;
 namespace EvidencijaPotrosnje.Models
 {
 
-	public class StateConsumption
+	public class StateConsumptionModel
 	{
 
 		public int covRatio;
@@ -18,12 +18,12 @@ namespace EvidencijaPotrosnje.Models
 		public double value;
 		public double valueScale;
 
-		public StateConsumption()
+		public StateConsumptionModel()
 		{
 
 		}
 
-		~StateConsumption()
+		~StateConsumptionModel()
 		{
 
 		}
@@ -37,7 +37,7 @@ namespace EvidencijaPotrosnje.Models
 		/// <param name="stateCode"></param>
 		/// <param name="value"></param>
 		/// <param name="valueScale"></param>
-		public StateConsumption(int covRatio, DateTime dateFrom, DateTime dateShort, DateTime dateTo, DateTime dateUTC, string stateCode, double value, double valueScale)
+		public StateConsumptionModel(int covRatio, DateTime dateFrom, DateTime dateShort, DateTime dateTo, DateTime dateUTC, string stateCode, double value, double valueScale)
 		{
 
 		}
