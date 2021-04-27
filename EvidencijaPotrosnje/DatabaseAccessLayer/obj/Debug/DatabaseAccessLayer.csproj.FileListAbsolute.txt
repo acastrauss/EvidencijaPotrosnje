@@ -10,3 +10,15 @@ D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\obj\Debug
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\obj\Debug\DatabaseAccessLayer.csproj.CopyComplete
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\obj\Debug\DatabaseAccessLayer.dll
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\obj\Debug\DatabaseAccessLayer.pdb
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\bin\Debug\DatabaseAccessLayer.dll.config
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\bin\Debug\DatabaseAccessLayer.dll
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\bin\Debug\DatabaseAccessLayer.pdb
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\bin\Debug\EntityFramework.dll
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\bin\Debug\EntityFramework.SqlServer.dll
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\bin\Debug\EntityFramework.xml
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\bin\Debug\EntityFramework.SqlServer.xml
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\obj\Debug\DatabaseAccessLayer.csprojAssemblyReference.cache
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\obj\Debug\DatabaseAccessLayer.csproj.CoreCompileInputs.cache
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\obj\Debug\DatabaseAccessLayer.csproj.CopyComplete
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\obj\Debug\DatabaseAccessLayer.dll
+E:\res_proj\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccessLayer\obj\Debug\DatabaseAccessLayer.pdb
