@@ -9,8 +9,8 @@ namespace SharedModels
 
 	public class StateConsumptionModel
 	{
-
-		public int covRatio;
+        #region Fields
+        public int covRatio;
 		public DateTime dateFrom;
 		public DateTime dateShort;
 		public DateTime dateTo;
@@ -18,17 +18,22 @@ namespace SharedModels
 		public string stateCode;
 		public double value;
 		public double valueScale;
+        #endregion
 
-		public StateConsumptionModel()
-		{
+        #region ConstructorsAndDestructor
+        public StateConsumptionModel() {}
 
-		}
+		~StateConsumptionModel() {}
 
-		~StateConsumptionModel()
-		{
-
-		}
-
+		/// 
+		/// <param name="covRatio"></param>
+		/// <param name="dateFrom"></param>
+		/// <param name="dateShort"></param>
+		/// <param name="dateTo"></param>
+		/// <param name="dateUTC"></param>
+		/// <param name="stateCode"></param>
+		/// <param name="value"></param>
+		/// <param name="valueScale"></param>
 		public StateConsumptionModel(int covRatio, DateTime dateFrom, DateTime dateShort, DateTime dateTo, DateTime dateUTC, string stateCode, double value, double valueScale)
 		{
 			this.covRatio = covRatio;
@@ -40,19 +45,10 @@ namespace SharedModels
 			this.value = value;
 			this.valueScale = valueScale;
 		}
+        #endregion
 
-		/// 
-		/// <param name="covRatio"></param>
-		/// <param name="dateFrom"></param>
-		/// <param name="dateShort"></param>
-		/// <param name="dateTo"></param>
-		/// <param name="dateUTC"></param>
-		/// <param name="stateCode"></param>
-		/// <param name="value"></param>
-		/// <param name="valueScale"></param>
-
-
-		public int CovRatio
+        #region Properties
+        public int CovRatio
 		{
 			get
 			{
@@ -147,6 +143,30 @@ namespace SharedModels
 				ValueScale = value;
 			}
 		}
+		#endregion
 
-	}//end StateConsumption
+		#region PseudoMethods
+		/// <summary>
+		/// StateConsumptionModel is valid if:
+		/// dateUTC != null &&
+		/// value != null
+		/// </summary>
+		/// <returns></returns>
+		public bool IsValid()
+		{
+			return dateUTC != null && value >= 0;
+		}
+
+		/// <summary>
+		/// String representation of MVC model
+		/// </summary>
+		/// <returns></returns>
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        #endregion
+
+    }//end StateConsumption
 }

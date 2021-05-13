@@ -9,23 +9,22 @@ namespace SharedModels
 	public class StateInfoModel
 	{
 
-		private StateWeatherModel stateWeather;
+        #region Fields
+        private StateWeatherModel stateWeather;
 		private StateConsumptionModel stateConsumption;
-		private string stateName;
+		private String stateName;
+        #endregion
 
-		public StateWeatherModel StateWeather { get => stateWeather; set => stateWeather = value; }
+        #region Properties
+        public StateWeatherModel StateWeather { get => stateWeather; set => stateWeather = value; }
 		public StateConsumptionModel StateConsumption { get => stateConsumption; set => stateConsumption = value; }
-		public string StateName { get => stateName; set => stateName = value; }
+		public String StateName { get => stateName; set => stateName = value; }
+        #endregion
 
-		public StateInfoModel()
-		{
+        #region ConstructorsAndDestructor
+        public StateInfoModel() {}
 
-		}
-
-		~StateInfoModel()
-		{
-
-		}
+		~StateInfoModel() {}
 
 		/// 
 		/// <param name="stateWeather"></param>
@@ -36,6 +35,30 @@ namespace SharedModels
 			this.stateConsumption = stateConsumption;
 			this.stateName = stateName;
 		}
+        #endregion
 
-	}//end StateInfo
+		
+        #region PseudoMethods
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public bool IsValid()
+        {
+			if (stateWeather == null || stateConsumption == null)
+				return false;
+
+			return stateWeather.IsValid() &&
+				stateConsumption.IsValid() &&
+				!String.IsNullOrEmpty(stateName);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        #endregion
+    }//end StateInfo
 }
