@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharedModels;
+using DatabaseAccess;
 
 namespace BussinesLogic
 {
-    // used for handling database logic
+    /// <summary>
+    /// Handling database logic
+    /// </summary>
     public class DBLogic
     {
+        
     }
 }

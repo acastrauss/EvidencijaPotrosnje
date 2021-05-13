@@ -7,7 +7,9 @@ using SharedModels;
 
 namespace BussinesLogic
 {
-    // importing data from file
+    /// <summary>
+    /// For Importing data from file
+    /// </summary>
     public class ImportData
     {
     }

@@ -7,7 +7,9 @@ using SharedModels;
 
 namespace BussinesLogic
 {
-    // used for filtering data etc.
+    /// <summary>
+    /// For manipulating data for user interface (filtering, etc.)
+    /// </summary>
     public class DataManipulation
     {
     }

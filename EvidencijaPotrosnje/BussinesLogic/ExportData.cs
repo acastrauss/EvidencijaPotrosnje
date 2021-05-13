@@ -7,7 +7,9 @@ using SharedModels;
 
 namespace BussinesLogic
 {
-    // used for exporting data to file
+    /// <summary>
+    /// For exporting selected (filtered) data to given file
+    /// </summary>
     public class ExportData
     {
     }

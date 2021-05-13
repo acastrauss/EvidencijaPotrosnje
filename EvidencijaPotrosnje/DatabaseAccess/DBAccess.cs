@@ -13,7 +13,7 @@ namespace DatabaseAccess
         private static int stateID = 0;
         private static int stateConsumptionID = 0;
         private static int stateWeatherID = 0;
-    
+
         private static void SetIDs() 
         {
             using (var db = new StatesDB())
@@ -33,20 +33,21 @@ namespace DatabaseAccess
                 if (queryStateIDs.Count() == 0)
                     stateID = 0;
                 else
-                    stateID = queryStateIDs.Max();
+                    stateID = queryStateIDs.Max() + 1;
 
                 if (queryStateWIDs.Count() == 0)
                     stateWeatherID = 0;
                 else
-                    stateWeatherID = queryStateWIDs.Max();
+                    stateWeatherID = queryStateWIDs.Max() + 1;
 
                 if (queryStateCIDs.Count() == 0)
                     stateConsumptionID = 0;
                 else 
-                    stateConsumptionID = queryStateCIDs.Max();
+                    stateConsumptionID = queryStateCIDs.Max() + 1;
             }
         }
 
+        #region DatabaseActions
         public static void AddState(StateInfoModel model) 
         {
             // so ID's would be set everytime
@@ -76,6 +77,23 @@ namespace DatabaseAccess
                 db.States.Remove(currState);
                 db.StateConsumptions.Remove(currState.StateConsumption);
                 db.StateWeathers.Remove(currState.StateWeather);
+
+                db.SaveChanges();
+            }
+        }
+
+        public static void RemoveAllStates() 
+        {
+            using (var db = new StatesDB())
+            {
+                var currStates = db.States;
+                db.States.RemoveRange(currStates);
+
+                var currCons = db.StateConsumptions;
+                db.StateConsumptions.RemoveRange(currCons);
+
+                var currWeather = db.StateWeathers;
+                db.StateWeathers.RemoveRange(currWeather);
 
                 db.SaveChanges();
             }
@@ -144,7 +162,9 @@ namespace DatabaseAccess
             return ret_val;
         }
 
-        // converting to db model
+        #endregion
+
+        #region ConvertingToDatabaseModel
         private static State ConvertStateDB(StateInfoModel model) 
         {
             var sc = DBAccess.ConvertStateConsumptionDB(model.StateConsumption);
@@ -197,8 +217,9 @@ namespace DatabaseAccess
                     stateConsumptionID = DBAccess.stateConsumptionID++
                 };
         }
-    
-        // converting to mvc model
+        #endregion
+
+        #region ConvertingToMVCModel
         private static StateInfoModel ConvertStateModel(State dbModel)
         {
             return new StateInfoModel()
@@ -242,5 +263,6 @@ namespace DatabaseAccess
                 ValueScale = (double)dbModel.valueScale
             };
         }
+        #endregion
     }
 }
