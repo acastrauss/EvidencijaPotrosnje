@@ -78,3 +78,10 @@ D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.csproj.CopyComplete
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.dll
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\DatabaseAccess.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EntityFramework.Extended.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\DatabaseAccess.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\DatabaseAccess.dll.config
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EntityFramework.Extended.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EntityFramework.Extended.xml
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EntityFramework.Extended.dll.config
