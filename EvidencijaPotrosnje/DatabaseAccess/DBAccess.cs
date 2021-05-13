@@ -10,11 +10,11 @@ namespace DatabaseAccess
 {
     public class DBAccess
     {
-        public static int stateID = 0;
-        public static int stateConsumptionID = 0;
-        public static int stateWeatherID = 0;
+        private static int stateID = 0;
+        private static int stateConsumptionID = 0;
+        private static int stateWeatherID = 0;
     
-        public static void SetIDs() 
+        private static void SetIDs() 
         {
             using (var db = new StatesDB())
             {
