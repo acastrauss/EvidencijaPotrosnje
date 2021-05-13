@@ -312,3 +312,7 @@ D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\SharedModels.pdb
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\BussinesLogic.dll
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\BussinesLogic.pdb
+C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\BussinesLogic.dll
+C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\SharedModels.dll
+C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\BussinesLogic.pdb
+C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\SharedModels.pdb
