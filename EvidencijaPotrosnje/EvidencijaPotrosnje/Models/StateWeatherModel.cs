@@ -12,7 +12,7 @@ namespace EvidencijaPotrosnje.Models
 		private string cloudCover;
 		private int devpointTemperature;
 		private int gustValue;
-		private string horizontalVisibility;
+		private int horizontalVisibility;
 		private int humidity;
 		private string presentWeather;
 		private string recentWeather;
@@ -20,7 +20,6 @@ namespace EvidencijaPotrosnje.Models
 		private float stationPressure;
 		private string windDirection;
 		private int windSpeed;
-		private StateInfoModel stateInfoModel; // parent stateInfoModel
 
 		public StateWeatherModel()
 		{
@@ -32,7 +31,7 @@ namespace EvidencijaPotrosnje.Models
 
 		}
 
-		public StateWeatherModel(float airTemperature, string cloudCover, int devpointTemperature, int gustValue, string horizontalVisibility, int humiditiy, string presentWeather, string recentWeather, float reducedPressure, float stationPressure, string windDirection, int windSpeed)
+		public StateWeatherModel(float airTemperature, string cloudCover, int devpointTemperature, int gustValue, int horizontalVisibility, int humiditiy, string presentWeather, string recentWeather, float reducedPressure, float stationPressure, string windDirection, int windSpeed)
 		{
 			this.airTemperature = airTemperature;
 			this.cloudCover = cloudCover;
@@ -110,7 +109,7 @@ namespace EvidencijaPotrosnje.Models
 			}
 		}
 
-		public string HorizontalVisibility
+		public int HorizontalVisibility
 		{
 			get
 			{

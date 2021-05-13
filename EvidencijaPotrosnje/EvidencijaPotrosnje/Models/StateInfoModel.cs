@@ -8,10 +8,15 @@ namespace EvidencijaPotrosnje.Models
 	public class StateInfoModel
 	{
 
-		public StateWeatherModel m_StateWeather;
-		public StateConsumptionModel m_StateConsumption;
+        private StateWeatherModel stateWeather;
+        private StateConsumptionModel stateConsumption;
+        private string stateName;
 
-		public StateInfoModel()
+        public StateWeatherModel StateWeather { get => stateWeather; set => stateWeather = value; }
+        public StateConsumptionModel StateConsumption { get => stateConsumption; set => stateConsumption = value; }
+        public string StateName { get => stateName; set => stateName = value; }
+
+        public StateInfoModel()
 		{
 
 		}
@@ -24,9 +29,11 @@ namespace EvidencijaPotrosnje.Models
 		/// 
 		/// <param name="stateWeather"></param>
 		/// <param name="stateConsumption"></param>
-		public StateInfoModel(StateWeatherModel stateWeather, StateConsumptionModel stateConsumption)
+		public StateInfoModel(StateWeatherModel stateWeather, StateConsumptionModel stateConsumption, string stateName)
 		{
-
+			this.stateWeather = stateWeather;
+			this.stateConsumption = stateConsumption;
+			this.stateName = stateName;
 		}
 
 	}//end StateInfo

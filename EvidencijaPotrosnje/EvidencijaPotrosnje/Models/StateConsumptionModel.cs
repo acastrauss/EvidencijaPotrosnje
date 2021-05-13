@@ -28,6 +28,18 @@ namespace EvidencijaPotrosnje.Models
 
 		}
 
+		public StateConsumptionModel(int covRatio, DateTime dateFrom, DateTime dateShort, DateTime dateTo, DateTime dateUTC, string stateCode, double value, double valueScale)
+		{
+			this.covRatio = covRatio;
+			this.dateFrom = dateFrom;
+			this.dateShort = dateShort;
+			this.dateTo = dateTo;
+			this.dateUTC = dateUTC;
+			this.stateCode = stateCode;
+			this.value = value;
+			this.valueScale = valueScale;
+		}
+
 		/// 
 		/// <param name="covRatio"></param>
 		/// <param name="dateFrom"></param>
@@ -37,10 +49,7 @@ namespace EvidencijaPotrosnje.Models
 		/// <param name="stateCode"></param>
 		/// <param name="value"></param>
 		/// <param name="valueScale"></param>
-		public StateConsumptionModel(int covRatio, DateTime dateFrom, DateTime dateShort, DateTime dateTo, DateTime dateUTC, string stateCode, double value, double valueScale)
-		{
 
-		}
 
 		public int CovRatio
 		{
