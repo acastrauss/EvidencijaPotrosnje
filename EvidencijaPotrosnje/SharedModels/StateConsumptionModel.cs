@@ -21,7 +21,23 @@ namespace SharedModels
         #endregion
 
         #region ConstructorsAndDestructor
-        public StateConsumptionModel() {}
+        
+		public StateConsumptionModel() { }
+		/// StateConsumption not valid
+		public static StateConsumptionModel NotValid() 
+		{
+			return new StateConsumptionModel()
+			{
+				covRatio = 0,
+				dateFrom = DateTime.Now,
+				dateShort = DateTime.Now,
+				dateTo = DateTime.Now,
+				dateUTC = DateTime.Now.AddYears(1000), // so it won't be valid
+				stateCode = String.Empty, // also not valid
+				value = -1, // not valid
+				valueScale = 0
+			};
+		}
 
 		~StateConsumptionModel() {}
 
@@ -148,13 +164,13 @@ namespace SharedModels
 		#region PseudoMethods
 		/// <summary>
 		/// StateConsumptionModel is valid if:
-		/// dateUTC != null &&
-		/// value != null
+		/// dateUTC != null && dateUTC <= DateTime.Now (cannot have value from future)
+ 		/// value != null
 		/// </summary>
 		/// <returns></returns>
 		public bool IsValid()
-		{
-			return dateUTC != null && value >= 0;
+		{	
+			return dateUTC != null && dateUTC <= DateTime.Now && value >= 0 && !String.IsNullOrEmpty(stateCode);
 		}
 
 		/// <summary>

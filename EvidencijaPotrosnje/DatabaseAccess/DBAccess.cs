@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using SharedModels;
+using EntityFramework.Extensions;
 
 namespace DatabaseAccess
 {
@@ -14,37 +15,35 @@ namespace DatabaseAccess
         private static int stateConsumptionID = 0;
         private static int stateWeatherID = 0;
 
-        private static void SetIDs() 
-        {
-            using (var db = new StatesDB())
-            {
-                var queryStateIDs = from s in db.States
+        private static void SetIDs(StatesDB db) 
+        {   
+            var queryStateIDs = from s in db.States
                             orderby stateID
                             select stateID;
 
-                var queryStateWIDs = from s in db.States
-                                    orderby stateWeatherID
-                                    select stateWeatherID;
+            var queryStateWIDs = from s in db.States
+                                orderby stateWeatherID
+                                select stateWeatherID;
 
-                var queryStateCIDs = from s in db.States
-                                    orderby stateConsumptionID
-                                    select stateConsumptionID;
+            var queryStateCIDs = from s in db.States
+                                orderby stateConsumptionID
+                                select stateConsumptionID;
 
-                if (queryStateIDs.Count() == 0)
-                    stateID = 0;
-                else
-                    stateID = queryStateIDs.Max() + 1;
+            if (queryStateIDs.Count() == 0)
+                stateID = 0;
+            else
+                stateID = queryStateIDs.Max() + 1;
 
-                if (queryStateWIDs.Count() == 0)
-                    stateWeatherID = 0;
-                else
-                    stateWeatherID = queryStateWIDs.Max() + 1;
+            if (queryStateWIDs.Count() == 0)
+                stateWeatherID = 0;
+            else
+                stateWeatherID = queryStateWIDs.Max() + 1;
 
-                if (queryStateCIDs.Count() == 0)
-                    stateConsumptionID = 0;
-                else 
-                    stateConsumptionID = queryStateCIDs.Max() + 1;
-            }
+            if (queryStateCIDs.Count() == 0)
+                stateConsumptionID = 0;
+            else 
+                stateConsumptionID = queryStateCIDs.Max() + 1;
+            
         }
 
         #region DatabaseActions
@@ -52,13 +51,14 @@ namespace DatabaseAccess
         {
             // if given state is not valid
             if (!model.IsValid())
-                throw new Exception("StateInfoModel is not valid!");
+                throw new Exception("StateInfoModel is not valid.");
 
-            // so ID's would be set everytime
-            DBAccess.SetIDs();
 
             using (var db = new StatesDB())
             {
+                // so ID's would be set everytime
+                DBAccess.SetIDs(db);
+
                 var currState = DBAccess.ConvertStateDB(model);
 
                 // if stateInfo doesn't exist
@@ -79,15 +79,12 @@ namespace DatabaseAccess
 
         private static void UpdateState(State state, StatesDB db)
         {
-            // remove them
-            db.States.Remove(state);
-            db.StateWeathers.Remove(state.StateWeather);
-            db.StateConsumptions.Remove(state.StateConsumption);
+            var found_state = db.States.Where(s => s.stateID == state.stateID);
+            State fs = found_state.FirstOrDefault();
 
-            // add them
-            db.StateConsumptions.Add(state.StateConsumption);
-            db.StateWeathers.Add(state.StateWeather);
-            db.States.Add(state);
+            db.StateConsumptions.Where(sc => sc.stateConsumptionID == fs.stateConsumptionID).Update(x => state.StateConsumption);
+            db.StateWeathers.Where(sw => sw.stateWeatherID == fs.stateWeatherID).Update(x => state.StateWeather);
+            db.States.Where(s => s.stateID == fs.stateID).Update(x => state);
         }
         
         public static void RemoveState(StateInfoModel model) 

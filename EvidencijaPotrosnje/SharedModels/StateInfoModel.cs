@@ -22,7 +22,21 @@ namespace SharedModels
         #endregion
 
         #region ConstructorsAndDestructor
-        public StateInfoModel() {}
+        
+		public StateInfoModel() { }
+
+		/// <summary>
+		/// StateInfoModel is not be valid
+		/// </summary>
+		public static StateInfoModel NotValid() 
+		{
+			return new StateInfoModel()
+			{
+				stateWeather = null,
+				stateConsumption = null,
+				stateName = String.Empty
+			};
+		}
 
 		~StateInfoModel() {}
 

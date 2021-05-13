@@ -3,3 +3,4 @@ D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\bin\Debug\S
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.csproj.CoreCompileInputs.cache
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.dll
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.csprojAssemblyReference.cache

@@ -27,6 +27,21 @@ namespace SharedModels
         #region ConstructorsAndDestructor
         public StateWeatherModel() {}
 
+		/// <summary>
+		/// Not valid value for StateWeatherModel
+		/// </summary>
+		/// <returns></returns>
+		public static StateWeatherModel NotValid() 
+		{
+			return new StateWeatherModel()
+			{
+				airTemperature = -float.MaxValue,
+				stationPressure = -1,
+				humidity = -1,
+				windSpeed = -1
+			};
+		}
+
 		~StateWeatherModel() {}
 
 		/// 
@@ -210,8 +225,8 @@ namespace SharedModels
         
 		/// <summary>
 		/// StateWeatherModel is valid if:
-		/// airTemperature != null &&
-		/// stationPressure != null && or not negative
+		/// airTemperature != null && airTemperature != -float.MaxValue
+		/// stationPressure != null && or not negative 
 		/// humidity != null && or not negative
 		/// windSpeed != null or not negative
 		/// </summary>
@@ -219,6 +234,7 @@ namespace SharedModels
 		public bool IsValid() 
 		{
 			return
+				airTemperature != -float.MaxValue &&
 				stationPressure >= 0 &&
 				humidity >= 0 &&
 				windSpeed >= 0;

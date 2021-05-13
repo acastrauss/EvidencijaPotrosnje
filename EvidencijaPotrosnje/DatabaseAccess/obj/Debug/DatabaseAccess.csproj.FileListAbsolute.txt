@@ -12,3 +12,7 @@ D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccess\obj\Debug
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccess\obj\Debug\DatabaseAccess.csproj.CopyComplete
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccess\obj\Debug\DatabaseAccess.dll
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccess\obj\Debug\DatabaseAccess.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccess\bin\Debug\EntityFramework.Extended.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccess\bin\Debug\EntityFramework.Extended.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccess\bin\Debug\EntityFramework.Extended.xml
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\DatabaseAccess\bin\Debug\EntityFramework.Extended.dll.config
