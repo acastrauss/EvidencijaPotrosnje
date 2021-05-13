@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvidencijaPotrosnje", "Evid
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseAccess", "DatabaseAccess\DatabaseAccess.csproj", "{7A3B700B-243D-4BCF-BCD1-F259D323E4B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinesLogic", "BussinesLogic\BussinesLogic.csproj", "{F33D67BC-B1FA-4832-8BBC-5063A57423D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedModels", "SharedModels\SharedModels.csproj", "{518B4C32-214A-4EED-8545-5C04C4FE3A8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{7A3B700B-243D-4BCF-BCD1-F259D323E4B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A3B700B-243D-4BCF-BCD1-F259D323E4B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A3B700B-243D-4BCF-BCD1-F259D323E4B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F33D67BC-B1FA-4832-8BBC-5063A57423D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F33D67BC-B1FA-4832-8BBC-5063A57423D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F33D67BC-B1FA-4832-8BBC-5063A57423D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F33D67BC-B1FA-4832-8BBC-5063A57423D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{518B4C32-214A-4EED-8545-5C04C4FE3A8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{518B4C32-214A-4EED-8545-5C04C4FE3A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{518B4C32-214A-4EED-8545-5C04C4FE3A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{518B4C32-214A-4EED-8545-5C04C4FE3A8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

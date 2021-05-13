@@ -308,3 +308,7 @@ D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.csproj.CopyComplete
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.dll
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\SharedModels.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\SharedModels.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\BussinesLogic.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\BussinesLogic.pdb

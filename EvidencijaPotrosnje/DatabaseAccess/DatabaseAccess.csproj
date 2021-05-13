@@ -65,9 +65,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EvidencijaPotrosnje\EvidencijaPotrosnje.csproj">
-      <Project>{6bc7487c-31de-4eb4-9ad0-bca63e86c261}</Project>
-      <Name>EvidencijaPotrosnje</Name>
+    <ProjectReference Include="..\SharedModels\SharedModels.csproj">
+      <Project>{518b4c32-214a-4eed-8545-5c04c4fe3a8b}</Project>
+      <Name>SharedModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

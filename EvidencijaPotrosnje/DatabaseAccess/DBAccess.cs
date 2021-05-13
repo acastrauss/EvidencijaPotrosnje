@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
-using EvidencijaPotrosnje;
+using SharedModels;
 
 namespace DatabaseAccess
 {
@@ -47,7 +47,7 @@ namespace DatabaseAccess
             }
         }
 
-        public static void AddState(EvidencijaPotrosnje.Models.StateInfoModel model) 
+        public static void AddState(StateInfoModel model) 
         {
             // so ID's would be set everytime
             DBAccess.SetIDs();
@@ -64,7 +64,7 @@ namespace DatabaseAccess
             }
         }
         
-        public static void RemoveState(EvidencijaPotrosnje.Models.StateInfoModel model) 
+        public static void RemoveState(StateInfoModel model) 
         {
             // no need for setting ID's since here they are not used
             // DBAccess.SetIDs();
@@ -81,9 +81,9 @@ namespace DatabaseAccess
             }
         }
 
-        public static EvidencijaPotrosnje.Models.StateInfoModel GetStateByName(string name) 
+        public static StateInfoModel GetStateByName(string name) 
         {
-            EvidencijaPotrosnje.Models.StateInfoModel ret_val = null;
+            StateInfoModel ret_val = null;
 
             using (var db = new StatesDB())
             {
@@ -97,9 +97,9 @@ namespace DatabaseAccess
             return ret_val;
         }
 
-        public static EvidencijaPotrosnje.Models.StateConsumptionModel GetStateConsumptionByStateName(string name) 
+        public static StateConsumptionModel GetStateConsumptionByStateName(string name) 
         {
-            EvidencijaPotrosnje.Models.StateConsumptionModel ret_val = null;
+            StateConsumptionModel ret_val = null;
 
             using (var db = new StatesDB())
             {
@@ -113,9 +113,9 @@ namespace DatabaseAccess
             return ret_val;
         }
 
-        public static EvidencijaPotrosnje.Models.StateWeatherModel GetStateWeatherByStateName(string name) 
+        public static StateWeatherModel GetStateWeatherByStateName(string name) 
         {
-            EvidencijaPotrosnje.Models.StateWeatherModel ret_val = null;
+            StateWeatherModel ret_val = null;
 
             using (var db = new StatesDB())
             {
@@ -129,9 +129,9 @@ namespace DatabaseAccess
             return ret_val;
         }
 
-        public static List<EvidencijaPotrosnje.Models.StateInfoModel> GetAllStates() 
+        public static List<StateInfoModel> GetAllStates() 
         {
-            List<EvidencijaPotrosnje.Models.StateInfoModel> ret_val = new List<EvidencijaPotrosnje.Models.StateInfoModel>();
+            List<StateInfoModel> ret_val = new List<StateInfoModel>();
 
             using (var db = new StatesDB())
             {
@@ -145,7 +145,7 @@ namespace DatabaseAccess
         }
 
         // converting to db model
-        private static State ConvertStateDB(EvidencijaPotrosnje.Models.StateInfoModel model) 
+        private static State ConvertStateDB(StateInfoModel model) 
         {
             var sc = DBAccess.ConvertStateConsumptionDB(model.StateConsumption);
             var sw = DBAccess.ConvertStateWeatherDB(model.StateWeather);
@@ -161,7 +161,7 @@ namespace DatabaseAccess
             };
         }
 
-        private static StateWeather ConvertStateWeatherDB(EvidencijaPotrosnje.Models.StateWeatherModel model) 
+        private static StateWeather ConvertStateWeatherDB(StateWeatherModel model) 
         {
             return new StateWeather()
             {
@@ -181,7 +181,7 @@ namespace DatabaseAccess
             };
         }
 
-        private static StateConsumption ConvertStateConsumptionDB(EvidencijaPotrosnje.Models.StateConsumptionModel stateConsumptionModel) 
+        private static StateConsumption ConvertStateConsumptionDB(StateConsumptionModel stateConsumptionModel) 
         {
             return
                 new StateConsumption()
@@ -199,9 +199,9 @@ namespace DatabaseAccess
         }
     
         // converting to mvc model
-        private static EvidencijaPotrosnje.Models.StateInfoModel ConvertStateModel(State dbModel)
+        private static StateInfoModel ConvertStateModel(State dbModel)
         {
-            return new EvidencijaPotrosnje.Models.StateInfoModel()
+            return new StateInfoModel()
             {
                 StateWeather = DBAccess.ConvertStateWeatherModel(dbModel.StateWeather),
                 StateConsumption = DBAccess.ConvertStateConsumptionModel(dbModel.StateConsumption),
@@ -209,9 +209,9 @@ namespace DatabaseAccess
             };
         }
 
-        private static EvidencijaPotrosnje.Models.StateWeatherModel ConvertStateWeatherModel(StateWeather dbModel) 
+        private static StateWeatherModel ConvertStateWeatherModel(StateWeather dbModel) 
         {
-            return new EvidencijaPotrosnje.Models.StateWeatherModel()
+            return new StateWeatherModel()
             {
                 AirTemperature = (float)dbModel.airTemperature,
                 CloudCover = dbModel.cloudCover,
@@ -228,9 +228,9 @@ namespace DatabaseAccess
             };
         }
 
-        private static EvidencijaPotrosnje.Models.StateConsumptionModel ConvertStateConsumptionModel(StateConsumption dbModel) 
+        private static StateConsumptionModel ConvertStateConsumptionModel(StateConsumption dbModel) 
         {
-            return new EvidencijaPotrosnje.Models.StateConsumptionModel()
+            return new StateConsumptionModel()
             {
                 CovRatio = (int)dbModel.covRation,
                 DateFrom = (DateTime)dbModel.dateFrom,

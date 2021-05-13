@@ -1,0 +1,14 @@
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\DatabaseAccess.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\SharedModels.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\DatabaseAccess.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\DatabaseAccess.dll.config
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\SharedModels.pdb
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.xml
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.csprojAssemblyReference.cache
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.csproj.CoreCompileInputs.cache
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.csproj.CopyComplete
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.pdb
