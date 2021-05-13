@@ -48,8 +48,12 @@ namespace DatabaseAccess
         }
 
         #region DatabaseActions
-        public static void AddState(StateInfoModel model) 
+        public static void AddOrUpdateState(StateInfoModel model) 
         {
+            // if given state is not valid
+            if (!model.IsValid())
+                throw new Exception("StateInfoModel is not valid!");
+
             // so ID's would be set everytime
             DBAccess.SetIDs();
 
@@ -57,12 +61,33 @@ namespace DatabaseAccess
             {
                 var currState = DBAccess.ConvertStateDB(model);
 
-                db.StateConsumptions.Add(currState.StateConsumption);
-                db.StateWeathers.Add(currState.StateWeather);
-                db.States.Add(currState);
+                // if stateInfo doesn't exist
+                if(db.States.Find(currState) == null) 
+                {
+                    db.StateConsumptions.Add(currState.StateConsumption);
+                    db.StateWeathers.Add(currState.StateWeather);
+                    db.States.Add(currState);
+                }
+                else
+                {
+                    DBAccess.UpdateState(currState, db);
+                }
 
                 db.SaveChanges();
             }
+        }
+
+        private static void UpdateState(State state, StatesDB db)
+        {
+            // remove them
+            db.States.Remove(state);
+            db.StateWeathers.Remove(state.StateWeather);
+            db.StateConsumptions.Remove(state.StateConsumption);
+
+            // add them
+            db.StateConsumptions.Add(state.StateConsumption);
+            db.StateWeathers.Add(state.StateWeather);
+            db.States.Add(state);
         }
         
         public static void RemoveState(StateInfoModel model) 
@@ -73,6 +98,10 @@ namespace DatabaseAccess
             using (var db = new StatesDB())
             {
                 var currState = DBAccess.ConvertStateDB(model);
+
+                // if there is no given state throw exception
+                if (!db.States.Contains(currState) || !db.StateConsumptions.Contains(currState.StateConsumption) || !db.StateWeathers.Contains(currState.StateWeather))
+                    throw new Exception("Given StateInfo (or some of it's parts) doesn't exists.");
 
                 db.States.Remove(currState);
                 db.StateConsumptions.Remove(currState.StateConsumption);
@@ -86,16 +115,20 @@ namespace DatabaseAccess
         {
             using (var db = new StatesDB())
             {
-                var currStates = db.States;
-                db.States.RemoveRange(currStates);
+                // if there is nothing in tables, do nothing
+                if(db.States.Count() != 0 && db.StateWeathers.Count() != 0 && db.StateConsumptions.Count() != 0)
+                {
+                    var currStates = db.States;
+                    db.States.RemoveRange(currStates);
 
-                var currCons = db.StateConsumptions;
-                db.StateConsumptions.RemoveRange(currCons);
+                    var currCons = db.StateConsumptions;
+                    db.StateConsumptions.RemoveRange(currCons);
 
-                var currWeather = db.StateWeathers;
-                db.StateWeathers.RemoveRange(currWeather);
+                    var currWeather = db.StateWeathers;
+                    db.StateWeathers.RemoveRange(currWeather);
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -108,6 +141,9 @@ namespace DatabaseAccess
                 var query = from s in db.States
                             where s.stateName == name
                             select s;
+
+                if (query.Count() == 0)
+                    throw new Exception("There is no state data with that name.");
 
                 ret_val = DBAccess.ConvertStateModel(query.FirstOrDefault());
             }
@@ -125,6 +161,9 @@ namespace DatabaseAccess
                             where s.stateName == name
                             select s;
 
+                if (query.Count() == 0)
+                    throw new Exception("There is no state consumption data with that name.");
+
                 ret_val = DBAccess.ConvertStateModel(query.FirstOrDefault()).StateConsumption;
             }
 
@@ -140,6 +179,9 @@ namespace DatabaseAccess
                 var query = from s in db.States
                             where s.stateName == name
                             select s;
+
+                if (query.Count() == 0)
+                    throw new Exception("There is no state weather data with that name.");
 
                 ret_val = DBAccess.ConvertStateModel(query.FirstOrDefault()).StateWeather;
             }
