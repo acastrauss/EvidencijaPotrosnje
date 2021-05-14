@@ -10,7 +10,7 @@ namespace SharedModels.HelperClasses
 {
     public class CountriesDictionary
     {
-        static Dictionary<string, string> CountriesShort;
+        public static Dictionary<string, string> CountriesShort;
     
         public CountriesDictionary()
         {
@@ -30,8 +30,8 @@ namespace SharedModels.HelperClasses
                     //StateConsumptionModel scm = new StateConsumptionModel();
                     string[] fields = csvParser.ReadFields();
 
-                    // KEY IS FULL COUNTRY NAME, VALUE IS SHORT NAME 2 LETTERS
-                    CountriesShort.Add(fields[0], fields[1]);
+                    // KEY IS SHORT COUNTRY NAME, VALUE IS FULL NAME
+                    CountriesShort.Add(fields[1], fields[0]);
 
                 }
             }
