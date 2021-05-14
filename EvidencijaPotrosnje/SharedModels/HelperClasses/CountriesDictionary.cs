@@ -30,7 +30,8 @@ namespace SharedModels.HelperClasses
                     //StateConsumptionModel scm = new StateConsumptionModel();
                     string[] fields = csvParser.ReadFields();
 
-                    CountriesShort.Add(fields[1], fields[0]);
+                    // KEY IS FULL COUNTRY NAME, VALUE IS SHORT NAME 2 LETTERS
+                    CountriesShort.Add(fields[0], fields[1]);
 
                 }
             }

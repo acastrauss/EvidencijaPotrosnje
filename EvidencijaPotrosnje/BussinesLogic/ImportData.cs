@@ -19,8 +19,17 @@ namespace BussinesLogic
 
         public static void LoadFromFiles(string weatherFile, string consFile)
         {
-
+            //LOADING DICTIONARY WITH FULL NAMES AND SHORT NAMES SO WE CAN COMBINE 2 TABLES
             CountriesDictionary countriesDictionary = new CountriesDictionary();
+            //LOADING TABLES
+            Dictionary<string, StateWeatherModel> WeatherDictionary = LoadWeather(weatherFile);
+            Dictionary<string, StateConsumptionModel> ConsumotionDictionary = LoadConsumption(consFile);
+
+
+            //Now we have to merge tables by country name and local time
+
+
+
 
 
 
