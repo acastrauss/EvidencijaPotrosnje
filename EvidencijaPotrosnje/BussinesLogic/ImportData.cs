@@ -12,34 +12,17 @@ namespace BussinesLogic
     /// <summary>
     /// For Importing data from file
     /// </summary>
+    
     public class ImportData
     {
-
-        List<StateInfoModel> models = new List<StateInfoModel>();
-
-        public static void LoadFromFiles(string weatherFile, string consFile)
-        {
-            //LOADING DICTIONARY WITH FULL NAMES AND SHORT NAMES SO WE CAN COMBINE 2 TABLES
-            CountriesDictionary countriesDictionary = new CountriesDictionary();
-            //LOADING TABLES
-            Dictionary<string, StateWeatherModel> WeatherDictionary = LoadWeather(weatherFile);
-            Dictionary<string, StateConsumptionModel> ConsumotionDictionary = LoadConsumption(consFile);
-
-
-            //Now we have to merge tables by country name and local time
-
-
-
-
-
-
-        }
-
-        private static Dictionary<string, StateWeatherModel> LoadWeather(string wf)
+        
+        public static void LoadWeather(string wf)
         {
             using (TextFieldParser csvParser = new TextFieldParser(wf))
             {
-                Dictionary<string, StateWeatherModel> dictionary = new Dictionary<string, StateWeatherModel>();
+                Dictionary<string, List<StateWeatherModel>> dictionary = new Dictionary<string, List<StateWeatherModel>>();
+
+
 
                 //csvParser.CommentTokens = new string[] { "#" };
                 csvParser.SetDelimiters(new string[] { "," });
@@ -52,6 +35,8 @@ namespace BussinesLogic
 
                 //csvParser.ReadLine();
 
+                dictionary.Add(state, new List<StateWeatherModel>());
+
                 while (!csvParser.EndOfData)
                 {
                     StateWeatherModel swm = new StateWeatherModel();
@@ -60,7 +45,8 @@ namespace BussinesLogic
                     {
                         continue;
                     }
-                    // OVDE NEDOSTAJE POLJE LOKALNO VREME IZ TABELE WEATHER,ONO CE NAM KASNIJE TREBATI ZA PRIKAZ
+                    
+                    swm.LocalTime = DateTime.Parse(fields[0]);
                     swm.AirTemperature = float.Parse(fields[1]);
                     swm.StationPressure = float.Parse(fields[2]);
                     swm.ReducedPressure = float.Parse(fields[3]);
@@ -74,15 +60,20 @@ namespace BussinesLogic
                     swm.HorizontalVisibility = int.Parse(fields[11]);
                     swm.DevpointTemperature = int.Parse(fields[12]);
 
-                    dictionary.Add(state, swm);
+                    dictionary[state].Add(swm);
                 }
 
+                foreach(var m in dictionary)
+                {
+                    CurrentData.stateInfoModel
+                }
+                
 
-                return dictionary;
+                
             }
 
         }
-        private static Dictionary<string, StateConsumptionModel> LoadConsumption(string cf)
+        public static Dictionary<string, StateConsumptionModel> LoadConsumption(string cf, string stateName,DateTime dateTimeStart , DateTime dateTimeEnd)
         {
             using (TextFieldParser csvParser = new TextFieldParser(cf))
             {

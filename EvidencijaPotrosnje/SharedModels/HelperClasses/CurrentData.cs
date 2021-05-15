@@ -10,6 +10,8 @@ namespace SharedModels.HelperClasses
 {
     public static class CurrentData
     {
+        public static Dictionary<string,List<StateInfoModel>> stateInfoModel = new Dictionary<string, List<StateInfoModel>>();
+
 
 
     }
