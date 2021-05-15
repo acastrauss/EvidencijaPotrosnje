@@ -50,8 +50,8 @@ namespace DatabaseAccess
         public static void AddOrUpdateState(StateInfoModel model) 
         {
             // if given state is not valid
-            //if (!model.IsValid())
-            //    throw new Exception("StateInfoModel is not valid.");
+            if (!model.IsValid())
+                throw new Exception("StateInfoModel is not valid.");
 
 
             using (var db = new StatesDB())
@@ -63,7 +63,7 @@ namespace DatabaseAccess
 
                 
                 // if stateInfo doesn't exist
-                if(true) 
+                if(db.States.Find(currState.stateID) == null) 
                 {
                     db.StateConsumptions.Add(currState.StateConsumption);
                     db.StateWeathers.Add(currState.StateWeather);
