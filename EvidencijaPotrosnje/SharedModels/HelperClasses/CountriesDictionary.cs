@@ -10,7 +10,7 @@ namespace SharedModels.HelperClasses
 {
     public class CountriesDictionary
     {
-        public static Dictionary<string, string> CountriesShort;
+        public static Dictionary<string, string> CountriesShort = new Dictionary<string, string>();
     
         public CountriesDictionary()
         {

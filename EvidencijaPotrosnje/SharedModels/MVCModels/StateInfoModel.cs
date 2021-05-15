@@ -50,12 +50,11 @@ namespace SharedModels
 			this.stateName = stateName;
 		}
         #endregion
-
 		
         #region PseudoMethods
 
 		/// <summary>
-		/// 
+		/// Because state can have only info for weather of consumption
 		/// </summary>
 		/// <returns></returns>
 		public bool IsValid()
@@ -63,9 +62,9 @@ namespace SharedModels
 			if (stateWeather == null || stateConsumption == null)
 				return false;
 
-			return stateWeather.IsValid() &&
-				stateConsumption.IsValid() &&
-				!String.IsNullOrEmpty(stateName);
+			return (stateWeather.IsValid() ||
+				stateConsumption.IsValid())
+				&& !String.IsNullOrEmpty(stateName);
         }
 
         public override string ToString()
