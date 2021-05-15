@@ -22,6 +22,7 @@ namespace SharedModels
 		private float stationPressure;
 		private string windDirection;
 		private int windSpeed;
+		private DateTime localTime;
         #endregion
 
         #region ConstructorsAndDestructor
@@ -38,7 +39,8 @@ namespace SharedModels
 				airTemperature = -float.MaxValue,
 				stationPressure = -1,
 				humidity = -1,
-				windSpeed = -1
+				windSpeed = -1,
+				localTime = DateTime.Now.AddYears(100)
 			};
 		}
 
@@ -57,7 +59,8 @@ namespace SharedModels
 		/// <param name="stationPressure"></param>
 		/// <param name="windDirection"></param>
 		/// <param name="windSpeed"></param>
-		public StateWeatherModel(float airTemperature, string cloudCover, int devpointTemperature, int gustValue, int horizontalVisibility, int humiditiy, string presentWeather, string recentWeather, float reducedPressure, float stationPressure, string windDirection, int windSpeed)
+		/// <param name="localTime"></param>
+		public StateWeatherModel(float airTemperature, string cloudCover, int devpointTemperature, int gustValue, int horizontalVisibility, int humiditiy, string presentWeather, string recentWeather, float reducedPressure, float stationPressure, string windDirection, int windSpeed, DateTime localTime)
 		{
 			this.airTemperature = airTemperature;
 			this.cloudCover = cloudCover;
@@ -71,6 +74,7 @@ namespace SharedModels
 			this.stationPressure = stationPressure;
 			this.windDirection = windDirection;
 			this.windSpeed = windSpeed;
+			this.localTime = localTime;
 		}
         #endregion
 
@@ -79,11 +83,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return AirTemperature;
+				return airTemperature;
 			}
 			set
 			{
-				AirTemperature = value;
+				airTemperature = value;
 			}
 		}
 
@@ -91,11 +95,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return CloudCover;
+				return cloudCover;
 			}
 			set
 			{
-				CloudCover = value;
+				cloudCover = value;
 			}
 		}
 
@@ -103,11 +107,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return DevpointTemperature;
+				return devpointTemperature;
 			}
 			set
 			{
-				DevpointTemperature = value;
+				devpointTemperature = value;
 			}
 		}
 
@@ -115,11 +119,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return GustValue;
+				return gustValue;
 			}
 			set
 			{
-				GustValue = value;
+				gustValue = value;
 			}
 		}
 
@@ -127,11 +131,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return HorizontalVisibility;
+				return horizontalVisibility;
 			}
 			set
 			{
-				HorizontalVisibility = value;
+				horizontalVisibility = value;
 			}
 		}
 
@@ -139,11 +143,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return Humidity;
+				return humidity;
 			}
 			set
 			{
-				Humidity = value;
+				humidity = value;
 			}
 		}
 
@@ -151,11 +155,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return PresentWeather;
+				return presentWeather;
 			}
 			set
 			{
-				PresentWeather = value;
+				presentWeather = value;
 			}
 		}
 
@@ -163,11 +167,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return RecentWeather;
+				return recentWeather;
 			}
 			set
 			{
-				RecentWeather = value;
+				recentWeather = value;
 			}
 		}
 
@@ -175,11 +179,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return ReducedPressure;
+				return reducedPressure;
 			}
 			set
 			{
-				ReducedPressure = value;
+				reducedPressure = value;
 			}
 		}
 
@@ -187,11 +191,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return StationPressure;
+				return stationPressure;
 			}
 			set
 			{
-				StationPressure = value;
+				stationPressure = value;
 			}
 		}
 
@@ -199,11 +203,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return WindDirection;
+				return windDirection;
 			}
 			set
 			{
-				WindDirection = value;
+				windDirection = value;
 			}
 		}
 
@@ -211,18 +215,21 @@ namespace SharedModels
 		{
 			get
 			{
-				return WindSpeed;
+				return windSpeed;
 			}
 			set
 			{
-				WindSpeed = value;
+				windSpeed = value;
 			}
 		}
 
-        #endregion
+		public DateTime LocalTime { get => localTime; set => localTime = value; }
 
-        #region PseudoMethods
-        
+
+		#endregion
+
+		#region PseudoMethods
+
 		/// <summary>
 		/// StateWeatherModel is valid if:
 		/// airTemperature != null && airTemperature != -float.MaxValue
@@ -237,7 +244,8 @@ namespace SharedModels
 				airTemperature != -float.MaxValue &&
 				stationPressure >= 0 &&
 				humidity >= 0 &&
-				windSpeed >= 0;
+				windSpeed >= 0 &&
+				localTime <= DateTime.Now;
 		}
 
 		/// <summary>

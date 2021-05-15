@@ -43,6 +43,8 @@ namespace DatabaseAccess
 
         public int? windSpeed { get; set; }
 
+        public DateTime? localTime { get; set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int stateWeatherID { get; set; }
 

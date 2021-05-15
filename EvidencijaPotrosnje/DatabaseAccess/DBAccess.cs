@@ -50,8 +50,8 @@ namespace DatabaseAccess
         public static void AddOrUpdateState(StateInfoModel model) 
         {
             // if given state is not valid
-            if (!model.IsValid())
-                throw new Exception("StateInfoModel is not valid.");
+            //if (!model.IsValid())
+            //    throw new Exception("StateInfoModel is not valid.");
 
 
             using (var db = new StatesDB())
@@ -61,8 +61,9 @@ namespace DatabaseAccess
 
                 var currState = DBAccess.ConvertStateDB(model);
 
+                
                 // if stateInfo doesn't exist
-                if(db.States.Find(currState) == null) 
+                if(true) 
                 {
                     db.StateConsumptions.Add(currState.StateConsumption);
                     db.StateWeathers.Add(currState.StateWeather);
@@ -236,6 +237,7 @@ namespace DatabaseAccess
                 stationPressure = model.StationPressure,
                 windDirection = model.WindDirection,
                 windSpeed = model.WindSpeed,
+                localTime = model.LocalTime,
                 stateWeatherID = DBAccess.stateWeatherID++
             };
         }
@@ -284,7 +286,8 @@ namespace DatabaseAccess
                 ReducedPressure = (float)dbModel.reducedPressure,
                 StationPressure = (float)dbModel.stationPressure,
                 WindDirection = (string)dbModel.windDirection,
-                WindSpeed = (int)dbModel.windSpeed
+                WindSpeed = (int)dbModel.windSpeed,
+                LocalTime = (DateTime)dbModel.localTime
             };
         }
 

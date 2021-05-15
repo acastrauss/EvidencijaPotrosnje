@@ -10,14 +10,14 @@ namespace SharedModels
 	public class StateConsumptionModel
 	{
         #region Fields
-        public int covRatio;
-		public DateTime dateFrom;
-		public DateTime dateShort;
-		public DateTime dateTo;
-		public DateTime dateUTC;
-		public string stateCode;
-		public double value;
-		public double valueScale;
+        private int covRatio;
+		private DateTime dateFrom;
+		private DateTime dateShort;
+		private DateTime dateTo;
+		private DateTime dateUTC;
+		private string stateCode;
+		private double value;
+		private double valueScale;
         #endregion
 
         #region ConstructorsAndDestructor
@@ -68,11 +68,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return CovRatio;
+				return covRatio;
 			}
 			set
 			{
-				CovRatio = value;
+				covRatio = value;
 			}
 		}
 
@@ -80,11 +80,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return DateFrom;
+				return dateFrom;
 			}
 			set
 			{
-				DateFrom = value;
+				dateFrom = value;
 			}
 		}
 
@@ -92,11 +92,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return DateShort;
+				return dateShort;
 			}
 			set
 			{
-				DateShort = value;
+				dateShort = value;
 			}
 		}
 
@@ -104,11 +104,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return DateTo;
+				return dateTo;
 			}
 			set
 			{
-				DateTo = value;
+				dateTo = value;
 			}
 		}
 
@@ -116,11 +116,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return DateUTC;
+				return dateUTC;
 			}
 			set
 			{
-				DateUTC = value;
+				dateUTC = value;
 			}
 		}
 
@@ -128,11 +128,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return StateCode;
+				return stateCode;
 			}
 			set
 			{
-				StateCode = value;
+				stateCode = value;
 			}
 		}
 
@@ -140,11 +140,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return Value;
+				return value;
 			}
 			set
 			{
-				Value = value;
+				this.value = value;
 			}
 		}
 
@@ -152,11 +152,11 @@ namespace SharedModels
 		{
 			get
 			{
-				return ValueScale;
+				return valueScale;
 			}
 			set
 			{
-				ValueScale = value;
+				valueScale = value;
 			}
 		}
 		#endregion
