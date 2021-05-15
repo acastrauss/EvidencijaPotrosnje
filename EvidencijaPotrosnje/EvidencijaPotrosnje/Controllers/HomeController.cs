@@ -46,10 +46,13 @@ namespace EvidencijaPotrosnje.Controllers
             StateInfoModel sim = new StateInfoModel();
             sim.StateConsumption = scm;
             sim.StateWeather = swm;
-            sim.StateName = "Bla";
+            sim.StateName = "qwerty";
 
             DBLogic.RemoveAllStates();
-            //DBLogic.AddOrUpdateState(sim);
+            DBLogic.AddOrUpdateState(sim);
+
+            sim.StateWeather.AirTemperature = 445;
+            DBLogic.AddOrUpdateState(sim);
 
             return View();
         }
