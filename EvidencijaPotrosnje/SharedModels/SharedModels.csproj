@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="HelperClasses\CountriesDictionary.cs" />
     <Compile Include="HelperClasses\CurrentData.cs" />
+    <Compile Include="HelperClasses\DataKeys.cs" />
+    <Compile Include="HelperClasses\ImportParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MVCModels\StateConsumptionModel.cs" />
     <Compile Include="MVCModels\StateInfoModel.cs" />

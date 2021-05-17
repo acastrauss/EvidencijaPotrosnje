@@ -1,0 +1,28 @@
+﻿@model SharedModels.StateInfoModel
+
+@{
+    ViewBag.Title = "State Info";
+}
+
+<h2>Dodaj Državu</h2>
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        <h4>Forma za dodavanje države:</h4>
+        <div class="form-group">
+            <label>Ime države:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StateName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StateName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Dodaj" class="btn btn-default" formmethod="post" formaction=""/>
+            </div>
+        </div>
+    </div>
+}

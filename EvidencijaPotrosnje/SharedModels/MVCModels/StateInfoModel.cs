@@ -59,12 +59,12 @@ namespace SharedModels
 		/// <returns></returns>
 		public bool IsValid()
         {
-			if (stateWeather == null || stateConsumption == null)
-				return false;
+            if (stateWeather == null || stateConsumption == null)
+                return false;
 
-			return (stateWeather.IsValid() ||
-				stateConsumption.IsValid())
-				&& !String.IsNullOrEmpty(stateName);
+            return (stateWeather.IsValid() ||
+                stateConsumption.IsValid())
+                && !String.IsNullOrEmpty(stateName);
         }
 
         public override string ToString()
