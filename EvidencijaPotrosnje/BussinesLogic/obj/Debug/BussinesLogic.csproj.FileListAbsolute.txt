@@ -30,17 +30,3 @@ C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bi
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.Extended.pdb
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.Extended.xml
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.Extended.dll.config
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.csprojAssemblyReference.cache
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.csproj.CoreCompileInputs.cache
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.dll
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.pdb
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.dll
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.pdb
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\DatabaseAccess.dll
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\SharedModels.dll
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.dll
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\DatabaseAccess.pdb
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\DatabaseAccess.dll.config
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\SharedModels.pdb
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.xml
-D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.csproj.CopyComplete
