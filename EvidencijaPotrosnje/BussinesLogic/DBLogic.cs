@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharedModels;
 using DatabaseAccess;
+using SharedModels.HelperClasses;
 
 namespace BussinesLogic
 {
@@ -155,11 +156,11 @@ namespace BussinesLogic
     
         public static StateWeatherModel GetWeatherModelByName(string name) 
         {
-            StateWeatherModel ret_val = StateWeatherModel.NotValid();
+            StateWeatherModel retVal = StateWeatherModel.NotValid();
 
             try
             {
-                ret_val = DBAccess.GetStateWeatherByStateName(name);
+                retVal = DBAccess.GetStateWeatherByStateName(name);
             }
             catch (Exception e)
             {
@@ -167,7 +168,24 @@ namespace BussinesLogic
                 throw;
             }
 
-            return ret_val;
+            return retVal;
+        }
+    
+        public static Dictionary<DataKeys, StateInfoModel> GetStatesForDate(DateTime startDate, DateTime endDate) 
+        {
+            var retVal = new Dictionary<DataKeys, StateInfoModel>();
+
+            try
+            {
+                DBAccess.GetStatesForDate(startDate, endDate);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return retVal;
         }
     }
 }

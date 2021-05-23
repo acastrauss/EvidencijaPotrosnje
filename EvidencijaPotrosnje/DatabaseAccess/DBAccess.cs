@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using SharedModels;
 using EntityFramework.Extensions;
+using SharedModels.HelperClasses;
 
 namespace DatabaseAccess
 {
@@ -230,6 +231,11 @@ namespace DatabaseAccess
             return ret_val;
         }
 
+        public static Dictionary<DataKeys, StateInfoModel> GetStatesForDate(DateTime startDate, DateTime endDate) 
+        {
+            return new Dictionary<DataKeys, StateInfoModel>();
+        }
+
         #endregion
 
         #region ConvertingToDatabaseModel
@@ -389,5 +395,7 @@ namespace DatabaseAccess
             };
         }
         #endregion
+
+
     }
 }

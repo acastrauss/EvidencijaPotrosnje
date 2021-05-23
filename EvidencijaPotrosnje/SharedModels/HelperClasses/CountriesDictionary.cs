@@ -14,7 +14,6 @@ namespace SharedModels.HelperClasses
     
         public CountriesDictionary()
         {
-
             string path = "../AppData/CountriesData/drzave.csv";
             //SharedModels.
 
