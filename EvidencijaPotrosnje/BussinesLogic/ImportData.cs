@@ -56,7 +56,8 @@ namespace BussinesLogic
                     DataKeys keys = new DataKeys()
                     {
                         Name = CountriesDictionary.CountriesShort[state],
-                        DateInfo = swm.LocalTime
+                        EndDate = swm.LocalTime,
+                        StartDate = DateTime.MinValue
                     };
 
                     // if there is no data for that country at that time create new data for country
@@ -109,7 +110,8 @@ namespace BussinesLogic
                         DataKeys keys = new DataKeys()
                         {
                             Name = scm.StateCode,
-                            DateInfo = scm.DateShort
+                            StartDate = scm.DateFrom,
+                            EndDate = scm.DateTo
                         };
 
                         if(!CurrentData.data.ContainsKey(keys)) 

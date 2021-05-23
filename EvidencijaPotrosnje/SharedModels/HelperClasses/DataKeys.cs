@@ -12,22 +12,28 @@ namespace SharedModels.HelperClasses
     public class DataKeys
     {
         public string Name { get; set; }
-        public DateTime DateInfo { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public override bool Equals(object obj)
         {
             DataKeys dk = (DataKeys)obj;
             return 
-                dk.DateInfo == this.DateInfo &&
+                dk.EndDate == this.EndDate && dk.StartDate == this.StartDate &&
                 dk.Name == this.Name
                 ;
         }
 
-        public DataKeys() { }
-        public DataKeys(string name, DateTime date) 
+        public DataKeys() {
+            this.Name = "";
+            this.StartDate = DateTime.MinValue;
+            this.EndDate = DateTime.MaxValue;
+        }
+        public DataKeys(string name, DateTime start,DateTime end) 
         {
             this.Name = name;
-            this.DateInfo = date;
+            this.StartDate = start;
+            this.EndDate = end;
         }
 
     }
