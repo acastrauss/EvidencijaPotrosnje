@@ -43,10 +43,10 @@ namespace DatabaseAccess
 
         public int? windSpeed { get; set; }
 
-        public DateTime? localTime { get; set; }
-
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int stateWeatherID { get; set; }
+
+        public DateTime? localTime { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<State> States { get; set; }

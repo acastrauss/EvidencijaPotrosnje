@@ -7,6 +7,7 @@ using System.Data.Entity;
 using SharedModels;
 using EntityFramework.Extensions;
 using SharedModels.HelperClasses;
+using System.Data.Entity.Validation;
 
 namespace DatabaseAccess
 {
@@ -17,33 +18,25 @@ namespace DatabaseAccess
         private static int stateWeatherID = 0;
 
         private static void SetIDs(StatesDB db) 
-        {   
-            var queryStateIDs = from s in db.States
-                            orderby stateID
-                            select stateID;
-
-            var queryStateWIDs = from s in db.States
-                                orderby stateWeatherID
-                                select stateWeatherID;
-
-            var queryStateCIDs = from s in db.States
-                                orderby stateConsumptionID
-                                select stateConsumptionID;
+        {
+            var queryStateIDs = db.States.OrderBy(x => x.stateID);
+            var queryStateWIDs = db.States.OrderBy(x => x.stateWeatherID);
+            var queryStateCIDs = db.States.OrderBy(x => x.stateConsumptionID);
 
             if (queryStateIDs.Count() == 0)
                 stateID = 0;
             else
-                stateID = queryStateIDs.Max() + 1;
+                stateID = queryStateIDs.Max().stateID + 1;
 
             if (queryStateWIDs.Count() == 0)
                 stateWeatherID = 0;
             else
-                stateWeatherID = queryStateWIDs.Max() + 1;
+                stateWeatherID = queryStateWIDs.Max().stateWeatherID + 1;
 
             if (queryStateCIDs.Count() == 0)
                 stateConsumptionID = 0;
             else 
-                stateConsumptionID = queryStateCIDs.Max() + 1;
+                stateConsumptionID = queryStateCIDs.Max().stateConsumptionID + 1;
             
         }
 
@@ -84,20 +77,12 @@ namespace DatabaseAccess
 
         private static bool IfStateExistByName(string name, StatesDB db) 
         {
-            var query = from s in db.States
-                        where s.stateName == name
-                        select s;
-
-            return query.Count() != 0;
+            return db.States.Where(x => x.stateName == name).Count() != 0;
         }
 
         private static State GetDBStateByName(string name, StatesDB db) 
         {
-            var query = from s in db.States
-                        where s.stateName == name
-                        select s;
-
-            return query.FirstOrDefault();
+            return db.States.Where(x => x.stateName == name).FirstOrDefault();
         }
 
         private static void UpdateState(State state, StatesDB db)
@@ -165,14 +150,13 @@ namespace DatabaseAccess
 
             using (var db = new StatesDB())
             {
-                var query = from s in db.States
-                            where s.stateName == name
-                            select s;
 
-                if (query.Count() == 0)
+                var state = db.States.Where(x => x.stateName == name);
+
+                if (state.Count() == 0)
                     throw new Exception("There is no state data with that name.");
 
-                ret_val = DBAccess.ConvertStateModel(query.FirstOrDefault());
+                ret_val = DBAccess.ConvertStateModel(state.First());
             }
 
             return ret_val;
@@ -180,40 +164,36 @@ namespace DatabaseAccess
 
         public static StateConsumptionModel GetStateConsumptionByStateName(string name) 
         {
-            StateConsumptionModel ret_val = null;
+            StateConsumptionModel retVal = null;
 
             using (var db = new StatesDB())
             {
-                var query = from s in db.States
-                            where s.stateName == name
-                            select s;
+                var state = db.States.Where(x => x.stateName == name);
 
-                if (query.Count() == 0)
-                    throw new Exception("There is no state consumption data with that name.");
+                if (state.Count() == 0)
+                    throw new Exception("There is no state weather data with that name.");
 
-                ret_val = DBAccess.ConvertStateModel(query.FirstOrDefault()).StateConsumption;
+                retVal = DBAccess.ConvertStateConsumptionModel(state.First().StateConsumption);
             }
 
-            return ret_val;
+            return retVal;
         }
 
         public static StateWeatherModel GetStateWeatherByStateName(string name) 
         {
-            StateWeatherModel ret_val = null;
+            StateWeatherModel retVal = null;
 
             using (var db = new StatesDB())
             {
-                var query = from s in db.States
-                            where s.stateName == name
-                            select s;
+                var state = db.States.Where(x => x.stateName == name);
 
-                if (query.Count() == 0)
+                if (state.Count() == 0)
                     throw new Exception("There is no state weather data with that name.");
 
-                ret_val = DBAccess.ConvertStateModel(query.FirstOrDefault()).StateWeather;
+                retVal = DBAccess.ConvertStateWeatherModel(state.First().StateWeather);
             }
 
-            return ret_val;
+            return retVal;
         }
 
         public static List<StateInfoModel> GetAllStates() 
@@ -231,8 +211,11 @@ namespace DatabaseAccess
             return ret_val;
         }
 
+        // remove
         public static Dictionary<DataKeys, StateInfoModel> GetStatesForDate(DateTime startDate, DateTime endDate) 
         {
+            var retVal = new Dictionary<DataKeys, StateInfoModel>();
+
             return new Dictionary<DataKeys, StateInfoModel>();
         }
 
@@ -396,6 +379,69 @@ namespace DatabaseAccess
         }
         #endregion
 
+        #region ShortNamesForStates
+        // remove after all have db updated
+        public static void AddShortStateNames(Dictionary<string, string> shortNames) 
+        {
+            using (var db = new StatesDB())
+            {
+                foreach (var sn in shortNames)
+                {
+                    try
+                    {
+                        var ssn = new shortStateName();
+                        ssn.shortName = sn.Key;
+                        ssn.fullName = sn.Value;
 
+                        if (ssn.shortName.Length > 2) continue;
+
+                        db.shortStateNames.Add(ssn);
+                    }
+                    catch (Exception e)
+                    {
+                        throw;
+                    }
+                }
+
+                db.SaveChanges();
+            }
+        }
+
+        public static String GetShortStateName(String fullStateName) 
+        {
+            String retVal = String.Empty;
+
+            using (var db = new StatesDB())
+            {
+                var state = db.shortStateNames.Where(x => x.fullName == fullStateName);
+
+                if (state.Count() == 0)
+                    throw new Exception("No short name for that state.");
+
+                retVal = state.First().shortName;
+            }
+
+            return retVal;
+        }
+
+        public static String GetFullStateName(String shortStateName) 
+        {
+            String retVal = String.Empty;
+
+            using (var db = new StatesDB())
+            {
+                var state = db.shortStateNames.Where(x => x.shortName == shortStateName);
+
+                if (state.Count() == 0)
+                    throw new Exception("No full name for that state.");
+
+                retVal = state.First().fullName;
+            }
+
+            return retVal;
+
+        }
+
+        #endregion
     }
 }

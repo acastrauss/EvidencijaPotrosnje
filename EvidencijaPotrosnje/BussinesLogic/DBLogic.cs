@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SharedModels;
 using DatabaseAccess;
 using SharedModels.HelperClasses;
+using System.Data.Entity.Validation;
 
 namespace BussinesLogic
 {
@@ -130,7 +131,7 @@ namespace BussinesLogic
             }
             catch (Exception e)
             {
-
+                
                 throw;
             }
 
@@ -171,6 +172,7 @@ namespace BussinesLogic
             return retVal;
         }
     
+        // remove
         public static Dictionary<DataKeys, StateInfoModel> GetStatesForDate(DateTime startDate, DateTime endDate) 
         {
             var retVal = new Dictionary<DataKeys, StateInfoModel>();
@@ -178,6 +180,63 @@ namespace BussinesLogic
             try
             {
                 DBAccess.GetStatesForDate(startDate, endDate);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return retVal;
+        }
+    
+        // remove after all have db updated
+        public static void AddShortStateNames() 
+        {
+            var cd = new CountriesDictionary();
+
+            try
+            {
+                DBAccess.AddShortStateNames(cd.CountriesShort);
+            }
+            catch (DbEntityValidationException e)
+            {
+                var erors = e.EntityValidationErrors;
+
+                foreach (var err in erors)
+                {
+                    var ent = err.Entry;
+                    var errorrr = err.ValidationErrors;
+                }
+
+                throw;
+            }
+        }
+    
+        public static String GetFullStateName(String shortStateName) 
+        {
+            String retVal = String.Empty;
+
+            try
+            {
+                retVal = DBAccess.GetFullStateName(shortStateName);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return retVal;
+        }    
+
+        public static String GetShortStateName(String fullStateName) 
+        {
+            String retVal = String.Empty;
+
+            try
+            {
+                retVal = DBAccess.GetShortStateName(fullStateName);
             }
             catch (Exception e)
             {

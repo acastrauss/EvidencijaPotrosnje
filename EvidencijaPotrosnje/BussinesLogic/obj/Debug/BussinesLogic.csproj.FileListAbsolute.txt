@@ -30,3 +30,6 @@ C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bi
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.Extended.pdb
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.Extended.xml
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.Extended.dll.config
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.dll.config
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.SqlServer.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.SqlServer.xml

@@ -55,7 +55,7 @@ namespace BussinesLogic
 
                     DataKeys keys = new DataKeys()
                     {
-                        Name = CountriesDictionary.CountriesShort[state],
+                        Name = DBLogic.GetFullStateName(state),
                         EndDate = swm.LocalTime,
                         StartDate = DateTime.MinValue
                     };
@@ -105,7 +105,7 @@ namespace BussinesLogic
                     scm.ValueScale = double.Parse(fields[8]);
 
                     // if it is the right country and date
-                    if(scm.StateCode == CountriesDictionary.CountriesShort[stateName] && startDate < scm.DateShort && endDate > scm.DateShort) 
+                    if(scm.StateCode == DBLogic.GetShortStateName(stateName) && startDate < scm.DateShort && endDate > scm.DateShort) 
                     {
                         DataKeys keys = new DataKeys()
                         {

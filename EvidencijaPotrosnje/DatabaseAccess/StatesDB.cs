@@ -15,6 +15,7 @@ namespace DatabaseAccess
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<StateConsumption> StateConsumptions { get; set; }
         public virtual DbSet<StateWeather> StateWeathers { get; set; }
+        public virtual DbSet<shortStateName> shortStateNames { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -51,6 +52,14 @@ namespace DatabaseAccess
                 .HasMany(e => e.States)
                 .WithRequired(e => e.StateWeather)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<shortStateName>()
+                .Property(e => e.fullName)
+                .IsFixedLength();
+
+            modelBuilder.Entity<shortStateName>()
+                .Property(e => e.shortName)
+                .IsFixedLength();
         }
     }
 }

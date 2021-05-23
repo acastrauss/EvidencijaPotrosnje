@@ -28,8 +28,7 @@ namespace BussinesLogic
             {
                 foreach (var Country in Countries)
                 {
-                    string StateName = "";
-                    CountriesDictionary.CountriesShort.TryGetValue(Country.StateConsumption.StateCode, out StateName);
+                    string StateName = DBLogic.GetFullStateName(Country.StateConsumption.StateCode);
                     string UCTTime = Country.StateConsumption.DateUTC.ToString();
                     string Consumption = Country.StateConsumption.Value.ToString();
                     string temperature = Country.StateWeather.AirTemperature.ToString();
