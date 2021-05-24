@@ -21,7 +21,7 @@ namespace BussinesLogic
             {
                 try
                 {
-                    DBAccess.AddOrUpdateState(state);
+                    (new DBAccess()).AddOrUpdateState(state);
                 }
                 catch (Exception e)
                 {
@@ -34,7 +34,7 @@ namespace BussinesLogic
         {
             try
             {
-                DBAccess.AddOrUpdateState(state);
+                (new DBAccess()).AddOrUpdateState(state);
             }
             catch (Exception e)
             {
@@ -46,7 +46,7 @@ namespace BussinesLogic
         {
             try
             {
-                DBAccess.RemoveState(state);   
+                (new DBAccess()).RemoveState(state);   
             }
             catch (Exception e)
             {
@@ -58,8 +58,9 @@ namespace BussinesLogic
         {
             try
             {
-                var state = DBAccess.GetStateByName(name);
-                DBAccess.RemoveState(state);
+                var dbaccess = new DBAccess();
+                var state = dbaccess.GetStateByName(name);
+                dbaccess.RemoveState(state);
             }
             catch (Exception e)
             {
@@ -73,7 +74,7 @@ namespace BussinesLogic
             {
                 try
                 {
-                    DBAccess.RemoveState(state);
+                    (new DBAccess()).RemoveState(state);
                 }
                 catch (Exception e)
                 {
@@ -90,8 +91,9 @@ namespace BussinesLogic
             {
                 try
                 {
-                    var state = DBAccess.GetStateByName(name);
-                    DBAccess.RemoveState(state);
+                    var dbaccess = new DBAccess();
+                    var state = dbaccess.GetStateByName(name);
+                    dbaccess.RemoveState(state);
                 }
                 catch (Exception e)
                 {
@@ -106,7 +108,7 @@ namespace BussinesLogic
         {
             try
             {
-                DBAccess.RemoveAllStates();
+                (new DBAccess()).RemoveAllStates();
             }
             catch (Exception e)
             {
@@ -118,7 +120,7 @@ namespace BussinesLogic
         public IEnumerable<StateInfoModel> GetAllStates() 
         {
             // no need for try catch since there is no exception
-            return DBAccess.GetAllStates();
+            return (new DBAccess()).GetAllStates();
         }
 
         public static StateInfoModel GetStateByName(string name) 
@@ -127,7 +129,7 @@ namespace BussinesLogic
 
             try
             {
-                ret_val = DBAccess.GetStateByName(name);
+                ret_val = (new DBAccess()).GetStateByName(name);
             }
             catch (Exception e)
             {
@@ -144,7 +146,7 @@ namespace BussinesLogic
 
             try
             {
-                ret_val = DBAccess.GetStateConsumptionByStateName(name);
+                ret_val = (new DBAccess()).GetStateConsumptionByStateName(name);
             }
             catch (Exception e)
             {
@@ -161,25 +163,7 @@ namespace BussinesLogic
 
             try
             {
-                retVal = DBAccess.GetStateWeatherByStateName(name);
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
-            return retVal;
-        }
-    
-        // remove
-        public static Dictionary<DataKeys, StateInfoModel> GetStatesForDate(DateTime startDate, DateTime endDate) 
-        {
-            var retVal = new Dictionary<DataKeys, StateInfoModel>();
-
-            try
-            {
-                DBAccess.GetStatesForDate(startDate, endDate);
+                retVal = (new DBAccess()).GetStateWeatherByStateName(name);
             }
             catch (Exception e)
             {
@@ -219,7 +203,7 @@ namespace BussinesLogic
 
             try
             {
-                retVal = DBAccess.GetFullStateName(shortStateName);
+                retVal = (new DBAccess()).GetFullStateName(shortStateName);
             }
             catch (Exception e)
             {
@@ -236,7 +220,7 @@ namespace BussinesLogic
 
             try
             {
-                retVal = DBAccess.GetShortStateName(fullStateName);
+                retVal = (new DBAccess()).GetShortStateName(fullStateName);
             }
             catch (Exception e)
             {

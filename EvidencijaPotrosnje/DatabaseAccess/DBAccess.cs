@@ -11,11 +11,13 @@ using System.Data.Entity.Validation;
 
 namespace DatabaseAccess
 {
-    public class DBAccess
+    public class DBAccess : IDBAccess
     {
         private static int stateID = 0;
         private static int stateConsumptionID = 0;
         private static int stateWeatherID = 0;
+
+        public DBAccess() { }
 
         private static void SetIDs(StatesDB db) 
         {
@@ -40,13 +42,17 @@ namespace DatabaseAccess
             
         }
 
+        /// <summary>
+        /// Using methods as static, but they can't be static, because they need to implement interface
+        /// </summary>
+        /// <param name="model"></param>
+
         #region DatabaseActions
-        public static void AddOrUpdateState(StateInfoModel model) 
+        public void AddOrUpdateState(StateInfoModel model) 
         {
             // if given state is not valid
             if (!model.IsValid())
                 throw new Exception("StateInfoModel is not valid.");
-
 
             using (var db = new StatesDB())
             {
@@ -68,24 +74,24 @@ namespace DatabaseAccess
                     // set to existing id
                     var existingState = GetDBStateByName(model.StateName, db);
                     existingState = ConvertStateDBExisting(model, existingState.stateID, existingState.stateConsumptionID, existingState.stateWeatherID);
-                    DBAccess.UpdateState(existingState, db);
+                    this.UpdateState(existingState, db);
                 }
 
                 db.SaveChanges();
             }
         }
 
-        private static bool IfStateExistByName(string name, StatesDB db) 
+        public bool IfStateExistByName(string name, StatesDB db) 
         {
             return db.States.Where(x => x.stateName == name).Count() != 0;
         }
 
-        private static State GetDBStateByName(string name, StatesDB db) 
+        public State GetDBStateByName(string name, StatesDB db) 
         {
             return db.States.Where(x => x.stateName == name).FirstOrDefault();
         }
 
-        private static void UpdateState(State state, StatesDB db)
+        public void UpdateState(State state, StatesDB db)
         {
             var query = db.States.Where(s => s.stateID == state.stateID);
             State fs = query.FirstOrDefault();
@@ -102,7 +108,7 @@ namespace DatabaseAccess
             db.States.Add(state);
         }
 
-        public static void RemoveState(StateInfoModel model) 
+        public void RemoveState(StateInfoModel model) 
         {
             // no need for setting ID's since here they are not used
             // DBAccess.SetIDs();
@@ -123,7 +129,7 @@ namespace DatabaseAccess
             }
         }
 
-        public static void RemoveAllStates() 
+        public void RemoveAllStates() 
         {
             using (var db = new StatesDB())
             {
@@ -144,7 +150,7 @@ namespace DatabaseAccess
             }
         }
 
-        public static StateInfoModel GetStateByName(string name) 
+        public StateInfoModel GetStateByName(string name) 
         {
             StateInfoModel ret_val = null;
 
@@ -162,7 +168,7 @@ namespace DatabaseAccess
             return ret_val;
         }
 
-        public static StateConsumptionModel GetStateConsumptionByStateName(string name) 
+        public StateConsumptionModel GetStateConsumptionByStateName(string name) 
         {
             StateConsumptionModel retVal = null;
 
@@ -179,7 +185,7 @@ namespace DatabaseAccess
             return retVal;
         }
 
-        public static StateWeatherModel GetStateWeatherByStateName(string name) 
+        public StateWeatherModel GetStateWeatherByStateName(string name) 
         {
             StateWeatherModel retVal = null;
 
@@ -196,7 +202,7 @@ namespace DatabaseAccess
             return retVal;
         }
 
-        public static List<StateInfoModel> GetAllStates() 
+        public List<StateInfoModel> GetAllStates() 
         {
             List<StateInfoModel> ret_val = new List<StateInfoModel>();
 
@@ -209,14 +215,6 @@ namespace DatabaseAccess
             }
 
             return ret_val;
-        }
-
-        // remove
-        public static Dictionary<DataKeys, StateInfoModel> GetStatesForDate(DateTime startDate, DateTime endDate) 
-        {
-            var retVal = new Dictionary<DataKeys, StateInfoModel>();
-
-            return new Dictionary<DataKeys, StateInfoModel>();
         }
 
         #endregion
@@ -407,7 +405,7 @@ namespace DatabaseAccess
             }
         }
 
-        public static String GetShortStateName(String fullStateName) 
+        public String GetShortStateName(String fullStateName) 
         {
             String retVal = String.Empty;
 
@@ -424,7 +422,7 @@ namespace DatabaseAccess
             return retVal;
         }
 
-        public static String GetFullStateName(String shortStateName) 
+        public String GetFullStateName(String shortStateName) 
         {
             String retVal = String.Empty;
 
