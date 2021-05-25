@@ -15,21 +15,28 @@ namespace BussinesLogic
     {
         public static void FilterByName(string StateName)
         {
-            if (StateName == null)
-                throw new Exception("Filter string can not be null!");
-
-            Dictionary<DataKeys, StateInfoModel> temp = new Dictionary<DataKeys, StateInfoModel>();
-            foreach(StateInfoModel state in CurrentData.Data.Values)
+            if (String.IsNullOrEmpty(StateName))
             {
-                if(state.StateName == StateName)
+                if (StateName == null)
+                    throw new Exception("Filter string can not be null!");
+                else if (StateName.Equals(String.Empty))
+                    return;
+            }
+            else 
+            {
+                Dictionary<DataKeys, StateInfoModel> temp = new Dictionary<DataKeys, StateInfoModel>();
+                foreach (StateInfoModel state in CurrentData.Data.Values)
                 {
-                    DataKeys dataKeys = new DataKeys(StateName, state.StateConsumption.DateFrom, state.StateConsumption.DateTo);
-                    temp.Add(dataKeys, state);
+                    if (state.StateName == StateName)
+                    {
+                        DataKeys dataKeys = new DataKeys(StateName, state.StateConsumption.DateFrom, state.StateConsumption.DateTo);
+                        temp.Add(dataKeys, state);
+                    }
+
                 }
 
+                CurrentData.Data = temp;
             }
-
-            CurrentData.Data = temp;
         }
 
         public static void FilterByTime(DateTime DateFrom, DateTime DateTo)
