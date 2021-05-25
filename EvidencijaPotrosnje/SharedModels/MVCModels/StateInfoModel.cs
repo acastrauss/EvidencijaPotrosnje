@@ -72,6 +72,17 @@ namespace SharedModels
             return base.ToString();
         }
 
+        public override bool Equals(object obj)
+        {
+			var temp = (StateInfoModel)obj;
+
+			return
+				this.StateConsumption.Equals(temp.StateConsumption) &&
+				this.StateName.Equals(temp.StateName) &&
+				this.StateWeather.Equals(temp.StateWeather)
+				;
+        }
+
         #endregion
     }//end StateInfo
 }

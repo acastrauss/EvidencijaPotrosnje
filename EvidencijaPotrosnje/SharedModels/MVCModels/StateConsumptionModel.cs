@@ -182,6 +182,25 @@ namespace SharedModels
             return base.ToString();
         }
 
+        public override bool Equals(object obj)
+        {
+			var temp = (StateConsumptionModel)obj;
+
+			if (obj == null)
+				return false;
+
+			return
+				this.covRatio == temp.covRatio &&
+				this.dateFrom == temp.dateFrom &&
+				this.dateShort == temp.dateShort &&
+				this.dateTo == temp.dateTo &&
+				this.dateUTC == temp.dateUTC && 
+				this.stateCode == temp.stateCode &&
+				this.value == temp.value &&
+				this.valueScale == temp.valueScale
+				;
+		}
+
         #endregion
 
     }//end StateConsumption

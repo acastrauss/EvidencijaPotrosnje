@@ -42,19 +42,17 @@ namespace BussinesLogic
         public static void FilterByTime(DateTime DateFrom, DateTime DateTo)
         {
             Dictionary<DataKeys, StateInfoModel> temp = new Dictionary<DataKeys, StateInfoModel>();
-            foreach (StateInfoModel state in CurrentData.Data.Values)
+            foreach (var pair in CurrentData.Data)
             {
-                if (state.StateConsumption.DateFrom >= DateFrom && state.StateConsumption.DateTo <= DateTo 
+                var state = pair.Value;
+
+                if (state.StateConsumption.DateFrom >= DateFrom && state.StateConsumption.DateTo <= DateTo
                     && state.StateWeather.LocalTime >= DateFrom && state.StateWeather.LocalTime <= DateTo)
                 {
-                    DataKeys dataKeys = new DataKeys(state.StateName, DateFrom, DateTo);
-                    temp.Add(dataKeys, state);
+                    temp.Add(pair.Key, state);
                 }
-
-            }
-
+            } 
             CurrentData.Data = temp;
-
         }   
     }
 }

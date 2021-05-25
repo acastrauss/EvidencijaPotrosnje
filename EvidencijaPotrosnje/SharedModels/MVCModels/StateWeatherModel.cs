@@ -257,6 +257,26 @@ namespace SharedModels
             return base.ToString();
         }
 
+        public override bool Equals(object obj)
+        {
+			var temp = (StateWeatherModel)obj;
+            return
+				this.airTemperature == temp.airTemperature &&
+				this.cloudCover == temp.cloudCover &&
+				this.devpointTemperature == temp.devpointTemperature && 
+				this.gustValue == temp.gustValue &&
+				this.horizontalVisibility == temp.horizontalVisibility &&
+				this.humidity == temp.humidity &&
+				this.presentWeather.Equals(temp.presentWeather) &&
+				this.recentWeather.Equals(temp.recentWeather) &&
+				this.reducedPressure == temp.reducedPressure &&
+				this.stationPressure == temp.stationPressure &&
+				this.windDirection.Equals(temp.windDirection) &&
+				this.windSpeed == temp.windSpeed &&
+				this.localTime == temp.localTime
+				;
+        }
+
         #endregion
     }//end StateWeather
 }
