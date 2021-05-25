@@ -61,11 +61,11 @@ namespace BussinesLogic
                     };
 
                     // if there is no data for that country at that time create new data for country
-                    if(!CurrentData.data.ContainsKey(keys)) 
+                    if(!CurrentData.Data.ContainsKey(keys)) 
                     {
-                        CurrentData.data.Add(keys, new StateInfoModel());
+                        CurrentData.Data.Add(keys, new StateInfoModel());
                     }
-                    CurrentData.data[keys].StateWeather = swm;
+                    CurrentData.Data[keys].StateWeather = swm;
 
                 }
             }
@@ -114,11 +114,11 @@ namespace BussinesLogic
                             EndDate = scm.DateTo
                         };
 
-                        if(!CurrentData.data.ContainsKey(keys)) 
+                        if(!CurrentData.Data.ContainsKey(keys)) 
                         {
-                            CurrentData.data.Add(keys, new StateInfoModel());
+                            CurrentData.Data.Add(keys, new StateInfoModel());
                         }
-                        CurrentData.data[keys].StateConsumption = scm;
+                        CurrentData.Data[keys].StateConsumption = scm;
                     }
                 }
             }
@@ -145,7 +145,7 @@ namespace BussinesLogic
 
             if(dataLoaded) 
             {
-                DBLogic.AddOrUpdateMoreStates(CurrentData.data.Values);
+                DBLogic.AddOrUpdateMoreStates(CurrentData.Data.Values);
             }
         }   
     }

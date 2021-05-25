@@ -15,8 +15,11 @@ namespace BussinesLogic
     {
         public static void FilterByName(string StateName)
         {
+            if (StateName == null)
+                throw new Exception("Filter string can not be null!");
+
             Dictionary<DataKeys, StateInfoModel> temp = new Dictionary<DataKeys, StateInfoModel>();
-            foreach(StateInfoModel state in CurrentData.data.Values)
+            foreach(StateInfoModel state in CurrentData.Data.Values)
             {
                 if(state.StateName == StateName)
                 {
@@ -26,13 +29,13 @@ namespace BussinesLogic
 
             }
 
-            CurrentData.data = temp;
+            CurrentData.Data = temp;
         }
 
         public static void FilterByTime(DateTime DateFrom, DateTime DateTo)
         {
             Dictionary<DataKeys, StateInfoModel> temp = new Dictionary<DataKeys, StateInfoModel>();
-            foreach (StateInfoModel state in CurrentData.data.Values)
+            foreach (StateInfoModel state in CurrentData.Data.Values)
             {
                 if (state.StateConsumption.DateFrom >= DateFrom && state.StateConsumption.DateTo <= DateTo 
                     && state.StateWeather.LocalTime >= DateFrom && state.StateWeather.LocalTime <= DateTo)
@@ -43,10 +46,8 @@ namespace BussinesLogic
 
             }
 
-            CurrentData.data = temp;
+            CurrentData.Data = temp;
 
-        }
-
-        
+        }   
     }
 }

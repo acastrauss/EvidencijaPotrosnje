@@ -15,7 +15,18 @@ namespace SharedModels.HelperClasses
     public static class CurrentData
     {
 
-        public static Dictionary<DataKeys, StateInfoModel> data = new Dictionary<DataKeys, StateInfoModel>();
+        private static Dictionary<DataKeys, StateInfoModel> data = new Dictionary<DataKeys, StateInfoModel>();
 
+        public static Dictionary<DataKeys, StateInfoModel> Data
+        {
+            get
+            {
+                return data;
+            }
+            set
+            {
+                data = value;
+            }
+        }
     }
 }

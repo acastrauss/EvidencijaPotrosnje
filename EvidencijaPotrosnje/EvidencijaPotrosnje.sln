@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinesLogic", "BussinesLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedModels", "SharedModels\SharedModels.csproj", "{518B4C32-214A-4EED-8545-5C04C4FE3A8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{8E1F5CA7-EF11-463E-A0E6-DF2780D944CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{518B4C32-214A-4EED-8545-5C04C4FE3A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{518B4C32-214A-4EED-8545-5C04C4FE3A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{518B4C32-214A-4EED-8545-5C04C4FE3A8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E1F5CA7-EF11-463E-A0E6-DF2780D944CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E1F5CA7-EF11-463E-A0E6-DF2780D944CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E1F5CA7-EF11-463E-A0E6-DF2780D944CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E1F5CA7-EF11-463E-A0E6-DF2780D944CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
