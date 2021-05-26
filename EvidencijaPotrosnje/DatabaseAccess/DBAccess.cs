@@ -428,7 +428,16 @@ namespace DatabaseAccess
 
             using (var db = new StatesDB())
             {
-                var state = db.shortStateNames.Where(x => x.shortName == shortStateName);
+
+                IQueryable<shortStateName> state = null;
+                try
+                {
+                    state = db.shortStateNames.Where(x => x.shortName == shortStateName);
+                }
+                catch (Exception e)
+                {
+                    var str = e.Message;
+                }
 
                 if (state.Count() == 0)
                     throw new Exception("No full name for that state.");
