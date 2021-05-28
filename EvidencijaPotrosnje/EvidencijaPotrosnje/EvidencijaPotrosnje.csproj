@@ -112,6 +112,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <Content Include="App_Data\ConsumptionData\Consumption.xlsx" />
+    <Content Include="App_Data\CountriesData\drzave.csv" />
+    <Content Include="App_Data\WeatherData\Weather-Serbia.xls" />
+    <Content Include="App_Data\WeatherData\Weather-Serbia.csv" />
+    <Content Include="App_Data\ConsumptionData\Consumption.csv" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -125,7 +130,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
