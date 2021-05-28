@@ -117,7 +117,7 @@ namespace BussinesLogic
             }
         }
 
-        public IEnumerable<StateInfoModel> GetAllStates() 
+        public static IEnumerable<StateInfoModel> GetAllStates() 
         {
             // no need for try catch since there is no exception
             return (new DBAccess()).GetAllStates();

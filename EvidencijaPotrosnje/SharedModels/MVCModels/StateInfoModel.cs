@@ -47,7 +47,7 @@ namespace SharedModels
 		{
 			this.stateWeather = stateWeather;
 			this.stateConsumption = stateConsumption;
-			this.stateName = stateName;
+			this.stateName = stateName.Trim();
 		}
         #endregion
 		
@@ -76,6 +76,10 @@ namespace SharedModels
         {
 			var temp = (StateInfoModel)obj;
 
+			bool eq1 = this.StateConsumption.Equals(temp.StateConsumption);
+			bool eq2 = this.StateName.Equals(temp.StateName);
+			bool eq3 = this.StateWeather.Equals(temp.StateWeather);
+			
 			return
 				this.StateConsumption.Equals(temp.StateConsumption) &&
 				this.StateName.Equals(temp.StateName) &&

@@ -337,7 +337,7 @@ namespace DatabaseAccess
             {
                 StateWeather = DBAccess.ConvertStateWeatherModel(dbModel.StateWeather),
                 StateConsumption = DBAccess.ConvertStateConsumptionModel(dbModel.StateConsumption),
-                StateName = dbModel.stateName
+                StateName = dbModel.stateName.Trim()
             };
         }
 
@@ -346,16 +346,16 @@ namespace DatabaseAccess
             return new StateWeatherModel()
             {
                 AirTemperature = (float)dbModel.airTemperature,
-                CloudCover = dbModel.cloudCover,
+                CloudCover = dbModel.cloudCover.Trim(),
                 DevpointTemperature = (int)dbModel.devpointTemperature,
                 GustValue = (int)dbModel.gustValue,
                 HorizontalVisibility = (int)dbModel.horizontalVisibility,
                 Humidity = (int)dbModel.humidity,
-                PresentWeather = (string)dbModel.presentWeather,
-                RecentWeather = (string)dbModel.recentWeather,
+                PresentWeather = (string)dbModel.presentWeather.Trim(),
+                RecentWeather = (string)dbModel.recentWeather.Trim(),
                 ReducedPressure = (float)dbModel.reducedPressure,
                 StationPressure = (float)dbModel.stationPressure,
-                WindDirection = (string)dbModel.windDirection,
+                WindDirection = (string)dbModel.windDirection.Trim(),
                 WindSpeed = (int)dbModel.windSpeed,
                 LocalTime = (DateTime)dbModel.localTime
             };
@@ -370,7 +370,7 @@ namespace DatabaseAccess
                 DateShort = (DateTime)dbModel.dateShort,
                 DateTo = (DateTime)dbModel.dateTo,
                 DateUTC = (DateTime)dbModel.dateUTC,
-                StateCode = (string)dbModel.stateCode,
+                StateCode = (string)dbModel.stateCode.Trim(),
                 Value = (double)dbModel.value,
                 ValueScale = (double)dbModel.valueScale
             };

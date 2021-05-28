@@ -57,7 +57,7 @@ namespace SharedModels
 			this.dateShort = dateShort;
 			this.dateTo = dateTo;
 			this.dateUTC = dateUTC;
-			this.stateCode = stateCode;
+			this.stateCode = stateCode.Trim();
 			this.value = value;
 			this.valueScale = valueScale;
 		}
@@ -190,14 +190,14 @@ namespace SharedModels
 				return false;
 
 			return
-				this.covRatio == temp.covRatio &&
-				this.dateFrom == temp.dateFrom &&
-				this.dateShort == temp.dateShort &&
-				this.dateTo == temp.dateTo &&
-				this.dateUTC == temp.dateUTC && 
-				this.stateCode == temp.stateCode &&
-				this.value == temp.value &&
-				this.valueScale == temp.valueScale
+				this.covRatio.Equals(temp.covRatio) &&
+				this.dateFrom.Equals(temp.dateFrom) &&
+				this.dateShort.Equals(temp.dateShort) &&
+				this.dateTo.Equals(temp.dateTo) &&
+				this.dateUTC.Equals(temp.dateUTC) && 
+				this.stateCode.Equals(temp.stateCode) &&
+				this.value.Equals(temp.value) &&
+				this.valueScale.Equals(temp.valueScale)
 				;
 		}
 

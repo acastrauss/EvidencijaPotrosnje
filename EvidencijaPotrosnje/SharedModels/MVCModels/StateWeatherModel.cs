@@ -63,16 +63,16 @@ namespace SharedModels
 		public StateWeatherModel(float airTemperature, string cloudCover, int devpointTemperature, int gustValue, int horizontalVisibility, int humiditiy, string presentWeather, string recentWeather, float reducedPressure, float stationPressure, string windDirection, int windSpeed, DateTime localTime)
 		{
 			this.airTemperature = airTemperature;
-			this.cloudCover = cloudCover;
+			this.cloudCover = cloudCover.Trim();
 			this.devpointTemperature = devpointTemperature;
 			this.gustValue = gustValue;
 			this.horizontalVisibility = horizontalVisibility;
 			this.humidity = humiditiy;
-			this.presentWeather = presentWeather;
-			this.recentWeather = recentWeather;
+			this.presentWeather = presentWeather.Trim();
+			this.recentWeather = recentWeather.Trim();
 			this.reducedPressure = reducedPressure;
 			this.stationPressure = stationPressure;
-			this.windDirection = windDirection;
+			this.windDirection = windDirection.Trim();
 			this.windSpeed = windSpeed;
 			this.localTime = localTime;
 		}
@@ -261,19 +261,19 @@ namespace SharedModels
         {
 			var temp = (StateWeatherModel)obj;
             return
-				this.airTemperature == temp.airTemperature &&
-				this.cloudCover == temp.cloudCover &&
-				this.devpointTemperature == temp.devpointTemperature && 
-				this.gustValue == temp.gustValue &&
-				this.horizontalVisibility == temp.horizontalVisibility &&
-				this.humidity == temp.humidity &&
+				this.airTemperature.Equals(temp.airTemperature) &&
+				this.cloudCover.Equals(temp.cloudCover) &&
+				this.devpointTemperature.Equals(temp.devpointTemperature) && 
+				this.gustValue.Equals(temp.gustValue) &&
+				this.horizontalVisibility.Equals(temp.horizontalVisibility) &&
+				this.humidity.Equals(temp.humidity) &&
 				this.presentWeather.Equals(temp.presentWeather) &&
 				this.recentWeather.Equals(temp.recentWeather) &&
-				this.reducedPressure == temp.reducedPressure &&
-				this.stationPressure == temp.stationPressure &&
+				this.reducedPressure.Equals(temp.reducedPressure) &&
+				this.stationPressure.Equals(temp.stationPressure) &&
 				this.windDirection.Equals(temp.windDirection) &&
-				this.windSpeed == temp.windSpeed &&
-				this.localTime == temp.localTime
+				this.windSpeed.Equals(temp.windSpeed) &&
+				this.localTime.Equals(temp.localTime)
 				;
         }
 

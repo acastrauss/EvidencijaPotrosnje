@@ -128,7 +128,6 @@ namespace UnitTest
         [TestCase("12/31/9999", "01/01/0001")]
         public void TestFilterByTimeEmpty(String start, String end)
         {
-            
             // everything should be empty
             var startDate = DateTime.Parse(start); 
             var endDate = DateTime.Parse(end);
