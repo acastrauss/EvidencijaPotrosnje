@@ -136,12 +136,12 @@ namespace DatabaseAccess
             using (var db = new StatesDB())
             {
 
-                var state = db.States.Where(x => x.stateName == name);
+                var state = db.States.Where(x => x.stateName == name).FirstOrDefault();
 
-                if (state.Count() == 0)
-                    throw new Exception("There is no state data with that name.");
+                //if (state.Count() == 0)
+                //    throw new Exception("There is no state data with that name.");
 
-                ret_val = DBAccess.ConvertStateModel(state.First());
+                ret_val = DBAccess.ConvertStateModel(state);
             }
 
             return ret_val;

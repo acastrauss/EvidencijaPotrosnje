@@ -115,8 +115,8 @@
     <Content Include="App_Data\ConsumptionData\Consumption.xlsx" />
     <Content Include="App_Data\CountriesData\drzave.csv" />
     <Content Include="App_Data\WeatherData\Weather-Serbia.xls" />
-    <Content Include="App_Data\WeatherData\Weather-Serbia.csv" />
     <Content Include="App_Data\ConsumptionData\Consumption.csv" />
+    <Content Include="App_Data\WeatherData\Weather-Srbija.csv" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

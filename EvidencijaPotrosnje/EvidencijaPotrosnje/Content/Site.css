@@ -94,6 +94,44 @@ textarea {
     width: 100%;
 }
 
+input {
+    color: #03254c;
+}
+select {
+    color: #03254c;
+}
+option {
+    color: #03254c;
+}
+
+.import-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.import-table th, td{
+    width:13%;
+}
+.import-table th{
+    border:2px solid white;
+}
+
+.import-table td {
+    text-align:right;
+    padding:10px;
+
+    border-right: 2px solid white;
+    border-left: 2px solid white;
+    
+}
+
+.import-table tr {
+    border-bottom: 2px dashed white;
+}
+
+.import-table tr:last-child {
+    border-bottom: 2px solid white;
+}
+
 footer {
     width: 100%;
     position: fixed;

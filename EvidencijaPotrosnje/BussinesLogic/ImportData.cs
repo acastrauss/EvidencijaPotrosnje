@@ -87,6 +87,8 @@ namespace BussinesLogic
                     string[] fields = csvParser.ReadFields();
                     scm.DateUTC = DateTime.UtcNow;
                     scm.DateShort = DateTime.ParseExact(fields[2], "M/d/yyyy", null);
+                    if (scm.DateShort >= endDate || scm.DateShort < startDate)
+                        continue;
 
                     // the next 2 is just hours
                     scm.DateFrom = DateTime.ParseExact(fields[3], "H:mm", null);

@@ -1,23 +1,54 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Index";
+	ViewBag.States = new List<string>() { "srbija", "mne,ma" };
 }
 
 <h1>Dobrodošli u aplikaciju Evidencija Potrošnje</h1>
 
-<form method="get" action="Home/Import">
-
-	<select name="stateWeather">
+<form method="get" action="/Home/Import">
+	<select name="weatherFile" multiple>
 		<option value="Srbija">Srbija</option>
+		<option value="Nemacka">Nemacka</option>
 	</select>
 
-	<select name="stateName">
+	<select name="stateName" multiple>
 		<option value="Srbija">Srbija</option>
 	</select>
 
 	<input type="date" name="startDate" />
 	<input type="date" name="endDate" />
 
-	<input type="submit" />
+	<input type="submit" value="Import" />
 
 </form>
+
+<table class="import-table">
+	<tr>
+		<th>Drzava</th>
+		<th>UCT vreme</th>
+		<th>Elektricna Energija</th>
+		<th>Temperatura</th>
+		<th>Pritisak</th>
+		<th>Vlaznost vazduha</th>
+		<th>Brzina vetra</th>
+	</tr>
+	<tr>
+		<td>Srbija</td>
+		<td>12/5/2021 12:00</td>
+		<td>12345</td>
+		<td>23</td>
+		<td>22</td>
+		<td>12</td>
+		<td>22</td>
+	</tr>
+	<tr>
+		<td>Srbija</td>
+		<td>12/5/2021 12:00</td>
+		<td>12345</td>
+		<td>23</td>
+		<td>22</td>
+		<td>12</td>
+		<td>22</td>
+	</tr>
+</table>

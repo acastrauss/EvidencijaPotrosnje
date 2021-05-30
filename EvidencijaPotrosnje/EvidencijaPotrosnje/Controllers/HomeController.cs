@@ -22,11 +22,13 @@ namespace EvidencijaPotrosnje.Controllers
         public ActionResult Import(string weatherFile, string stateName, DateTime startDate, DateTime endDate)
         {
 
-            //ImportParameters parameters = new ImportParameters(HostingEnvironment.MapPath($"~/App_Data/WeatherData/Weather-{weatherFile}.csv"), HostingEnvironment.MapPath("~/App_Data/ConsumptionData/Consumption.csv"), stateName, startDate, endDate);
-            ImportParameters parameters = new ImportParameters(HostingEnvironment.MapPath("~/App_Data/WeatherData/Weather-Serbia.csv"), HostingEnvironment.MapPath("~/App_Data/ConsumptionData/Consumption.csv"), "Srbija", DateTime.MinValue, DateTime.MaxValue);
+            ImportParameters parameters = new ImportParameters(HostingEnvironment.MapPath($"~/App_Data/WeatherData/Weather-{weatherFile}.csv"), HostingEnvironment.MapPath("~/App_Data/ConsumptionData/Consumption.csv"), stateName, startDate, endDate);
+            //ImportParameters parameters = new ImportParameters(HostingEnvironment.MapPath("~/App_Data/WeatherData/Weather-Serbia.csv"), HostingEnvironment.MapPath("~/App_Data/ConsumptionData/Consumption.csv"), "Srbija", DateTime.MinValue, DateTime.MaxValue);
             ImportData.Load(parameters);
 
-            return View(CurrentData.Data);
+            StateInfoModel state = DBLogic.GetStateByName(stateName);
+
+            return RedirectToAction("Index");
         }
     }
 }
