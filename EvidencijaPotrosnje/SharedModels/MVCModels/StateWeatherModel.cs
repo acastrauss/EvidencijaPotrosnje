@@ -23,6 +23,8 @@ namespace SharedModels
 		private string windDirection;
 		private int windSpeed;
 		private DateTime localTime;
+
+		private int stateId;
         #endregion
 
         #region ConstructorsAndDestructor
@@ -60,7 +62,7 @@ namespace SharedModels
 		/// <param name="windDirection"></param>
 		/// <param name="windSpeed"></param>
 		/// <param name="localTime"></param>
-		public StateWeatherModel(float airTemperature, string cloudCover, int devpointTemperature, int gustValue, int horizontalVisibility, int humiditiy, string presentWeather, string recentWeather, float reducedPressure, float stationPressure, string windDirection, int windSpeed, DateTime localTime)
+		public StateWeatherModel(float airTemperature, string cloudCover, int devpointTemperature, int gustValue, int horizontalVisibility, int humiditiy, string presentWeather, string recentWeather, float reducedPressure, float stationPressure, string windDirection, int windSpeed, DateTime localTime, int stateId)
 		{
 			this.airTemperature = airTemperature;
 			this.cloudCover = cloudCover;
@@ -75,6 +77,8 @@ namespace SharedModels
 			this.windDirection = windDirection;
 			this.windSpeed = windSpeed;
 			this.localTime = localTime;
+			this.stateId = stateId;
+
 		}
         #endregion
 
@@ -225,6 +229,17 @@ namespace SharedModels
 
 		public DateTime LocalTime { get => localTime; set => localTime = value; }
 
+		public int StateId
+		{
+			get
+			{
+				return stateId;
+			}
+			set
+			{
+				stateId = value;
+			}
+		}
 
 		#endregion
 

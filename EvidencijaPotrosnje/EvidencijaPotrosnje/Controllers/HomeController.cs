@@ -25,5 +25,17 @@ namespace EvidencijaPotrosnje.Controllers
 
             return View(CurrentData.Data);
         }
+
+        public ActionResult Import(string weatherFile, string stateName, DateTime startDate, DateTime endDate)
+        {
+
+            ImportParameters parameters = new ImportParameters(HostingEnvironment.MapPath($"~/App_Data/WeatherData/Weather-{weatherFile}.csv"), HostingEnvironment.MapPath("~/App_Data/ConsumptionData/Consumption.csv"), stateName, startDate, endDate);
+
+            ImportData.Load(parameters);
+
+
+
+            return View(CurrentData.Data);
+        }
     }
 }

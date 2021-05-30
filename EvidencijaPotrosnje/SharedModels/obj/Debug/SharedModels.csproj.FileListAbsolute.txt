@@ -10,3 +10,9 @@ C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.csproj.CoreCompileInputs.cache
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.dll
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.pdb
+D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\bin\Debug\SharedModels.dll
+D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\bin\Debug\SharedModels.pdb
+D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.csprojAssemblyReference.cache
+D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.csproj.CoreCompileInputs.cache
+D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.dll
+D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\SharedModels\obj\Debug\SharedModels.pdb

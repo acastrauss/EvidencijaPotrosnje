@@ -23,14 +23,14 @@ namespace DatabaseAccess
                 .Property(e => e.stateName)
                 .IsFixedLength();
 
+            modelBuilder.Entity<State>()
+                .HasMany(e => e.StateConsumptions)
+                .WithOptional(e => e.State)
+                .WillCascadeOnDelete();
+
             modelBuilder.Entity<StateConsumption>()
                 .Property(e => e.stateCode)
                 .IsFixedLength();
-
-            modelBuilder.Entity<StateConsumption>()
-                .HasMany(e => e.States)
-                .WithRequired(e => e.StateConsumption)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<StateWeather>()
                 .Property(e => e.cloudCover)
@@ -47,11 +47,6 @@ namespace DatabaseAccess
             modelBuilder.Entity<StateWeather>()
                 .Property(e => e.windDirection)
                 .IsFixedLength();
-
-            modelBuilder.Entity<StateWeather>()
-                .HasMany(e => e.States)
-                .WithRequired(e => e.StateWeather)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<shortStateName>()
                 .Property(e => e.fullName)

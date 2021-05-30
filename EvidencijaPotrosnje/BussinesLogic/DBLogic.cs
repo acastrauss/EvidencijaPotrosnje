@@ -140,6 +140,18 @@ namespace BussinesLogic
             return ret_val;
         }
 
+        public static void AddStateConsumption(StateConsumptionModel stateConsumption)
+        {
+            try
+            {
+                (new DBAccess()).AddStateConsumption(stateConsumption);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
         public static StateConsumptionModel GetStateConsumptionByName(string name) 
         {
             StateConsumptionModel ret_val = StateConsumptionModel.NotValid();
@@ -156,7 +168,32 @@ namespace BussinesLogic
 
             return ret_val;
         }
-    
+
+        public static void AddStateWeather(StateWeatherModel stateWeather)
+        {
+            try
+            {
+                (new DBAccess()).AddStateWeather(stateWeather);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public static void RemoveAllStateWeatherModels()
+        {
+            try
+            {
+                (new DBAccess()).RemoveAllStateWeatherModels();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
         public static StateWeatherModel GetWeatherModelByName(string name) 
         {
             StateWeatherModel retVal = StateWeatherModel.NotValid();

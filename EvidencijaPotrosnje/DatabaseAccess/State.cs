@@ -9,19 +9,23 @@ namespace DatabaseAccess
     [Table("State")]
     public partial class State
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public State()
+        {
+            StateConsumptions = new HashSet<StateConsumption>();
+            StateWeathers = new HashSet<StateWeather>();
+        }
+
         [Required]
         [StringLength(10)]
         public string stateName { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int stateID { get; set; }
 
-        public int stateConsumptionID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StateConsumption> StateConsumptions { get; set; }
 
-        public int stateWeatherID { get; set; }
-
-        public virtual StateConsumption StateConsumption { get; set; }
-
-        public virtual StateWeather StateWeather { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StateWeather> StateWeathers { get; set; }
     }
 }

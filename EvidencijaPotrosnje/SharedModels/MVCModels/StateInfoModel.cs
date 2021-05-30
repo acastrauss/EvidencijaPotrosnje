@@ -10,20 +10,24 @@ namespace SharedModels
 	{
 
         #region Fields
-        private StateWeatherModel stateWeather;
-		private StateConsumptionModel stateConsumption;
+        private List<StateWeatherModel> stateWeathers;
+		private List<StateConsumptionModel> stateConsumptions;
 		private String stateName;
         #endregion
 
         #region Properties
-        public StateWeatherModel StateWeather { get => stateWeather; set => stateWeather = value; }
-		public StateConsumptionModel StateConsumption { get => stateConsumption; set => stateConsumption = value; }
+        public List<StateWeatherModel> StateWeathers { get => stateWeathers; set => stateWeathers = value; }
+		public List<StateConsumptionModel> StateConsumption { get => stateConsumptions; set => stateConsumptions = value; }
 		public String StateName { get => stateName; set => stateName = value; }
         #endregion
 
         #region ConstructorsAndDestructor
         
-		public StateInfoModel() { }
+		public StateInfoModel() 
+		{
+			stateWeathers = new List<StateWeatherModel>();
+			stateConsumptions = new List<StateConsumptionModel>();
+		}
 
 		/// <summary>
 		/// StateInfoModel is not be valid
@@ -32,8 +36,6 @@ namespace SharedModels
 		{
 			return new StateInfoModel()
 			{
-				stateWeather = null,
-				stateConsumption = null,
 				stateName = String.Empty
 			};
 		}
@@ -43,11 +45,11 @@ namespace SharedModels
 		/// 
 		/// <param name="stateWeather"></param>
 		/// <param name="stateConsumption"></param>
-		public StateInfoModel(StateWeatherModel stateWeather, StateConsumptionModel stateConsumption, string stateName)
+		public StateInfoModel(string stateName)
 		{
-			this.stateWeather = stateWeather;
-			this.stateConsumption = stateConsumption;
 			this.stateName = stateName;
+			this.stateConsumptions = new List<StateConsumptionModel>();
+			this.stateWeathers = new List<StateWeatherModel>();
 		}
         #endregion
 		
@@ -59,12 +61,7 @@ namespace SharedModels
 		/// <returns></returns>
 		public bool IsValid()
         {
-            if (stateWeather == null || stateConsumption == null)
-                return false;
-
-            return (stateWeather.IsValid() ||
-                stateConsumption.IsValid())
-                && !String.IsNullOrEmpty(stateName);
+            return !String.IsNullOrEmpty(stateName);
         }
 
         public override string ToString()
@@ -77,7 +74,6 @@ namespace SharedModels
 			var temp = (StateInfoModel)obj;
 
 			return
-				this.StateConsumption.Equals(temp.StateConsumption) &&
 				this.StateName.Equals(temp.StateName) &&
 				this.StateWeather.Equals(temp.StateWeather)
 				;

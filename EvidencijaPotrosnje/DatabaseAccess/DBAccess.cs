@@ -13,34 +13,8 @@ namespace DatabaseAccess
 {
     public class DBAccess : IDBAccess
     {
-        private static int stateID = 0;
-        private static int stateConsumptionID = 0;
-        private static int stateWeatherID = 0;
 
         public DBAccess() { }
-
-        private static void SetIDs(StatesDB db) 
-        {
-            var queryStateIDs = db.States.OrderBy(x => x.stateID);
-            var queryStateWIDs = db.States.OrderBy(x => x.stateWeatherID);
-            var queryStateCIDs = db.States.OrderBy(x => x.stateConsumptionID);
-
-            if (queryStateIDs.Count() == 0)
-                stateID = 0;
-            else
-                stateID = queryStateIDs.Max().stateID + 1;
-
-            if (queryStateWIDs.Count() == 0)
-                stateWeatherID = 0;
-            else
-                stateWeatherID = queryStateWIDs.Max().stateWeatherID + 1;
-
-            if (queryStateCIDs.Count() == 0)
-                stateConsumptionID = 0;
-            else 
-                stateConsumptionID = queryStateCIDs.Max().stateConsumptionID + 1;
-            
-        }
 
         /// <summary>
         /// Using methods as static, but they can't be static, because they need to implement interface
@@ -60,24 +34,48 @@ namespace DatabaseAccess
                 // if stateInfo doesn't exist
                 if(!IfStateExistByName(model.StateName, db)) 
                 {
-                    // so ID's would be set everytime
-                    DBAccess.SetIDs(db);
 
                     var newState = DBAccess.ConvertStateDBNew(model);
 
-                    db.StateConsumptions.Add(newState.StateConsumption);
-                    db.StateWeathers.Add(newState.StateWeather);
                     db.States.Add(newState);
                 }
                 else
                 {
-                    // set to existing id
-                    var existingState = GetDBStateByName(model.StateName, db);
-                    existingState = ConvertStateDBExisting(model, existingState.stateID, existingState.stateConsumptionID, existingState.stateWeatherID);
-                    this.UpdateState(existingState, db);
+                    //set to existing id
+                    //var existingState = GetDBStateByName(model.StateName, db);
+                    //existingState = ConvertStateDBExisting(model, existingState.stateID, existingState.stateConsumptionID, existingState.stateWeatherID);
+                    //this.UpdateState(existingState, db);
                 }
 
                 db.SaveChanges();
+            }
+        }
+
+        public void AddStateWeather(StateWeatherModel model)
+        {
+            using (var db = new StatesDB())
+            {
+
+                var newStateWeather = DBAccess.ConvertStateWeatherDBNew(model);
+
+                db.StateWeathers.Add(newStateWeather);
+                
+                db.SaveChanges();
+            }
+        }
+
+        public void RemoveAllStateWeatherModels()
+        {
+            using (var db = new StatesDB())
+            {
+                // if there is nothing in tables, do nothing
+                if (db.StateWeathers.Count() != 0)
+                {
+                    var currWeather = db.StateWeathers;
+                    db.StateWeathers.RemoveRange(currWeather);
+
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -96,34 +94,18 @@ namespace DatabaseAccess
             var query = db.States.Where(s => s.stateID == state.stateID);
             State fs = query.FirstOrDefault();
 
-            var tempConsumption = fs.StateConsumption;
-            var tempWeather = fs.StateWeather;
-
             db.States.Remove(fs);
-            db.StateConsumptions.Remove(tempConsumption);
-            db.StateWeathers.Remove(tempWeather);
-
-            db.StateConsumptions.Add(state.StateConsumption);
-            db.StateWeathers.Add(state.StateWeather);
             db.States.Add(state);
         }
 
         public void RemoveState(StateInfoModel model) 
         {
-            // no need for setting ID's since here they are not used
-            // DBAccess.SetIDs();
 
             using (var db = new StatesDB())
             {
                 var currState = DBAccess.ConvertStateDBNew(model);
 
-                // if there is no given state throw exception
-                if (!db.States.Contains(currState) || !db.StateConsumptions.Contains(currState.StateConsumption) || !db.StateWeathers.Contains(currState.StateWeather))
-                    throw new Exception("Given StateInfo (or some of it's parts) doesn't exists.");
-
                 db.States.Remove(currState);
-                db.StateConsumptions.Remove(currState.StateConsumption);
-                db.StateWeathers.Remove(currState.StateWeather);
 
                 db.SaveChanges();
             }
@@ -133,20 +115,17 @@ namespace DatabaseAccess
         {
             using (var db = new StatesDB())
             {
-                // if there is nothing in tables, do nothing
-                if(db.States.Count() != 0 && db.StateWeathers.Count() != 0 && db.StateConsumptions.Count() != 0)
-                {
-                    var currStates = db.States;
-                    db.States.RemoveRange(currStates);
+               
+                //var currStates = db.States;
+                //db.States.RemoveRange(currStates);
 
-                    var currCons = db.StateConsumptions;
-                    db.StateConsumptions.RemoveRange(currCons);
+                var currCons = db.StateConsumptions;
+                db.StateConsumptions.RemoveRange(currCons);
 
-                    var currWeather = db.StateWeathers;
-                    db.StateWeathers.RemoveRange(currWeather);
+                var currWeather = db.StateWeathers;
+                db.StateWeathers.RemoveRange(currWeather);
 
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
         }
 
@@ -168,19 +147,31 @@ namespace DatabaseAccess
             return ret_val;
         }
 
+        public void AddStateConsumption(StateConsumptionModel model)
+        {
+            using (var db = new StatesDB())
+            {
+
+                var newStateConsumption = DBAccess.ConvertStateConsumptionDBNew(model);
+
+                db.StateConsumptions.Add(newStateConsumption);
+
+                db.SaveChanges();
+            }
+        }
         public StateConsumptionModel GetStateConsumptionByStateName(string name) 
         {
             StateConsumptionModel retVal = null;
 
-            using (var db = new StatesDB())
-            {
-                var state = db.States.Where(x => x.stateName == name);
+            //using (var db = new StatesDB())
+            //{
+            //    var state = db.States.Where(x => x.stateName == name);
 
-                if (state.Count() == 0)
-                    throw new Exception("There is no state weather data with that name.");
+            //    if (state.Count() == 0)
+            //        throw new Exception("There is no state weather data with that name.");
 
-                retVal = DBAccess.ConvertStateConsumptionModel(state.First().StateConsumption);
-            }
+            //    retVal = DBAccess.ConvertStateConsumptionModel(state.First().StateConsumption);
+            //}
 
             return retVal;
         }
@@ -189,15 +180,15 @@ namespace DatabaseAccess
         {
             StateWeatherModel retVal = null;
 
-            using (var db = new StatesDB())
-            {
-                var state = db.States.Where(x => x.stateName == name);
+            //using (var db = new StatesDB())
+            //{
+            //    var state = db.States.Where(x => x.stateName == name);
 
-                if (state.Count() == 0)
-                    throw new Exception("There is no state weather data with that name.");
+            //    if (state.Count() == 0)
+            //        throw new Exception("There is no state weather data with that name.");
 
-                retVal = DBAccess.ConvertStateWeatherModel(state.First().StateWeather);
-            }
+            //    retVal = DBAccess.ConvertStateWeatherModel(state.First().StateWeather);
+            //}
 
             return retVal;
         }
@@ -222,17 +213,9 @@ namespace DatabaseAccess
         #region ConvertingToDatabaseModel
         private static State ConvertStateDBNew(StateInfoModel model) 
         {
-            var sc = DBAccess.ConvertStateConsumptionDBNew(model.StateConsumption);
-            var sw = DBAccess.ConvertStateWeatherDBNew(model.StateWeather);
-
             return new State()
             {
                 stateName = model.StateName,
-                stateID = DBAccess.stateID++,
-                StateConsumption = sc,
-                StateWeather = sw,
-                stateConsumptionID = sc.stateConsumptionID,
-                stateWeatherID = sw.stateWeatherID
             };
         }
 
@@ -253,7 +236,7 @@ namespace DatabaseAccess
                 windDirection = model.WindDirection,
                 windSpeed = model.WindSpeed,
                 localTime = model.LocalTime,
-                stateWeatherID = DBAccess.stateWeatherID++
+                //stateWeatherID = DBAccess.stateWeatherID++
             };
         }
 
@@ -270,23 +253,18 @@ namespace DatabaseAccess
                     stateCode = stateConsumptionModel.StateCode,
                     value = stateConsumptionModel.Value,
                     valueScale = stateConsumptionModel.ValueScale,
-                    stateConsumptionID = DBAccess.stateConsumptionID++
+                    stateID = stateConsumptionModel.StateId,
+                    //stateConsumptionID = DBAccess.stateConsumptionID++
                 };
         }
         
-        private static State ConvertStateDBExisting(StateInfoModel model, int stateID, int consumptionID, int weatherID)
+        private static State ConvertStateDBExisting(StateInfoModel model, int stateID)
         {
-            var sc = DBAccess.ConvertStateConsumptionDBExisting(model.StateConsumption, consumptionID);
-            var sw = DBAccess.ConvertStateWeatherDBExisting(model.StateWeather, weatherID);
 
             return new State()
             {
                 stateName = model.StateName,
                 stateID = stateID,
-                StateConsumption = sc,
-                StateWeather = sw,
-                stateConsumptionID = sc.stateConsumptionID,
-                stateWeatherID = sw.stateWeatherID
             };
         }
 
@@ -335,8 +313,6 @@ namespace DatabaseAccess
         {
             return new StateInfoModel()
             {
-                StateWeather = DBAccess.ConvertStateWeatherModel(dbModel.StateWeather),
-                StateConsumption = DBAccess.ConvertStateConsumptionModel(dbModel.StateConsumption),
                 StateName = dbModel.stateName
             };
         }

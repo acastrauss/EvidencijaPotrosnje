@@ -18,7 +18,7 @@ namespace BussinesLogic
         private static void LoadWeather(string wf)
         {
             using (TextFieldParser csvParser = new TextFieldParser(wf))
-            {             
+            {
                 //csvParser.CommentTokens = new string[] { "#" };
                 csvParser.SetDelimiters(new string[] { "," });
                 csvParser.HasFieldsEnclosedInQuotes = true;
@@ -58,19 +58,8 @@ namespace BussinesLogic
                     int devTemp;
                     swm.DevpointTemperature = int.TryParse(fields[12], out devTemp) ? devTemp : 0;
 
-                    DataKeys keys = new DataKeys()
-                    {
-                        Name = DBLogic.GetShortStateName(state),
-                        EndDate = swm.LocalTime,
-                        StartDate = DateTime.MinValue
-                    };
 
-                    // if there is no data for that country at that time create new data for country
-                    if(!CurrentData.Data.ContainsKey(keys)) 
-                    {
-                        CurrentData.Data.Add(keys, new StateInfoModel());
-                    }
-                    CurrentData.Data[keys].StateWeather = swm;
+                    DBLogic.AddStateWeather(swm);
 
                 }
             }
@@ -93,11 +82,11 @@ namespace BussinesLogic
                 // make more efficient method for reading (binary search)
                 while (!csvParser.EndOfData)
                 {
+                    csvParser.ReadToEnd();
                     // Read current line fields, pointer moves to the next line.
                     StateConsumptionModel scm = new StateConsumptionModel();
                     string[] fields = csvParser.ReadFields();
-                    
-                    scm.DateUTC = new DateTime();
+                    scm.DateUTC = DateTime.UtcNow;
                     scm.DateShort = DateTime.ParseExact(fields[2], "M/d/yyyy", null);
 
                     // the next 2 is just hours
@@ -112,34 +101,19 @@ namespace BussinesLogic
                     double valueScale;
                     scm.ValueScale = double.TryParse(fields[8], out valueScale) ? valueScale : 0;
 
-                    // if it is the right country and date
-                    if (scm.StateCode == DBLogic.GetShortStateName(stateName) && startDate < scm.DateShort && endDate > scm.DateShort) 
-                    {
-                        DataKeys keys = new DataKeys()
-                        {
-                            Name = scm.StateCode,
-                            StartDate = scm.DateFrom,
-                            EndDate = scm.DateTo
-                        };
-
-                        if(!CurrentData.Data.ContainsKey(keys)) 
-                        {
-                            CurrentData.Data.Add(keys, new StateInfoModel());
-                        }
-                        CurrentData.Data[keys].StateConsumption = scm;
-                    }
+                    DBLogic.AddStateConsumption(scm);
                 }
             }
         }
         
         public static void Load(ImportParameters parameters) 
         {
-            bool dataLoaded = false;
+
+            DBLogic.RemoveAllStates();
 
             if(!String.IsNullOrEmpty(parameters.WeatherFile)) 
             {
                 ImportData.LoadWeather(parameters.WeatherFile);
-                dataLoaded = true;
             }
 
             if(
@@ -148,12 +122,6 @@ namespace BussinesLogic
                 )
             {
                 ImportData.LoadConsumption(parameters.ConsumptionFile, parameters.StateName, (DateTime)parameters.StartDate, (DateTime)parameters.EndDate);
-                dataLoaded = true;
-            }
-
-            if(dataLoaded) 
-            {
-                DBLogic.AddOrUpdateMoreStates(CurrentData.Data.Values);
             }
         }   
     }

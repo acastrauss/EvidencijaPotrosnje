@@ -9,12 +9,6 @@ namespace DatabaseAccess
     [Table("StateWeather")]
     public partial class StateWeather
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public StateWeather()
-        {
-            States = new HashSet<State>();
-        }
-
         public double? airTemperature { get; set; }
 
         [StringLength(50)]
@@ -43,12 +37,12 @@ namespace DatabaseAccess
 
         public int? windSpeed { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int stateWeatherID { get; set; }
 
         public DateTime? localTime { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<State> States { get; set; }
+        public int? stateID { get; set; }
+
+        public virtual State State { get; set; }
     }
 }

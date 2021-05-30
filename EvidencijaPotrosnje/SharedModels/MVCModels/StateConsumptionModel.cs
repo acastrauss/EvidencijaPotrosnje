@@ -18,6 +18,8 @@ namespace SharedModels
 		private string stateCode;
 		private double value;
 		private double valueScale;
+
+		private int stateId;
         #endregion
 
         #region ConstructorsAndDestructor
@@ -50,7 +52,7 @@ namespace SharedModels
 		/// <param name="stateCode"></param>
 		/// <param name="value"></param>
 		/// <param name="valueScale"></param>
-		public StateConsumptionModel(int covRatio, DateTime dateFrom, DateTime dateShort, DateTime dateTo, DateTime dateUTC, string stateCode, double value, double valueScale)
+		public StateConsumptionModel(int covRatio, DateTime dateFrom, DateTime dateShort, DateTime dateTo, DateTime dateUTC, string stateCode, double value, double valueScale, int stateId)
 		{
 			this.covRatio = covRatio;
 			this.dateFrom = dateFrom;
@@ -60,6 +62,7 @@ namespace SharedModels
 			this.stateCode = stateCode;
 			this.value = value;
 			this.valueScale = valueScale;
+			this.stateId = stateId;
 		}
         #endregion
 
@@ -159,13 +162,25 @@ namespace SharedModels
 				valueScale = value;
 			}
 		}
+
+		public int StateId
+		{
+			get
+			{
+				return stateId;
+			}
+			set
+			{
+				stateId = value;
+			}
+		}
 		#endregion
 
 		#region PseudoMethods
 		/// <summary>
 		/// StateConsumptionModel is valid if:
 		/// dateUTC != null && dateUTC <= DateTime.Now (cannot have value from future)
- 		/// value != null
+		/// value != null
 		/// </summary>
 		/// <returns></returns>
 		public bool IsValid()

@@ -9,12 +9,6 @@ namespace DatabaseAccess
     [Table("StateConsumption")]
     public partial class StateConsumption
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public StateConsumption()
-        {
-            States = new HashSet<State>();
-        }
-
         public int? covRation { get; set; }
 
         public DateTime? dateFrom { get; set; }
@@ -32,10 +26,10 @@ namespace DatabaseAccess
 
         public double? valueScale { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int stateConsumptionID { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<State> States { get; set; }
+        public int? stateID { get; set; }
+
+        public virtual State State { get; set; }
     }
 }
