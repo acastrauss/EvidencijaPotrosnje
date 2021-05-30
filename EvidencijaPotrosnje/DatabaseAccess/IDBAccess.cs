@@ -9,8 +9,11 @@ namespace DatabaseAccess
 {
     public interface IDBAccess
     {
-        void AddState(StateInfoModel model);
-        bool IfStateExistByName(string name, StatesDB db);
+        bool IfStateExistByName(string name);
+        void AddStates(IEnumerable<StateInfoModel> models);
+        void AddStateWeathers(IEnumerable<StateWeatherModel> models);
+        void AddStateConsumption(IEnumerable<StateConsumptionModel> models);
+
         /// <summary>
         /// Only removes data (consumption and weather) for given state
         /// </summary>
@@ -36,8 +39,8 @@ namespace DatabaseAccess
         IEnumerable<StateWeatherModel> GetStateWeatherByStateName(String name);
         IEnumerable<StateInfoModel> GetAllStates();
         StateInfoModel GetStateByDate(DateTime startDate, DateTime endDate, String stateName);
-        IEnumerable<StateConsumption> GetStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName);
-        IEnumerable<StateWeather> GetStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName);
+        IEnumerable<StateConsumptionModel> GetStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName);
+        IEnumerable<StateWeatherModel> GetStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName);
         String GetShortStateName(String fullStateName);
         String GetFullStateName(String shortStateName);
     }

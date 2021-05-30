@@ -15,192 +15,15 @@ namespace BussinesLogic
     /// </summary>
     public class DBLogic
     {
-        public static void AddOrUpdateMoreStates(IEnumerable<StateInfoModel> states) 
+        private static IDBAccess dBAccess = new DBAccess();
+
+        public static bool IfStateExists(String stateName)
         {
-            foreach (var state in states)
-            {
-                try
-                {
-                    (new DBAccess()).AddState(state);
-                }
-                catch (Exception e)
-                {
-                    continue;
-                }
-            }
-        }
-
-        public static void AddOrUpdateState(StateInfoModel state)
-        {
-            try
-            {
-                (new DBAccess()).AddState(state);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-    
-        public static void RemoveState(StateInfoModel state) 
-        {
-            try
-            {
-                (new DBAccess()).RemoveState(state);   
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
-        public static void RemoveStateByName(string name) 
-        {
-            try
-            {
-                var dbaccess = new DBAccess();
-                var state = dbaccess.GetStateByName(name);
-                dbaccess.RemoveState(state);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
-        public static void RemoveMoreStates(IEnumerable<StateInfoModel> states) 
-        {
-            foreach (var state in states)
-            {
-                try
-                {
-                    (new DBAccess()).RemoveState(state);
-                }
-                catch (Exception e)
-                {
-
-                    //throw;
-                    continue;
-                }
-            }
-        }
-
-        public static void RemoveMoreStatesByName(IEnumerable<String> names)
-        {
-            foreach (var name in names)
-            {
-                try
-                {
-                    var dbaccess = new DBAccess();
-                    var state = dbaccess.GetStateByName(name);
-                    dbaccess.RemoveState(state);
-                }
-                catch (Exception e)
-                {
-
-                    //throw;
-                    continue;
-                }
-            }
-        }
-
-        public static void RemoveAllStates() 
-        {
-            try
-            {
-                (new DBAccess()).RemoveAllStates();
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-        }
-
-        public IEnumerable<StateInfoModel> GetAllStates() 
-        {
-            // no need for try catch since there is no exception
-            return (new DBAccess()).GetAllStates();
-        }
-
-        public static StateInfoModel GetStateByName(string name) 
-        {
-            StateInfoModel ret_val = StateInfoModel.NotValid();
+            bool retVal = false;
 
             try
             {
-                ret_val = (new DBAccess()).GetStateByName(name);
-            }
-            catch (Exception e)
-            {
-                
-                throw;
-            }
-
-            return ret_val;
-        }
-
-        public static void AddStateConsumption(StateConsumptionModel stateConsumption)
-        {
-            try
-            {
-                (new DBAccess()).AddStateConsumption(stateConsumption);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
-        public static StateConsumptionModel GetStateConsumptionByName(string name) 
-        {
-            StateConsumptionModel ret_val = StateConsumptionModel.NotValid();
-
-            try
-            {
-                ret_val = (new DBAccess()).GetStateConsumptionByStateName(name);
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
-            return ret_val;
-        }
-
-        public static void AddStateWeather(StateWeatherModel stateWeather)
-        {
-            try
-            {
-                (new DBAccess()).AddStateWeather(stateWeather);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
-        public static void RemoveAllStateWeatherModels()
-        {
-            try
-            {
-                (new DBAccess()).RemoveAllStateWeatherModels();
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-        }
-
-        public static StateWeatherModel GetWeatherModelByName(string name) 
-        {
-            StateWeatherModel retVal = StateWeatherModel.NotValid();
-
-            try
-            {
-                retVal = (new DBAccess()).GetStateWeatherByStateName(name);
+                retVal = dBAccess.IfStateExistByName(stateName);
             }
             catch (Exception e)
             {
@@ -210,30 +33,281 @@ namespace BussinesLogic
 
             return retVal;
         }
-    
-        // remove after all have db updated
-        public static void AddShortStateNames() 
-        {
-            var cd = new CountriesDictionary();
 
+        public static void AddMoreStates(IEnumerable<StateInfoModel> states) 
+        {
+            foreach (var state in states)
+            {
+                try
+                {
+                    dBAccess.AddStates(states);
+                }
+                catch (Exception e)
+                {
+                    continue;
+                }
+            }
+        }
+
+        public static void AddState(StateInfoModel state)
+        {
             try
             {
-                DBAccess.AddShortStateNames(cd.CountriesShort);
+                dBAccess.AddStates(new List<StateInfoModel>() { state});
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                var erors = e.EntityValidationErrors;
+                throw;
+            }
+        }
 
-                foreach (var err in erors)
-                {
-                    var ent = err.Entry;
-                    var errorrr = err.ValidationErrors;
-                }
+        public static void AddStateConsumptions(IEnumerable<StateConsumptionModel> stateConsumption)
+        {
+            try
+            {
+                dBAccess.AddStateConsumption(stateConsumption);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public static void AddStateWeather(IEnumerable<StateWeatherModel> stateWeathers)
+        {
+            try
+            {
+                dBAccess.AddStateWeathers(stateWeathers);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public static void RemoveState(String stateName) 
+        {
+            try
+            {
+                dBAccess.RemoveState(stateName);   
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public static void RemoveStateTotally(String stateNames) 
+        {
+            try
+            {
+                dBAccess.RemoveStateTotally(stateNames);
+            }
+            catch (Exception e)
+            {
 
                 throw;
             }
         }
-    
+
+        public static void RemoveAllStates() 
+        {
+            try
+            {
+                dBAccess.RemoveAllStates();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+        public static void RemoveAllStatesTotally()
+        {
+            try
+            {
+                dBAccess.RemoveAllStatesTotally();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+        public static void RemoveStateWeathers(String stateName)
+        {
+            try
+            {
+                dBAccess.RemoveStateWeathers(stateName);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+        public static void RemoveStateConsumptions(String stateName)
+        {
+            try
+            {
+                dBAccess.RemoveStateConsumption(stateName);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+        public static void RemoveStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            try
+            {
+                dBAccess.RemoveStateWeathersByDate(startDate, endDate, stateName);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+        public static void RemoveStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            try
+            {
+                dBAccess.RemoveStateConsumptionsByDate(startDate, endDate, stateName);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+        public static void RemoveStateByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            try
+            {
+                dBAccess.RemoveStateByDate(startDate, endDate, stateName);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+        public static IEnumerable<StateInfoModel> GetAllStates() 
+        {
+            // no need for try catch since there is no exception
+            return dBAccess.GetAllStates();
+        }
+
+        public static StateInfoModel GetStateByName(string name) 
+        {
+            StateInfoModel retVal = StateInfoModel.NotValid();
+
+            try
+            {
+                retVal = dBAccess.GetStateByName(name);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+            return retVal;
+        }
+
+        public static IEnumerable<StateConsumptionModel> GetStateConsumptionByName(string stateName) 
+        {
+            List<StateConsumptionModel> retVal = new List<StateConsumptionModel>();
+
+            try
+            {
+                retVal = dBAccess.GetStateConsumptionByStateName(stateName).ToList();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return retVal;
+        }
+
+        public IEnumerable<StateWeatherModel> GetStateWeatherByStateName(String name)
+        {
+            List<StateWeatherModel> retVal = new List<StateWeatherModel>();
+
+            try
+            {
+                dBAccess.GetStateWeatherByStateName(name);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return retVal;
+        }
+
+        public StateInfoModel GetStateByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            StateInfoModel retVal = new StateInfoModel();
+
+            try
+            {
+                dBAccess.GetStateByDate(startDate, endDate, stateName);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return retVal;
+        }
+        
+        public IEnumerable<StateConsumptionModel> GetStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            List<StateConsumptionModel> retVal = new List<StateConsumptionModel>();
+
+            try
+            {
+                retVal = dBAccess.GetStateConsumptionsByDate(startDate, endDate, stateName).ToList();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return retVal;
+        }
+        
+        public IEnumerable<StateWeatherModel> GetStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            List<StateWeatherModel> retVal = new List<StateWeatherModel>();
+
+            try
+            {
+                retVal = dBAccess.GetStateWeathersByDate(startDate, endDate, stateName).ToList();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return retVal;
+        }
+
         public static String GetFullStateName(String shortStateName) 
         {
             String retVal = String.Empty;
