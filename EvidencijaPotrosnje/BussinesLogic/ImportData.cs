@@ -15,7 +15,7 @@ namespace BussinesLogic
     public class ImportData
     {
 
-        private static void LoadWeather(string wf)
+        private static void LoadWeather(string wf, StateInfoModel state)
         {
             using (TextFieldParser csvParser = new TextFieldParser(wf))
             {
@@ -23,9 +23,9 @@ namespace BussinesLogic
                 csvParser.SetDelimiters(new string[] { "," });
                 csvParser.HasFieldsEnclosedInQuotes = true;
 
-                string state = csvParser.ReadLine();
-                string[] states = state.Split(',');
-                state = states[1].Substring(1);
+                string stateInformation = csvParser.ReadLine();
+                string[] states = stateInformation.Split(',');
+                stateInformation = states[1].Substring(1);
 
 
                 //csvParser.ReadLine();
@@ -57,7 +57,7 @@ namespace BussinesLogic
                     swm.HorizontalVisibility = int.TryParse(fields[11],out horizontalVisibility) ? horizontalVisibility : 0;
                     int devTemp;
                     swm.DevpointTemperature = int.TryParse(fields[12], out devTemp) ? devTemp : 0;
-
+                    swm.StateId = state.StateId;
 
                     DBLogic.AddStateWeather(swm);
 
@@ -66,7 +66,7 @@ namespace BussinesLogic
 
         }
 
-        private static void LoadConsumption(string cf, string stateName, DateTime startDate, DateTime endDate)
+        private static void LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate)
         {
             using (TextFieldParser csvParser = new TextFieldParser(cf))
             {
@@ -82,7 +82,6 @@ namespace BussinesLogic
                 // make more efficient method for reading (binary search)
                 while (!csvParser.EndOfData)
                 {
-                    csvParser.ReadToEnd();
                     // Read current line fields, pointer moves to the next line.
                     StateConsumptionModel scm = new StateConsumptionModel();
                     string[] fields = csvParser.ReadFields();
@@ -101,6 +100,7 @@ namespace BussinesLogic
                     double valueScale;
                     scm.ValueScale = double.TryParse(fields[8], out valueScale) ? valueScale : 0;
 
+                    scm.StateId = state.StateId;
                     DBLogic.AddStateConsumption(scm);
                 }
             }
@@ -111,9 +111,11 @@ namespace BussinesLogic
 
             DBLogic.RemoveAllStates();
 
+            StateInfoModel state = DBLogic.GetStateByName(parameters.StateName);
+
             if(!String.IsNullOrEmpty(parameters.WeatherFile)) 
             {
-                ImportData.LoadWeather(parameters.WeatherFile);
+                ImportData.LoadWeather(parameters.WeatherFile, state);
             }
 
             if(
@@ -121,7 +123,7 @@ namespace BussinesLogic
                 parameters.StartDate != null && parameters.EndDate != null
                 )
             {
-                ImportData.LoadConsumption(parameters.ConsumptionFile, parameters.StateName, (DateTime)parameters.StartDate, (DateTime)parameters.EndDate);
+                ImportData.LoadConsumption(parameters.ConsumptionFile, state, (DateTime)parameters.StartDate, (DateTime)parameters.EndDate);
             }
         }   
     }

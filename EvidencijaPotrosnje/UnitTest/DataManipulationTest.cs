@@ -21,11 +21,11 @@ namespace UnitTest
             DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
             DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
 
-            StateInfoModel stateInfoModel1 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
+            StateInfoModel stateInfoModel1 = new StateInfoModel( "Srbija");
+            StateInfoModel stateInfoModel2 = new StateInfoModel( "Portugal");
+            StateInfoModel stateInfoModel3 = new StateInfoModel( "Spanija");
+            StateInfoModel stateInfoModel4 = new StateInfoModel( "Francuska");
+            StateInfoModel stateInfoModel5 = new StateInfoModel( "Srbija");
 
             CurrentData.Data.Add(dataKeys1, stateInfoModel1);
             CurrentData.Data.Add(dataKeys2, stateInfoModel2);
@@ -67,11 +67,11 @@ namespace UnitTest
             DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
             DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
 
-            StateInfoModel stateInfoModel1 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
+            StateInfoModel stateInfoModel1 = new StateInfoModel("Srbija");
+            StateInfoModel stateInfoModel2 = new StateInfoModel("Portugal");
+            StateInfoModel stateInfoModel3 = new StateInfoModel("Spanija");
+            StateInfoModel stateInfoModel4 = new StateInfoModel("Francuska");
+            StateInfoModel stateInfoModel5 = new StateInfoModel("Srbija");
 
             CurrentData.Data.Add(dataKeys1, stateInfoModel1);
             CurrentData.Data.Add(dataKeys2, stateInfoModel2);
@@ -99,11 +99,11 @@ namespace UnitTest
             DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
             DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
 
-            StateInfoModel stateInfoModel1 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
+            StateInfoModel stateInfoModel1 = new StateInfoModel("Srbija");
+            StateInfoModel stateInfoModel2 = new StateInfoModel("Portugal");
+            StateInfoModel stateInfoModel3 = new StateInfoModel("Spanija");
+            StateInfoModel stateInfoModel4 = new StateInfoModel("Francuska");
+            StateInfoModel stateInfoModel5 = new StateInfoModel("Srbija");
 
             CurrentData.Data.Add(dataKeys1, stateInfoModel1);
             CurrentData.Data.Add(dataKeys2, stateInfoModel2);
@@ -131,11 +131,11 @@ namespace UnitTest
             DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2019, 4, 5), new DateTime(2020, 5, 6));
             DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2020, 5, 6));
 
-            StateInfoModel stateInfoModel1 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
+            StateInfoModel stateInfoModel1 = new StateInfoModel("Srbija");
+            StateInfoModel stateInfoModel2 = new StateInfoModel("Portugal");
+            StateInfoModel stateInfoModel3 = new StateInfoModel("Spanija");
+            StateInfoModel stateInfoModel4 = new StateInfoModel("Francuska");
+            StateInfoModel stateInfoModel5 = new StateInfoModel("Srbija");
 
             CurrentData.Data.Add(dataKeys1, stateInfoModel1);
             CurrentData.Data.Add(dataKeys2, stateInfoModel2);
@@ -164,11 +164,11 @@ namespace UnitTest
             DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2019, 4, 5), new DateTime(2020, 5, 6));
             DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2020, 5, 6));
 
-            StateInfoModel stateInfoModel1 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
+            StateInfoModel stateInfoModel1 = new StateInfoModel("Srbija");
+            StateInfoModel stateInfoModel2 = new StateInfoModel("Portugal");
+            StateInfoModel stateInfoModel3 = new StateInfoModel("Spanija");
+            StateInfoModel stateInfoModel4 = new StateInfoModel("Francuska");
+            StateInfoModel stateInfoModel5 = new StateInfoModel("Srbija");
 
             CurrentData.Data.Add(dataKeys1, stateInfoModel1);
             CurrentData.Data.Add(dataKeys2, stateInfoModel2);
@@ -207,11 +207,11 @@ namespace UnitTest
             DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2019, 4, 5), new DateTime(2020, 5, 6));
             DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2020, 5, 6));
 
-            StateInfoModel stateInfoModel1 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel(new StateWeatherModel(), new StateConsumptionModel(), "Srbija");
+            StateInfoModel stateInfoModel1 = new StateInfoModel("Srbija");
+            StateInfoModel stateInfoModel2 = new StateInfoModel("Portugal");
+            StateInfoModel stateInfoModel3 = new StateInfoModel("Spanija");
+            StateInfoModel stateInfoModel4 = new StateInfoModel("Francuska");
+            StateInfoModel stateInfoModel5 = new StateInfoModel("Srbija");
 
             CurrentData.Data.Add(dataKeys1, stateInfoModel1);
             CurrentData.Data.Add(dataKeys2, stateInfoModel2);

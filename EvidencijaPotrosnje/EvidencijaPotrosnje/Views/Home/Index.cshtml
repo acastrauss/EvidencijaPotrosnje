@@ -5,4 +5,19 @@
 
 <h1>Dobrodošli u aplikaciju Evidencija Potrošnje</h1>
 
-<input type="submit" formmethod="get" formaction="Import" />
+<form method="get" action="Home/Import">
+
+	<select name="stateWeather">
+		<option value="Srbija">Srbija</option>
+	</select>
+
+	<select name="stateName">
+		<option value="Srbija">Srbija</option>
+	</select>
+
+	<input type="date" name="startDate" />
+	<input type="date" name="endDate" />
+
+	<input type="submit" />
+
+</form>

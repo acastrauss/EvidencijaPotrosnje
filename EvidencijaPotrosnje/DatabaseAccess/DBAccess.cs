@@ -236,6 +236,7 @@ namespace DatabaseAccess
                 windDirection = model.WindDirection,
                 windSpeed = model.WindSpeed,
                 localTime = model.LocalTime,
+                stateID = model.StateId,
                 //stateWeatherID = DBAccess.stateWeatherID++
             };
         }
@@ -313,7 +314,9 @@ namespace DatabaseAccess
         {
             return new StateInfoModel()
             {
-                StateName = dbModel.stateName
+                StateName = dbModel.stateName,
+                StateId = dbModel.stateID,
+                
             };
         }
 

@@ -13,16 +13,18 @@ namespace SharedModels
         private List<StateWeatherModel> stateWeathers;
 		private List<StateConsumptionModel> stateConsumptions;
 		private String stateName;
+		private int stateId;
         #endregion
 
         #region Properties
         public List<StateWeatherModel> StateWeathers { get => stateWeathers; set => stateWeathers = value; }
 		public List<StateConsumptionModel> StateConsumption { get => stateConsumptions; set => stateConsumptions = value; }
 		public String StateName { get => stateName; set => stateName = value; }
-        #endregion
+		public int StateId { get => stateId; set => stateId = value; }
+		#endregion
 
-        #region ConstructorsAndDestructor
-        
+		#region ConstructorsAndDestructor
+
 		public StateInfoModel() 
 		{
 			stateWeathers = new List<StateWeatherModel>();
