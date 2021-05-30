@@ -21,7 +21,7 @@ namespace BussinesLogic
             {
                 try
                 {
-                    (new DBAccess()).AddOrUpdateState(state);
+                    (new DBAccess()).AddState(state);
                 }
                 catch (Exception e)
                 {
@@ -34,7 +34,7 @@ namespace BussinesLogic
         {
             try
             {
-                (new DBAccess()).AddOrUpdateState(state);
+                (new DBAccess()).AddState(state);
             }
             catch (Exception e)
             {
