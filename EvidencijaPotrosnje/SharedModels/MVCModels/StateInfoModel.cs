@@ -74,9 +74,7 @@ namespace SharedModels
 			var temp = (StateInfoModel)obj;
 
 			return
-				this.StateName.Equals(temp.StateName) &&
-				this.StateWeather.Equals(temp.StateWeather)
-				;
+				this.StateName.Equals(temp.StateName);
         }
 
         #endregion

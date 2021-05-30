@@ -28,18 +28,18 @@ namespace BussinesLogic
             {
                 foreach (var Country in Countries)
                 {
-                    string StateName = DBLogic.GetFullStateName(Country.StateConsumption.StateCode);
-                    string UCTTime = Country.StateConsumption.DateUTC.ToString();
-                    string Consumption = Country.StateConsumption.Value.ToString();
-                    string temperature = Country.StateWeather.AirTemperature.ToString();
-                    string pressure = Country.StateWeather.StationPressure.ToString();
-                    string humidity = Country.StateWeather.Humidity.ToString();
-                    string windSpeed = Country.StateWeather.WindSpeed.ToString();
+                    //string StateName = DBLogic.GetFullStateName(Country.StateConsumption.StateCode);
+                    //string UCTTime = Country.StateConsumption.DateUTC.ToString();
+                    //string Consumption = Country.StateConsumption.Value.ToString();
+                    //string temperature = Country.StateWeather.AirTemperature.ToString();
+                    //string pressure = Country.StateWeather.StationPressure.ToString();
+                    //string humidity = Country.StateWeather.Humidity.ToString();
+                    //string windSpeed = Country.StateWeather.WindSpeed.ToString();
 
 
-                    string csvRow = string.Format("{0},{1},{2},{3},{4},{5},{6}",StateName,UCTTime,Consumption,temperature,pressure,humidity,windSpeed);
+                    //string csvRow = string.Format("{0},{1},{2},{3},{4},{5},{6}",StateName,UCTTime,Consumption,temperature,pressure,humidity,windSpeed);
 
-                    stream.WriteLine(csvRow);
+                    //stream.WriteLine(csvRow);
                 }
             }
 

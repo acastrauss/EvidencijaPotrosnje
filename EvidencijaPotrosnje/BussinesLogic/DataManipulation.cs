@@ -24,18 +24,6 @@ namespace BussinesLogic
             }
             else 
             {
-                Dictionary<DataKeys, StateInfoModel> temp = new Dictionary<DataKeys, StateInfoModel>();
-                foreach (StateInfoModel state in CurrentData.Data.Values)
-                {
-                    if (state.StateName == StateName)
-                    {
-                        DataKeys dataKeys = new DataKeys(StateName, state.StateConsumption.DateFrom, state.StateConsumption.DateTo);
-                        temp.Add(dataKeys, state);
-                    }
-
-                }
-
-                CurrentData.Data = temp;
             }
         }
 
@@ -46,11 +34,6 @@ namespace BussinesLogic
             {
                 var state = pair.Value;
 
-                if (state.StateConsumption.DateFrom >= DateFrom && state.StateConsumption.DateTo <= DateTo
-                    && state.StateWeather.LocalTime >= DateFrom && state.StateWeather.LocalTime <= DateTo)
-                {
-                    temp.Add(pair.Key, state);
-                }
             } 
             CurrentData.Data = temp;
         }   
