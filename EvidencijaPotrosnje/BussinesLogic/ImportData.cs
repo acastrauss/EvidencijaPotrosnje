@@ -59,7 +59,7 @@ namespace BussinesLogic
                     swm.DevpointTemperature = int.TryParse(fields[12], out devTemp) ? devTemp : 0;
                     swm.StateId = state.StateId;
 
-                    DBLogic.AddStateWeather(swm);
+                    DBLogic.AddStateWeather(new List<StateWeatherModel>() { swm } );
 
                 }
             }
@@ -103,7 +103,7 @@ namespace BussinesLogic
                     scm.ValueScale = double.TryParse(fields[8], out valueScale) ? valueScale : 0;
 
                     scm.StateId = state.StateId;
-                    DBLogic.AddStateConsumption(scm);
+                    DBLogic.AddStateConsumptions(new List<StateConsumptionModel>() { scm });
                 }
             }
         }

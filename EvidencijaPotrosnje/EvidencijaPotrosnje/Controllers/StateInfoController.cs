@@ -21,7 +21,7 @@ namespace EvidencijaPotrosnje.Controllers
         {
             StateInfoModel state = new StateInfoModel ();
 
-            DBLogic.AddOrUpdateState(state);
+            DBLogic.AddState(state);
             return View();
         }
     }

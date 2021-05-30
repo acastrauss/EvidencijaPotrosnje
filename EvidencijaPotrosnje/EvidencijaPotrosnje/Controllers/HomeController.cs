@@ -16,7 +16,9 @@ namespace EvidencijaPotrosnje.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View(CurrentData.Data);
+            List<StateInfoModel> states = (List<StateInfoModel>) DBLogic.GetAllStates();
+
+            return View(states);
         }
 
         public ActionResult Import(string weatherFile, string stateName, DateTime startDate, DateTime endDate)

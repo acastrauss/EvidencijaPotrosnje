@@ -1,13 +1,18 @@
-﻿
+﻿@using SharedModels;
 @{
 	ViewBag.Title = "Index";
 	ViewBag.States = new List<string>() { "srbija", "mne,ma" };
 }
+@model List<StateInfoModel>
 
 <h1>Dobrodošli u aplikaciju Evidencija Potrošnje</h1>
 
 <form method="get" action="/Home/Import">
 	<select name="weatherFile" multiple>
+		<option value="Srbija">Srbija</option>
+		<option value="Nemacka">Nemacka</option>
+		<option value="Srbija">Srbija</option>
+		<option value="Nemacka">Nemacka</option>
 		<option value="Srbija">Srbija</option>
 		<option value="Nemacka">Nemacka</option>
 	</select>
@@ -33,22 +38,22 @@
 		<th>Vlaznost vazduha</th>
 		<th>Brzina vetra</th>
 	</tr>
-	<tr>
-		<td>Srbija</td>
-		<td>12/5/2021 12:00</td>
-		<td>12345</td>
-		<td>23</td>
-		<td>22</td>
-		<td>12</td>
-		<td>22</td>
-	</tr>
-	<tr>
-		<td>Srbija</td>
-		<td>12/5/2021 12:00</td>
-		<td>12345</td>
-		<td>23</td>
-		<td>22</td>
-		<td>12</td>
-		<td>22</td>
-	</tr>
+
+	@foreach (var state in Model)
+	{
+		foreach (var cons in state.StateConsumption)
+		{
+			var weather = state.StateWeathers.Where(e => e.LocalTime.Date == cons.DateShort.Date).DefaultIfEmpty(state.StateWeathers[0]).FirstOrDefault();
+			<tr>
+				<td>@state.StateName</td>
+				<td>@cons.DateShort</td>
+				<td>@cons.Value</td>
+				<td>@weather.AirTemperature</td>
+				<td>@weather.StationPressure</td>
+				<td>@weather.Humidity</td>
+				<td>@weather.WindSpeed</td>
+			</tr>
+		}
+	}
+	
 </table>

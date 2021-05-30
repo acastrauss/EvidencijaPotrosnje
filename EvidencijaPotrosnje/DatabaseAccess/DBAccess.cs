@@ -8,6 +8,7 @@ using SharedModels;
 using EntityFramework.Extensions;
 using SharedModels.HelperClasses;
 using System.Data.Entity.Validation;
+using System.Linq.Dynamic;
 
 namespace DatabaseAccess
 {
@@ -22,103 +23,124 @@ namespace DatabaseAccess
         /// <param name="model"></param>
 
         #region DatabaseActions
-        public void AddOrUpdateState(StateInfoModel model) 
+
+        public bool IfStateExistByName(string name)
         {
-            // if given state is not valid
-            if (!model.IsValid())
-                throw new Exception("StateInfoModel is not valid.");
+            bool retVal = false;
 
             using (var db = new StatesDB())
             {
-                
-                // if stateInfo doesn't exist
-                if(!IfStateExistByName(model.StateName, db)) 
-                {
+                retVal = db.States.Where(x => x.stateName == name).Count() != 0;
+            }
 
-                    var newState = DBAccess.ConvertStateDBNew(model);
+            return retVal;
+        }
 
-                    db.States.Add(newState);
-                }
-                else
+        public void AddStates(IEnumerable<StateInfoModel> models)
+        {
+            using (var db = new StatesDB())
+            {
+                foreach (var m in models)
                 {
-                    //set to existing id
-                    //var existingState = GetDBStateByName(model.StateName, db);
-                    //existingState = ConvertStateDBExisting(model, existingState.stateID, existingState.stateConsumptionID, existingState.stateWeatherID);
-                    //this.UpdateState(existingState, db);
+                    // ako vec postoji data drzava ili je nevalidna
+                    if (!m.IsValid() || db.States.Where(x => x.stateName == m.StateName).Count() != 0) 
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        var state = DBAccess.ConvertStateDBNew(m);
+                        db.States.Add(state);
+                    }
                 }
 
                 db.SaveChanges();
             }
         }
 
-        public void AddStateWeather(StateWeatherModel model)
+        public void AddStateWeathers(IEnumerable<StateWeatherModel> models)
         {
             using (var db = new StatesDB())
             {
+                foreach (var m in models)
+                {
+                    if(!m.IsValid()) 
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        db.StateWeathers.Add(DBAccess.ConvertStateWeatherDBNew(m));
+                    }
+                }
 
-                var newStateWeather = DBAccess.ConvertStateWeatherDBNew(model);
-
-                db.StateWeathers.Add(newStateWeather);
-                
                 db.SaveChanges();
             }
         }
 
-        public void RemoveAllStateWeatherModels()
+        public void AddStateConsumption(IEnumerable<StateConsumptionModel> models)
         {
             using (var db = new StatesDB())
             {
-                // if there is nothing in tables, do nothing
-                if (db.StateWeathers.Count() != 0)
+                foreach (var m in models)
                 {
-                    var currWeather = db.StateWeathers;
-                    db.StateWeathers.RemoveRange(currWeather);
-
-                    db.SaveChanges();
+                    if (!m.IsValid())
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        db.StateConsumptions.Add(DBAccess.ConvertStateConsumptionDBNew(m));
+                    }
                 }
+
+                db.SaveChanges();
             }
         }
 
-        public bool IfStateExistByName(string name, StatesDB db) 
+        public void RemoveState(String stateName)
         {
-            return db.States.Where(x => x.stateName == name).Count() != 0;
-        }
-
-        public State GetDBStateByName(string name, StatesDB db) 
-        {
-            return db.States.Where(x => x.stateName == name).FirstOrDefault();
-        }
-
-        public void UpdateState(State state, StatesDB db)
-        {
-            var query = db.States.Where(s => s.stateID == state.stateID);
-            State fs = query.FirstOrDefault();
-
-            db.States.Remove(fs);
-            db.States.Add(state);
-        }
-
-        public void RemoveState(StateInfoModel model) 
-        {
-
             using (var db = new StatesDB())
             {
-                var currState = DBAccess.ConvertStateDBNew(model);
+                var currStateQ = db.States.Where(x => x.stateName == stateName);
+
+                if (currStateQ.Count() == 0)
+                    throw new Exception("There is no state with that name.");
+
+                var currState = currStateQ.FirstOrDefault();
+
+                db.States.Remove(currState);
+
+                currState.StateConsumptions.Clear();
+                currState.StateWeathers.Clear();
+
+                db.States.Add(currState);
+
+                db.SaveChanges();
+            }
+        }
+
+        public void RemoveStateTotally(String stateName)
+        {
+            using (var db = new StatesDB())
+            {
+                var currStateQ = db.States.Where(x => x.stateName == stateName);
+
+                if (currStateQ.Count() == 0)
+                    throw new Exception("There is no state with that name.");
+
+                var currState = currStateQ.FirstOrDefault();
 
                 db.States.Remove(currState);
 
                 db.SaveChanges();
             }
         }
-
-        public void RemoveAllStates() 
+        
+        public void RemoveAllStates()
         {
             using (var db = new StatesDB())
             {
-               
-                //var currStates = db.States;
-                //db.States.RemoveRange(currStates);
-
                 var currCons = db.StateConsumptions;
                 db.StateConsumptions.RemoveRange(currCons);
 
@@ -129,85 +151,226 @@ namespace DatabaseAccess
             }
         }
 
-        public StateInfoModel GetStateByName(string name) 
-        {
-            StateInfoModel ret_val = null;
-
-            using (var db = new StatesDB())
-            {
-
-                var state = db.States.Where(x => x.stateName == name).FirstOrDefault();
-
-                //if (state.Count() == 0)
-                //    throw new Exception("There is no state data with that name.");
-
-                ret_val = DBAccess.ConvertStateModel(state);
-            }
-
-            return ret_val;
-        }
-
-        public void AddStateConsumption(StateConsumptionModel model)
+        public void RemoveAllStatesTotally()
         {
             using (var db = new StatesDB())
-            {
+            {   
+                var currCons = db.StateConsumptions;
+                db.StateConsumptions.RemoveRange(currCons);
 
-                var newStateConsumption = DBAccess.ConvertStateConsumptionDBNew(model);
+                var currWeather = db.StateWeathers;
+                db.StateWeathers.RemoveRange(currWeather);
 
-                db.StateConsumptions.Add(newStateConsumption);
+                var currStates = db.States;
+                db.States.RemoveRange(currStates);
 
                 db.SaveChanges();
             }
         }
-        public StateConsumptionModel GetStateConsumptionByStateName(string name) 
+
+        public void RemoveStateWeathers(String stateName) 
         {
-            StateConsumptionModel retVal = null;
+            using (var db = new StatesDB())
+            {
+                var statesWQ = db.StateWeathers.Where(x => x.State.stateName == stateName);
 
-            //using (var db = new StatesDB())
-            //{
-            //    var state = db.States.Where(x => x.stateName == name);
+                if (statesWQ.Count() == 0)
+                    throw new Exception("There is no state with that name.");
 
-            //    if (state.Count() == 0)
-            //        throw new Exception("There is no state weather data with that name.");
+                db.StateWeathers.RemoveRange(statesWQ);
 
-            //    retVal = DBAccess.ConvertStateConsumptionModel(state.First().StateConsumption);
-            //}
+                db.SaveChanges();
+            }
+        }
+
+        public void RemoveStateConsumption(String stateName)
+        {
+            using (var db = new StatesDB())
+            {
+                var statesCQ = db.StateConsumptions.Where(x => x.State.stateName == stateName);
+
+                if (statesCQ.Count() == 0)
+                    throw new Exception("There is no state with that name.");
+
+                db.StateConsumptions.RemoveRange(statesCQ);
+
+                db.SaveChanges();
+            }
+        }
+
+        public void RemoveStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            using (var db = new StatesDB())
+            {
+                var statesWQ = db.StateWeathers.Where(x => (x.localTime >= startDate && x.localTime <= endDate && x.State.stateName == stateName));
+
+                if (statesWQ.Count() == 0)
+                    throw new Exception("There is no state that this criteria applies to.");
+
+                db.StateWeathers.RemoveRange(statesWQ);
+
+                db.SaveChanges();
+            }
+        }
+        public void RemoveStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            using (var db = new StatesDB())
+            {
+                db.StateConsumptions.RemoveRange(
+                    db.StateConsumptions.Where(x => (x.dateFrom >= startDate && x.dateTo <= endDate && x.State.stateName == stateName))
+                    ) ;
+
+                db.SaveChanges();
+            }
+
+        }
+        /// <summary>
+        /// Removes every data for given date
+        /// </summary>
+        public void RemoveStateByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            using (var db = new StatesDB())
+            {
+                db.StateConsumptions.RemoveRange(
+                    db.StateConsumptions.Where(x => x.State.stateName == stateName && x.dateFrom >= startDate && x.dateTo <= endDate));
+
+                db.StateWeathers.RemoveRange(
+                    db.StateWeathers.Where(x => x.State.stateName == stateName && x.localTime >= startDate && x.localTime <= endDate));
+
+                db.SaveChanges();
+            }
+        }
+
+        public StateInfoModel GetStateByName(String name) 
+        {
+            StateInfoModel retVal = null;
+
+            using (var db = new StatesDB())
+            {
+                var state = db.States.Where(x => x.stateName == name);
+
+                //if (state.Count() == 0)
+                //    throw new Exception("There is no state data with that name.");
+
+                retVal = DBAccess.ConvertStateModel(state.First());
+            }
 
             return retVal;
         }
 
-        public StateWeatherModel GetStateWeatherByStateName(string name) 
+        public IEnumerable<StateConsumptionModel> GetStateConsumptionByStateName(String name) 
         {
-            StateWeatherModel retVal = null;
+            List<StateConsumptionModel> retVal = new List<StateConsumptionModel>();
 
-            //using (var db = new StatesDB())
-            //{
-            //    var state = db.States.Where(x => x.stateName == name);
+            using (var db = new StatesDB())
+            {
+                var state = db.States.Where(x => x.stateName == name);
 
-            //    if (state.Count() == 0)
-            //        throw new Exception("There is no state weather data with that name.");
+                if (state.Count() == 0)
+                    throw new Exception("There is no state weather data with that name.");
 
-            //    retVal = DBAccess.ConvertStateWeatherModel(state.First().StateWeather);
-            //}
+                var listStateC = state.First().StateConsumptions;
 
+                foreach (var sc in listStateC)
+                {
+                    retVal.Add(DBAccess.ConvertStateConsumptionModel(sc));
+                }
+            }
             return retVal;
         }
 
-        public List<StateInfoModel> GetAllStates() 
+        public IEnumerable<StateWeatherModel> GetStateWeatherByStateName(String name) 
         {
-            List<StateInfoModel> ret_val = new List<StateInfoModel>();
+            List<StateWeatherModel> retVal = new List<StateWeatherModel>();
+
+            using (var db = new StatesDB())
+            {
+                var state = db.States.Where(x => x.stateName == name);
+
+                if (state.Count() == 0)
+                    throw new Exception("There is no state weather data with that name.");
+
+                var listStateW = state.First().StateWeathers;
+
+                foreach (var sw in listStateW)
+                {
+                    retVal.Add(DBAccess.ConvertStateWeatherModel(sw));
+                }
+            }
+            return retVal;
+        }
+
+        public IEnumerable<StateInfoModel> GetAllStates() 
+        {
+            List<StateInfoModel> retVal = new List<StateInfoModel>();
 
             using (var db = new StatesDB())
             {
                 foreach (var dbS in db.States)
                 {
-                    ret_val.Add(ConvertStateModel(dbS));
+                    var state = ConvertStateModel(dbS);
+                    state.StateConsumption = (List<StateConsumptionModel>) GetStateConsumptionByStateName(state.StateName);
+                    state.StateWeathers = (List<StateWeatherModel>) GetStateWeatherByStateName(state.StateName);
+                    retVal.Add(state);
+                }
+            }
+            return retVal;
+        }
+
+        public StateInfoModel GetStateByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            StateInfoModel retVal = new StateInfoModel();
+
+            using (var db = new StatesDB())
+            {
+                var statesQ = db.States.Where(x => x.stateName == stateName);
+
+                if (statesQ.Count() == 0)
+                    throw new Exception("There is no state with that name.");
+
+                var stateByDate = statesQ.FirstOrDefault();
+                stateByDate.StateConsumptions.Clear();
+                stateByDate.StateWeathers.Clear();
+
+                stateByDate.StateConsumptions = db.StateConsumptions.Where(x => x.State.stateName == stateByDate.stateName && x.dateFrom >= startDate && x.dateTo <= endDate).ToList();
+                stateByDate.StateWeathers = db.StateWeathers.Where(x => x.State.stateName == stateByDate.stateName && x.localTime >= startDate && x.localTime <= endDate).ToList();
+
+                retVal = DBAccess.ConvertStateModel(stateByDate);
+            }
+            return retVal;
+        }
+        public IEnumerable<StateConsumptionModel> GetStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            List<StateConsumptionModel> retVal = new List<StateConsumptionModel>();
+
+            using (var db = new StatesDB())
+            {
+                var listC = db.StateConsumptions.Where(x => x.State.stateName == stateName && x.dateFrom >= startDate && x.dateTo <= endDate).ToList();
+
+                foreach (var c in listC)
+                {
+                    retVal.Add(DBAccess.ConvertStateConsumptionModel(c));
                 }
             }
 
-            return ret_val;
+            return retVal;
         }
+        public IEnumerable<StateWeatherModel> GetStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName)
+        {
+            List<StateWeatherModel> retVal = new List<StateWeatherModel>();
 
+            using (var db = new StatesDB())
+            {
+                var listW = db.StateWeathers.Where(x => x.State.stateName == stateName && x.localTime >= startDate && x.localTime <= endDate).ToList();
+
+                foreach (var w in listW)
+                {
+                    retVal.Add(DBAccess.ConvertStateWeatherModel(w));
+                }
+            }
+
+            return retVal;
+        }
         #endregion
 
         #region ConvertingToDatabaseModel
@@ -216,6 +379,8 @@ namespace DatabaseAccess
             return new State()
             {
                 stateName = model.StateName,
+                StateConsumptions = (ICollection<StateConsumption>)model.StateConsumption,
+                StateWeathers = (ICollection<StateWeather>)model.StateWeathers
             };
         }
 
@@ -236,7 +401,7 @@ namespace DatabaseAccess
                 windDirection = model.WindDirection,
                 windSpeed = model.WindSpeed,
                 localTime = model.LocalTime,
-                stateID = model.StateId,
+                stateID = model.StateId
                 //stateWeatherID = DBAccess.stateWeatherID++
             };
         }
@@ -254,7 +419,7 @@ namespace DatabaseAccess
                     stateCode = stateConsumptionModel.StateCode,
                     value = stateConsumptionModel.Value,
                     valueScale = stateConsumptionModel.ValueScale,
-                    stateID = stateConsumptionModel.StateId,
+                    stateID = stateConsumptionModel.StateId
                     //stateConsumptionID = DBAccess.stateConsumptionID++
                 };
         }
@@ -266,6 +431,8 @@ namespace DatabaseAccess
             {
                 stateName = model.StateName,
                 stateID = stateID,
+                StateConsumptions = (ICollection<StateConsumption>)model.StateConsumption,
+                StateWeathers = (ICollection<StateWeather>)model.StateWeathers
             };
         }
 
@@ -357,33 +524,7 @@ namespace DatabaseAccess
         #endregion
 
         #region ShortNamesForStates
-        // remove after all have db updated
-        public static void AddShortStateNames(Dictionary<string, string> shortNames) 
-        {
-            using (var db = new StatesDB())
-            {
-                foreach (var sn in shortNames)
-                {
-                    try
-                    {
-                        var ssn = new shortStateName();
-                        ssn.shortName = sn.Key;
-                        ssn.fullName = sn.Value;
-
-                        if (ssn.shortName.Length > 2) continue;
-
-                        db.shortStateNames.Add(ssn);
-                    }
-                    catch (Exception e)
-                    {
-                        throw;
-                    }
-                }
-
-                db.SaveChanges();
-            }
-        }
-
+        
         public String GetShortStateName(String fullStateName) 
         {
             String retVal = String.Empty;
