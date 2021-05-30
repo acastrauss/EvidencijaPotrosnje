@@ -156,7 +156,6 @@ namespace DatabaseAccess
 
             using (var db = new StatesDB())
             {
-
                 var state = db.States.Where(x => x.stateName == name);
 
                 if (state.Count() == 0)
