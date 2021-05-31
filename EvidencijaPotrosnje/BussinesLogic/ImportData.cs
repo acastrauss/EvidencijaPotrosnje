@@ -30,6 +30,8 @@ namespace BussinesLogic
 
                 //csvParser.ReadLine();
 
+                List<StateWeatherModel> stateWeatherModels = new List<StateWeatherModel>();
+
                 while (!csvParser.EndOfData)
                 {
                     StateWeatherModel swm = new StateWeatherModel();
@@ -59,15 +61,37 @@ namespace BussinesLogic
                     swm.DevpointTemperature = int.TryParse(fields[12], out devTemp) ? devTemp : 0;
                     swm.StateId = state.StateId;
 
-                    DBLogic.AddStateWeather(new List<StateWeatherModel>() { swm } );
-
+                    stateWeatherModels.Add(swm);
                 }
+
+                List<Task<int>> addToDBList = new List<Task<int>>();
+
+                int listSize = stateWeatherModels.Count / 100;
+
+                for (int i = 0; i < 100; i++)
+                {
+                    var subList = stateWeatherModels.GetRange(i * listSize, listSize);
+                    addToDBList.Add(
+                        new Task<int>(() => AddToDBFunction(subList)));
+                    addToDBList[i].Start();
+                    
+                }
+
+                Task.WaitAll(addToDBList.ToArray());
             }
 
         }
 
+        private static int AddToDBFunction(List<StateWeatherModel> stateWeatherModels)
+        {
+            DBLogic.AddStateWeather(stateWeatherModels);
+            return 0;
+        }
+
         private static void LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate)
         {
+            return;
+
             using (TextFieldParser csvParser = new TextFieldParser(cf))
             {
                 Dictionary<string, StateConsumptionModel> dictionary = new Dictionary<string, StateConsumptionModel>();
@@ -78,6 +102,8 @@ namespace BussinesLogic
                 csvParser.HasFieldsEnclosedInQuotes = true;
 
                 csvParser.ReadLine();
+
+                List<StateConsumptionModel> stateConsumptionModels = new List<StateConsumptionModel>();
 
                 // make more efficient method for reading (binary search)
                 while (!csvParser.EndOfData)
@@ -103,8 +129,11 @@ namespace BussinesLogic
                     scm.ValueScale = double.TryParse(fields[8], out valueScale) ? valueScale : 0;
 
                     scm.StateId = state.StateId;
-                    DBLogic.AddStateConsumptions(new List<StateConsumptionModel>() { scm });
+
+                    stateConsumptionModels.Add(scm);
                 }
+
+                DBLogic.AddStateConsumptions(stateConsumptionModels);
             }
         }
         

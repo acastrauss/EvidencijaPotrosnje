@@ -53,10 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AppData\CountriesData\drzave.csv" />
+    <None Include="AppData\WeatherData\Weather-Serbia.csv" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppData\ConsumptionData\" />
-    <Folder Include="AppData\WeatherData\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

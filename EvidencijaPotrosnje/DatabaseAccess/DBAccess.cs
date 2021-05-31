@@ -9,6 +9,7 @@ using EntityFramework.Extensions;
 using SharedModels.HelperClasses;
 using System.Data.Entity.Validation;
 using System.Linq.Dynamic;
+using System.Collections.ObjectModel;
 
 namespace DatabaseAccess
 {
@@ -70,7 +71,9 @@ namespace DatabaseAccess
                     }
                     else
                     {
-                        db.StateWeathers.Add(DBAccess.ConvertStateWeatherDBNew(m));
+                        var dbmodel = DBAccess.ConvertStateWeatherDBNew(m);
+                        
+                        db.StateWeathers.Add(dbmodel);
                     }
                 }
 
@@ -94,7 +97,19 @@ namespace DatabaseAccess
                     }
                 }
 
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException e)
+                {
+
+                    foreach (var item in e.EntityValidationErrors)
+                    {
+
+                    }
+                    throw;
+                }
             }
         }
 
@@ -249,8 +264,8 @@ namespace DatabaseAccess
             {
                 var state = db.States.Where(x => x.stateName == name);
 
-                //if (state.Count() == 0)
-                //    throw new Exception("There is no state data with that name.");
+                if (state.Count() == 0)
+                    throw new Exception("There is no state data with that name.");
 
                 retVal = DBAccess.ConvertStateModel(state.First());
             }
@@ -376,12 +391,20 @@ namespace DatabaseAccess
         #region ConvertingToDatabaseModel
         private static State ConvertStateDBNew(StateInfoModel model) 
         {
-            return new State()
+            State state = new State();
+            state.stateName = model.StateName;
+            
+            foreach (var c in model.StateConsumption)
             {
-                stateName = model.StateName,
-                StateConsumptions = (ICollection<StateConsumption>)model.StateConsumption,
-                StateWeathers = (ICollection<StateWeather>)model.StateWeathers
-            };
+                state.StateConsumptions.Add(DBAccess.ConvertStateConsumptionDBNew(c));
+            }
+
+            foreach (var w in model.StateWeathers)
+            {
+                state.StateWeathers.Add(DBAccess.ConvertStateWeatherDBNew(w));
+            }
+
+            return state;
         }
 
         private static StateWeather ConvertStateWeatherDBNew(StateWeatherModel model) 

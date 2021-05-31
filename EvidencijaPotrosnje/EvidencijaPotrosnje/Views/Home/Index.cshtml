@@ -2,6 +2,8 @@
 @{
 	ViewBag.Title = "Index";
 	ViewBag.States = new List<string>() { "srbija", "mne,ma" };
+
+	List<StateInfoModel> models = ViewBag.Models;
 }
 @model List<StateInfoModel>
 
@@ -9,16 +11,16 @@
 
 <form method="get" action="/Home/Import">
 	<select name="weatherFile" multiple>
-		<option value="Srbija">Srbija</option>
-		<option value="Nemacka">Nemacka</option>
-		<option value="Srbija">Srbija</option>
-		<option value="Nemacka">Nemacka</option>
-		<option value="Srbija">Srbija</option>
-		<option value="Nemacka">Nemacka</option>
+		<option value="Serbia">Serbia</option>
+		<option value="Germany">Germany</option>
+		<option value="Serbia">Serbia</option>
+		<option value="Germany">Germany</option>
+		<option value="Serbia">Serbia</option>
+		<option value="Germany">Germany</option>
 	</select>
 
 	<select name="stateName" multiple>
-		<option value="Srbija">Srbija</option>
+        <option value="Serbia">Serbia</option>
 	</select>
 
 	<input type="date" name="startDate" />
@@ -39,7 +41,7 @@
 		<th>Brzina vetra</th>
 	</tr>
 
-	@foreach (var state in Model)
+	@foreach (var state in models)
 	{
 		foreach (var cons in state.StateConsumption)
 		{

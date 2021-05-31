@@ -20,6 +20,7 @@ namespace EvidencijaPotrosnje.Controllers
         public ActionResult Index(string StateName)
         {
             StateInfoModel state = new StateInfoModel ();
+            state.StateName = StateName;
 
             DBLogic.AddState(state);
             return View();

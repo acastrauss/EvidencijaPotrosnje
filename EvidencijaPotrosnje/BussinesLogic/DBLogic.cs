@@ -79,8 +79,13 @@ namespace BussinesLogic
             {
                 dBAccess.AddStateWeathers(stateWeathers);
             }
-            catch (Exception e)
+            catch (DbEntityValidationException e)
             {
+
+                foreach (var item in e.EntityValidationErrors)
+                {
+
+                }
                 throw;
             }
         }
