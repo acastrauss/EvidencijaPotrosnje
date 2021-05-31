@@ -10,7 +10,7 @@ namespace SharedModels.HelperClasses
     {
         #region Constructors
 
-        public ShowingData(string stateName, DateTime dateUTC, double consumptionValue, int temperature, float pressure, int humidity, int windSpeed)
+        public ShowingData(string stateName, DateTime dateUTC, double consumptionValue, float temperature, float pressure, int humidity, int windSpeed)
         {
             StateName = stateName;
             DateUTC = dateUTC;
@@ -24,7 +24,8 @@ namespace SharedModels.HelperClasses
         public ShowingData() 
         {
             StateName = String.Empty;
-            DateUTC = DateTime.Now;
+            DateUTC = DateTime.MinValue;
+            // fleg
             ConsumptionValue = 0;
             Temperature = 0;
             Pressure = 0;
@@ -50,11 +51,12 @@ namespace SharedModels.HelperClasses
         public String StateName { get; set; }
         public DateTime DateUTC { get; set; }
         public double ConsumptionValue { get; set; }
-        public int Temperature { get; set; }
+        public float Temperature { get; set; }
         public float Pressure { get; set; }
         public int Humidity { get; set; }
         public int WindSpeed { get; set; }
-
+        public bool HasC { get; set; }
+        public bool HasW { get; set; }
         #endregion
 
         #region AdditionalMethods
