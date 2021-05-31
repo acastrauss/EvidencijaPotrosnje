@@ -56,6 +56,7 @@
     <Compile Include="DBLogic.cs" />
     <Compile Include="ExportData.cs" />
     <Compile Include="ImportData.cs" />
+    <Compile Include="MapCW.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
