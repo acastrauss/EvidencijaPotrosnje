@@ -61,11 +61,11 @@ namespace BussinesLogic
             }
         }
 
-        public static void AddStateConsumptions(IEnumerable<StateConsumptionModel> stateConsumption)
+        public static void AddStateConsumptions(IEnumerable<StateConsumptionModel> stateConsumption, String stateName)
         {
             try
             {
-                dBAccess.AddStateConsumption(stateConsumption);
+                dBAccess.AddStateConsumption(stateConsumption, stateName);
             }
             catch (Exception e)
             {
@@ -73,11 +73,11 @@ namespace BussinesLogic
             }
         }
 
-        public static void AddStateWeather(IEnumerable<StateWeatherModel> stateWeathers)
+        public static void AddStateWeather(IEnumerable<StateWeatherModel> stateWeathers, String stateName)
         {
             try
             {
-                dBAccess.AddStateWeathers(stateWeathers);
+                dBAccess.AddStateWeathers(stateWeathers, stateName);
             }
             catch (DbEntityValidationException e)
             {

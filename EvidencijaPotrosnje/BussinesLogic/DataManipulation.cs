@@ -13,29 +13,86 @@ namespace BussinesLogic
     /// </summary>
     public class DataManipulation
     {
-        public static void FilterByName(string StateName)
+        public static List<StateInfoModel> FilterByName(string StateName, List<StateInfoModel> lista)
         {
+            List<StateInfoModel> povratna = new List<StateInfoModel>();
+
             if (String.IsNullOrEmpty(StateName))
             {
                 if (StateName == null)
                     throw new Exception("Filter string can not be null!");
                 else if (StateName.Equals(String.Empty))
-                    return;
+                    return povratna;
             }
-            else 
+            else
             {
+
+                foreach (StateInfoModel model in lista)
+                {
+                    if (model.StateName == StateName)
+                    {
+                        povratna.Add(model);
+                    }
+                }
+
+
             }
+
+            return povratna;
         }
 
-        public static void FilterByTime(DateTime DateFrom, DateTime DateTo)
+        public static List<StateInfoModel> FilterByTime(DateTime DateFrom, DateTime DateTo, List<StateInfoModel> lista)
         {
-            Dictionary<DataKeys, StateInfoModel> temp = new Dictionary<DataKeys, StateInfoModel>();
-            foreach (var pair in CurrentData.Data)
-            {
-                var state = pair.Value;
+            //Dictionary<DataKeys, StateInfoModel> temp = new Dictionary<DataKeys, StateInfoModel>();
+            //foreach (var pair in CurrentData.Data)
+            //{
+            //    var state = pair.Value;
 
-            } 
-            CurrentData.Data = temp;
-        }   
+            //} 
+            //CurrentData.Data = temp;
+            List<StateInfoModel> povratna = new List<StateInfoModel>();
+
+            foreach (StateInfoModel model in lista)
+            {
+                StateInfoModel state = new StateInfoModel();
+                state.StateName = model.StateName;
+                state.StateId = model.StateId;
+                state.StateConsumption = FilterConsumptions(DateFrom, DateTo, model.StateConsumption);
+                state.StateWeathers = FilterWeathers(DateFrom, DateTo, model.StateWeathers);
+                povratna.Add(state);
+            }
+
+
+            return povratna;
+
+        }
+
+        public static List<StateConsumptionModel> FilterConsumptions(DateTime DateFrom, DateTime DateTo, List<StateConsumptionModel> lista)
+        {
+            List<StateConsumptionModel> potrosnje = new List<StateConsumptionModel>();
+
+            foreach (StateConsumptionModel model in lista)
+            {
+                if ((DateTime.Compare(DateFrom, model.DateUTC) <= 0) && (DateTime.Compare(DateTo, model.DateUTC) >= 0))
+                {
+                    potrosnje.Add(model);
+                }
+            }
+            return potrosnje;
+        }
+
+        public static List<StateWeatherModel> FilterWeathers(DateTime DateFrom, DateTime DateTo, List<StateWeatherModel> lista)
+        {
+            List<StateWeatherModel> vremena = new List<StateWeatherModel>();
+
+            foreach (StateWeatherModel model in lista)
+            {
+                if ((DateTime.Compare(DateFrom, model.LocalTime) <= 0) && (DateTime.Compare(DateTo, model.LocalTime) >= 0))
+                {
+                    vremena.Add(model);
+                }
+            }
+            return vremena;
+        }
     }
 }

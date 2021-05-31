@@ -59,57 +59,154 @@ namespace DatabaseAccess
             }
         }
 
-        public void AddStateWeathers(IEnumerable<StateWeatherModel> models)
+        private int GetStateID (String stateNme)
         {
+            int retVal = 0;
+
             using (var db = new StatesDB())
             {
-                foreach (var m in models)
-                {
-                    if(!m.IsValid()) 
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        var dbmodel = DBAccess.ConvertStateWeatherDBNew(m);
-                        
-                        db.StateWeathers.Add(dbmodel);
-                    }
-                }
+                var state = db.States.Where(x => x.stateName == stateNme);
 
-                db.SaveChanges();
+                if (state.Count() == 0)
+                    throw new Exception("There is no ID for given state name.");
+
+                retVal = state.FirstOrDefault().stateID;
             }
+
+            return retVal;
         }
 
-        public void AddStateConsumption(IEnumerable<StateConsumptionModel> models)
+        private State GetStateForID(int id) 
         {
+            State retVal = new State();
+
             using (var db = new StatesDB())
             {
-                foreach (var m in models)
+                var state = db.States.Where(x => x.stateID == id);
+
+                if (state.Count() == 0)
+                    throw new Exception("There is no state for given ID.");
+
+                retVal = state.FirstOrDefault();
+            }
+
+            return retVal;
+        }
+
+        private async Task<int> AddWeathersToDBThread(IEnumerable<StateWeatherModel> stateWeatherModels, StatesDB db, int id, State state) 
+        {
+            foreach (var swm in stateWeatherModels)
+            {
+                var dbmodel = DBAccess.ConvertStateWeatherDBNew(swm);
+                dbmodel.stateID = id;
+                dbmodel.State = state;
+                db.StateWeathers.Add(dbmodel);
+            }
+
+            return await db.SaveChangesAsync();
+        }
+
+        public void AddStateWeathers(IEnumerable<StateWeatherModel> models, String stateName)
+        {
+            int stateId = this.GetStateID(stateName);
+            State state = this.GetStateForID((int)stateId);
+
+            List<StateWeatherModel> modelsList = models.ToList();
+
+            int listSize = 5000;
+            List<Task<int>> dbTasks = new List<Task<int>>();
+
+            int numT = models.Count() / listSize;
+
+            using (var db = new StatesDB())
+            {
+                db.Configuration.AutoDetectChangesEnabled = false;
+
+                for (int i = 0; i < numT; i++)
                 {
-                    if (!m.IsValid())
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        db.StateConsumptions.Add(DBAccess.ConvertStateConsumptionDBNew(m));
-                    }
+                    var sublist = modelsList.GetRange(i * listSize, listSize);
+
+                    dbTasks.Add(AddWeathersToDBThread(sublist, db, stateId, state));
+                    
+                }
+
+                /*
+                var lefovert = modelsList.GetRange(numT * listSize, models.Count() - numT * listSize);
+
+                foreach (var l in lefovert)
+                {
+                    db.StateWeathers.Add(DBAccess.ConvertStateWeatherDBNew(l));
                 }
 
                 try
                 {
-                    db.SaveChanges();
+                    //db.SaveChanges();
                 }
-                catch (DbEntityValidationException e)
+                catch (Exception e)
                 {
 
-                    foreach (var item in e.EntityValidationErrors)
-                    {
-
-                    }
                     throw;
                 }
+                */
+            }
+        }
+
+        private async Task<int> AddConsumptionToDBThread(IEnumerable<StateConsumptionModel> stateConsumptioModels, StatesDB db, int id, State state)
+        {
+            foreach (var scm in stateConsumptioModels)
+            {
+                var dbmodel = DBAccess.ConvertStateConsumptionDBNew(scm);
+                dbmodel.stateID = id;
+                dbmodel.State = state;
+                db.StateConsumptions.Add(dbmodel);
+            }
+
+            return await db.SaveChangesAsync();
+        }
+
+        public void AddStateConsumption(IEnumerable<StateConsumptionModel> models, String stateName)
+        {
+            int stateId = this.GetStateID(stateName);
+            State state = this.GetStateForID((int)stateId);
+
+            List<StateConsumptionModel> modelsList = models.ToList();
+
+            int listSize = 5000;
+            List<Task<int>> dbTasks = new List<Task<int>>();
+
+            int numT = models.Count() / listSize;
+
+            using (var db = new StatesDB())
+            {
+
+                db.Configuration.AutoDetectChangesEnabled = false;
+
+                for (int i = 0; i < numT; i++)
+                {
+                    var sublist = modelsList.GetRange(i * listSize, listSize);
+
+                    dbTasks.Add(AddConsumptionToDBThread(sublist, db, stateId, state));
+
+                }
+
+                /*
+                var lefovert = modelsList.GetRange(numT * listSize, models.Count() - numT * listSize);
+                
+                foreach (var l in lefovert)
+                {
+                    db.StateWeathers.Add(DBAccess.ConvertStateWeatherDBNew(l));
+                }
+                
+                try
+                {
+                    //db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+
+                    throw;
+                }
+                */
             }
         }
 
@@ -324,8 +421,17 @@ namespace DatabaseAccess
                 foreach (var dbS in db.States)
                 {
                     var state = ConvertStateModel(dbS);
-                    state.StateConsumption = (List<StateConsumptionModel>) GetStateConsumptionByStateName(state.StateName);
-                    state.StateWeathers = (List<StateWeatherModel>) GetStateWeatherByStateName(state.StateName);
+
+                    foreach (var sc in dbS.StateConsumptions)
+                    {
+                        state.StateConsumption.Add(DBAccess.ConvertStateConsumptionModel(sc));
+                    }
+
+                    foreach (var sw in dbS.StateWeathers)
+                    {
+                        state.StateWeathers.Add(DBAccess.ConvertStateWeatherModel(sw));
+                    }
+                    
                     retVal.Add(state);
                 }
             }

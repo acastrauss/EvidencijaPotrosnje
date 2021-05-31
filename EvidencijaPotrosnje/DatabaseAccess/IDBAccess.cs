@@ -11,8 +11,8 @@ namespace DatabaseAccess
     {
         bool IfStateExistByName(string name);
         void AddStates(IEnumerable<StateInfoModel> models);
-        void AddStateWeathers(IEnumerable<StateWeatherModel> models);
-        void AddStateConsumption(IEnumerable<StateConsumptionModel> models);
+        void AddStateWeathers(IEnumerable<StateWeatherModel> models, String stateName);
+        void AddStateConsumption(IEnumerable<StateConsumptionModel> models, String stateName);
 
         /// <summary>
         /// Only removes data (consumption and weather) for given state

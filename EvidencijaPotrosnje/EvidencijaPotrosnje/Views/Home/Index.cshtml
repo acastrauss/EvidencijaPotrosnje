@@ -31,31 +31,43 @@
 </form>
 
 <table class="import-table">
-	<tr>
-		<th>Drzava</th>
-		<th>UCT vreme</th>
-		<th>Elektricna Energija</th>
-		<th>Temperatura</th>
-		<th>Pritisak</th>
-		<th>Vlaznost vazduha</th>
-		<th>Brzina vetra</th>
-	</tr>
 
-	@foreach (var state in models)
-	{
-		foreach (var cons in state.StateConsumption)
-		{
-			var weather = state.StateWeathers.Where(e => e.LocalTime.Date == cons.DateShort.Date).DefaultIfEmpty(state.StateWeathers[0]).FirstOrDefault();
-			<tr>
-				<td>@state.StateName</td>
-				<td>@cons.DateShort</td>
-				<td>@cons.Value</td>
-				<td>@weather.AirTemperature</td>
-				<td>@weather.StationPressure</td>
-				<td>@weather.Humidity</td>
-				<td>@weather.WindSpeed</td>
-			</tr>
-		}
-	}
-	
+    @foreach (var state in models)
+    {
+        <tr>
+            <th>Drzava</th>
+            <td>@state.StateName</td>
+        </tr>
+
+        <tr>
+            <th>UCT vreme</th>
+            <th>Elektricna Energija</th>
+        </tr>
+
+        foreach (var cons in state.StateConsumption)
+        {
+            <tr>
+                <td>@cons.DateShort</td>
+                <td>@cons.Value</td>
+            </tr>
+        }
+
+        <tr>
+            <th>Temperatura</th>
+            <th>Pritisak</th>
+            <th>Vlaznost vazduha</th>
+            <th>Brzina vetra</th>
+        </tr>
+        foreach (var w in state.StateWeathers)
+        {
+            <tr>
+                <td>@w.AirTemperature</td>
+                <td>@w.StationPressure</td>
+                <td>@w.Humidity</td>
+                <td>@w.WindSpeed</td>
+            </tr>
+        }
+
+    }
+
 </table>

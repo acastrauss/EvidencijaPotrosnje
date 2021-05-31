@@ -11,7 +11,7 @@ namespace DatabaseAccess
     {
         public double? airTemperature { get; set; }
 
-        [StringLength(50)]
+        [StringLength(500)]
         public string cloudCover { get; set; }
 
         public int? devpointTemperature { get; set; }

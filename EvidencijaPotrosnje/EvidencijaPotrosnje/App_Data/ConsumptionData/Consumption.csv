@@ -1,8 +1,0 @@
-MeasureItem,DateUTC,DateShort,TimeFrom,TimeTo,CountryCoRS,Cov_ratio,Value,Value_ScaleTo100
-Monthly Hourly Load Values,12/31/2014 23:00,12/31/2014,23:00,0:00,RS,98,46419.79,47367.13265
-Monthly Hourly Load Values,1/1/2015 0:00,1/1/2015,0:00,1:00,RS,98,44898.3,45814.59184
-Monthly Hourly Load Values,1/1/2015 1:00,1/1/2015,1:00,2:00,RS,98,43305.31,44189.09184
-Monthly Hourly Load Values,1/1/2015 2:00,1/1/2015,2:00,3:00,RS,98,41918.17,42773.64286
-Monthly Hourly Load Values,1/1/2015 3:00,1/1/2015,3:00,4:00,RS,98,41330.17,42173.64286
-Monthly Hourly Load Values,1/1/2015 4:00,1/1/2015,4:00,5:00,RS,98,40643.13,41472.58163
-Monthly Hourly Load Values,00:00.0,1/1/2015,5:00,6:00,RS,98,39132.17,39930.78571

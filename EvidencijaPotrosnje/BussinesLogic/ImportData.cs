@@ -15,9 +15,9 @@ namespace BussinesLogic
     public class ImportData
     {
 
-        private static void LoadWeather(string wf, StateInfoModel state)
+        private static void LoadWeather(ImportParameters importParameters, StateInfoModel state)
         {
-            using (TextFieldParser csvParser = new TextFieldParser(wf))
+            using (TextFieldParser csvParser = new TextFieldParser(importParameters.WeatherFile))
             {
                 //csvParser.CommentTokens = new string[] { "#" };
                 csvParser.SetDelimiters(new string[] { "," });
@@ -42,6 +42,9 @@ namespace BussinesLogic
                     }
                     // OVDE NEDOSTAJE POLJE LOKALNO VREME IZ TABELE WEATHER,ONO CE NAM KASNIJE TREBATI ZA PRIKAZ
                     swm.LocalTime = DateTime.ParseExact(fields[0], "dd.MM.yyyy HH:mm", null);
+                    
+                    if (swm.LocalTime <= importParameters.StartDate || swm.LocalTime >= importParameters.EndDate) continue;
+
                     float airTemp, stationPressure, reducedPressure;
                     swm.AirTemperature = float.TryParse(fields[1], out airTemp) ? airTemp : 0;
                     swm.StationPressure = float.TryParse(fields[2], out stationPressure) ? stationPressure : 0;
@@ -64,34 +67,14 @@ namespace BussinesLogic
                     stateWeatherModels.Add(swm);
                 }
 
-                List<Task<int>> addToDBList = new List<Task<int>>();
-
-                int listSize = stateWeatherModels.Count / 100;
-
-                for (int i = 0; i < 100; i++)
-                {
-                    var subList = stateWeatherModels.GetRange(i * listSize, listSize);
-                    addToDBList.Add(
-                        new Task<int>(() => AddToDBFunction(subList)));
-                    addToDBList[i].Start();
-                    
-                }
-
-                Task.WaitAll(addToDBList.ToArray());
+                DBLogic.AddStateWeather(stateWeatherModels, stateInformation);
             }
 
         }
 
-        private static int AddToDBFunction(List<StateWeatherModel> stateWeatherModels)
-        {
-            DBLogic.AddStateWeather(stateWeatherModels);
-            return 0;
-        }
 
         private static void LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate)
         {
-            return;
-
             using (TextFieldParser csvParser = new TextFieldParser(cf))
             {
                 Dictionary<string, StateConsumptionModel> dictionary = new Dictionary<string, StateConsumptionModel>();
@@ -105,6 +88,8 @@ namespace BussinesLogic
 
                 List<StateConsumptionModel> stateConsumptionModels = new List<StateConsumptionModel>();
 
+                String stateName = String.Empty;
+                
                 // make more efficient method for reading (binary search)
                 while (!csvParser.EndOfData)
                 {
@@ -113,14 +98,18 @@ namespace BussinesLogic
                     string[] fields = csvParser.ReadFields();
                     scm.DateUTC = DateTime.UtcNow;
                     scm.DateShort = DateTime.ParseExact(fields[2], "M/d/yyyy", null);
-                    if (scm.DateShort >= endDate || scm.DateShort < startDate)
-                        continue;
+                    //if (scm.DateShort >= endDate || scm.DateShort < startDate)
+                    //    continue;
 
                     // the next 2 is just hours
                     scm.DateFrom = DateTime.ParseExact(fields[3], "H:mm", null);
                     scm.DateTo = DateTime.ParseExact(fields[4], "H:mm", null);
 
                     scm.StateCode = fields[5];
+
+                    if (String.IsNullOrEmpty(stateName))
+                        stateName = DBLogic.GetFullStateName(scm.StateCode);
+
                     int covRatio;
                     scm.CovRatio = int.TryParse(fields[6], out covRatio) ?covRatio : 0;
                     double value;
@@ -133,7 +122,7 @@ namespace BussinesLogic
                     stateConsumptionModels.Add(scm);
                 }
 
-                DBLogic.AddStateConsumptions(stateConsumptionModels);
+                DBLogic.AddStateConsumptions(stateConsumptionModels, stateName);
             }
         }
         
@@ -146,7 +135,7 @@ namespace BussinesLogic
 
             if(!String.IsNullOrEmpty(parameters.WeatherFile)) 
             {
-                ImportData.LoadWeather(parameters.WeatherFile, state);
+                ImportData.LoadWeather(parameters, state);
             }
 
             if(
