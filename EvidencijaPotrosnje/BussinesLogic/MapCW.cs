@@ -19,14 +19,16 @@ namespace BussinesLogic
 
             foreach (var cons in stateInfoModel.StateConsumption)
             {
-                var weather = stateInfoModel.StateWeathers.Find(x => DateTime.Compare(x.LocalTime, cons.DateUTC) == 0);
+                var dateAdded = cons.DateShort.AddHours(cons.DateTo.Hour).AddMinutes(cons.DateTo.Minute).AddSeconds(cons.DateTo.Second);
+
+                var weather = stateInfoModel.StateWeathers.Find(x => (x.LocalTime - dateAdded).Days == 0 );
 
                 if(weather != null)
                 {
                     ShowingData showingData = new ShowingData()
                     {
                         ConsumptionValue = cons.Value,
-                        DateUTC = cons.DateShort.AddHours(cons.DateTo.Hour).AddMinutes(cons.DateTo.Minute).AddSeconds(cons.DateTo.Second),
+                        DateUTC = dateAdded,
                         Humidity = weather.Humidity,
                         Pressure = weather.StationPressure,
                         StateName = stateInfoModel.StateName,
@@ -45,7 +47,7 @@ namespace BussinesLogic
                     ShowingData showingData = new ShowingData()
                     {
                         ConsumptionValue = cons.Value,
-                        DateUTC = cons.DateShort.AddHours(cons.DateTo.Hour).AddMinutes(cons.DateTo.Minute).AddSeconds(cons.DateTo.Second),
+                        DateUTC = dateAdded,
                         StateName = stateInfoModel.StateName,
                         HasC = true,
                         HasW = false
@@ -71,7 +73,9 @@ namespace BussinesLogic
 
                 showingDatas.Add(showingData);
             }
-            
+
+            showingDatas.OrderBy(x => x.DateUTC);
+
             return showingDatas;
         }
 

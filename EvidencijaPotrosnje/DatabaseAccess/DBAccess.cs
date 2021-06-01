@@ -112,6 +112,8 @@ namespace DatabaseAccess
             int stateId = this.GetStateID(stateName);
             
             List<StateWeatherModel> modelsList = models.ToList();
+            // delete this
+            modelsList.Reverse();
 
             int listSize = 5000;
             List<Task<int>> dbTasks = new List<Task<int>>();

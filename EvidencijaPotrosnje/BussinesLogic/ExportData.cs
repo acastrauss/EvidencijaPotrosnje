@@ -17,6 +17,16 @@ namespace BussinesLogic
     {
         public static void SaveData(List<ShowingData> showingData)
         {
+            if (showingData.Count == 0)
+            {
+                throw new Exception("List for export cant be emtpy");
+            }
+            if (showingData == null)
+            {
+                throw new Exception("List for export cant be null");
+
+            }
+
             var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase); //put do priject foldera \\\Debug
             string a = "Output_" + DateTime.Now.ToString("yyy_MM_d_HH_mm") + ".csv";// +/* DateTime.Now.ToString("yyyy/MM/d/HH/mm/ss") */ //+ ".csv";
             string[] paths = { @path, a };
