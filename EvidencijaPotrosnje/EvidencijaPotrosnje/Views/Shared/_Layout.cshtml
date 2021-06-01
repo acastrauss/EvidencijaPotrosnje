@@ -5,8 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script type="text/javascript">
+        var checked = [true, true, true, true, true, true, true];
+
+
+        function hideColumn1(tableId, colIndex) {
+            var table = document.getElementById(tableId);
+            console.log(tableId,table);
+            if (table != null) {
+                for (i = 0; i < table.rows.length; i++) {
+                    if (checked[colIndex - 1]) {
+                        table.rows[i].cells[colIndex - 1].style.display = 'none';
+
+                    }
+                    else
+                        table.rows[i].cells[colIndex - 1].style.display = '';
+                }
+                checked[colIndex - 1] = !checked[colIndex - 1 ];
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -15,8 +34,8 @@
 				@Html.ActionLink("Evidencija Potrošnje", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 			</div>
 			<div class="header-nav">
-				@Html.ActionLink("Import", "Index", "Home", new { area = "" }, new { @class = "navbar-item" })
-				@Html.ActionLink("Export", "Index", "Home", new { area = "" }, new { @class = "navbar-item" })
+				@Html.ActionLink("Import", "Index", "Import", new { area = "" }, new { @class = "navbar-item" })
+				@Html.ActionLink("Export", "Index", "Export", new { area = "" }, new { @class = "navbar-item" })
 				@Html.ActionLink("Dodaj Državu", "Index", "StateInfo", new { area = "" }, new { @class = "navbar-item" })
 			</div>
 		</div>

@@ -12,10 +12,11 @@ namespace BussinesLogic
     /// <summary>
     /// For Importing data from file
     /// </summary>
-    public class ImportData
+    public class ImportData : IImportData
     {
+        private DBLogic dBLogic = new DBLogic();
 
-        private static void LoadWeather(ImportParameters importParameters, StateInfoModel state)
+        public void LoadWeather(ImportParameters importParameters, StateInfoModel state)
         {
             using (TextFieldParser csvParser = new TextFieldParser(importParameters.WeatherFile))
             {
@@ -41,7 +42,7 @@ namespace BussinesLogic
                         continue;
                     }
                     swm.LocalTime = DateTime.ParseExact(fields[0], "dd.MM.yyyy HH:mm", null);
-                    
+
                     if (swm.LocalTime <= importParameters.StartDate || swm.LocalTime >= importParameters.EndDate) continue;
 
                     float airTemp, stationPressure, reducedPressure;
@@ -58,7 +59,7 @@ namespace BussinesLogic
                     swm.RecentWeather = fields[9];
                     swm.CloudCover = fields[10];
                     int horizontalVisibility;
-                    swm.HorizontalVisibility = int.TryParse(fields[11],out horizontalVisibility) ? horizontalVisibility : 0;
+                    swm.HorizontalVisibility = int.TryParse(fields[11], out horizontalVisibility) ? horizontalVisibility : 0;
                     int devTemp;
                     swm.DevpointTemperature = int.TryParse(fields[12], out devTemp) ? devTemp : 0;
                     swm.StateId = state.StateId;
@@ -66,13 +67,13 @@ namespace BussinesLogic
                     stateWeatherModels.Add(swm);
                 }
 
-                DBLogic.AddStateWeather(stateWeatherModels, stateInformation);
+                dBLogic.AddStateWeather(stateWeatherModels, stateInformation);
             }
 
         }
 
 
-        private static void LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate)
+        public void LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate)
         {
             using (TextFieldParser csvParser = new TextFieldParser(cf))
             {
@@ -88,7 +89,7 @@ namespace BussinesLogic
                 List<StateConsumptionModel> stateConsumptionModels = new List<StateConsumptionModel>();
 
                 String stateName = String.Empty;
-                
+
                 // make more efficient method for reading (binary search)
                 while (!csvParser.EndOfData)
                 {
@@ -107,10 +108,10 @@ namespace BussinesLogic
                     scm.StateCode = fields[5];
 
                     if (String.IsNullOrEmpty(stateName))
-                        stateName = DBLogic.GetFullStateName(scm.StateCode);
+                        stateName = dBLogic.GetFullStateName(scm.StateCode);
 
                     int covRatio;
-                    scm.CovRatio = int.TryParse(fields[6], out covRatio) ?covRatio : 0;
+                    scm.CovRatio = int.TryParse(fields[6], out covRatio) ? covRatio : 0;
                     double value;
                     scm.Value = double.TryParse(fields[7], out value) ? value : 0;
                     double valueScale;
@@ -121,29 +122,29 @@ namespace BussinesLogic
                     stateConsumptionModels.Add(scm);
                 }
 
-                DBLogic.AddStateConsumptions(stateConsumptionModels, stateName);
+                dBLogic.AddStateConsumptions(stateConsumptionModels, stateName);
             }
         }
-        
-        public static void Load(ImportParameters parameters) 
+
+        public void Load(ImportParameters parameters)
         {
 
-            DBLogic.RemoveAllStates();
+            dBLogic.RemoveAllStates();
 
-            StateInfoModel state = DBLogic.GetStateByName(parameters.StateName);
+            StateInfoModel state = dBLogic.GetStateByName(parameters.StateName);
 
-            if(!String.IsNullOrEmpty(parameters.WeatherFile)) 
+            if (!String.IsNullOrEmpty(parameters.WeatherFile))
             {
-                ImportData.LoadWeather(parameters, state);
+                (new ImportData()).LoadWeather(parameters, state);
             }
 
-            if(
+            if (
                 !String.IsNullOrEmpty(parameters.ConsumptionFile) && !String.IsNullOrEmpty(parameters.StateName) &&
                 parameters.StartDate != null && parameters.EndDate != null
                 )
             {
-                ImportData.LoadConsumption(parameters.ConsumptionFile, state, (DateTime)parameters.StartDate, (DateTime)parameters.EndDate);
+                (new ImportData()).LoadConsumption(parameters.ConsumptionFile, state, (DateTime)parameters.StartDate, (DateTime)parameters.EndDate);
             }
-        }   
+        }
     }
 }

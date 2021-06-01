@@ -15,9 +15,9 @@ namespace BussinesLogic
     /// </summary>
     public class DBLogic
     {
-        private static IDBAccess dBAccess = new DBAccess();
+        private IDBAccess dBAccess = new DBAccess();
 
-        public static bool IfStateExists(String stateName)
+        public bool IfStateExists(String stateName)
         {
             bool retVal = false;
 
@@ -34,7 +34,7 @@ namespace BussinesLogic
             return retVal;
         }
 
-        public static void AddMoreStates(IEnumerable<StateInfoModel> states) 
+        public void AddMoreStates(IEnumerable<StateInfoModel> states)
         {
             foreach (var state in states)
             {
@@ -49,11 +49,11 @@ namespace BussinesLogic
             }
         }
 
-        public static void AddState(StateInfoModel state)
+        public void AddState(StateInfoModel state)
         {
             try
             {
-                dBAccess.AddStates(new List<StateInfoModel>() { state});
+                dBAccess.AddStates(new List<StateInfoModel>() { state });
             }
             catch (Exception e)
             {
@@ -61,7 +61,7 @@ namespace BussinesLogic
             }
         }
 
-        public static void AddStateConsumptions(IEnumerable<StateConsumptionModel> stateConsumption, String stateName)
+        public void AddStateConsumptions(IEnumerable<StateConsumptionModel> stateConsumption, String stateName)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace BussinesLogic
             }
         }
 
-        public static void AddStateWeather(IEnumerable<StateWeatherModel> stateWeathers, String stateName)
+        public void AddStateWeather(IEnumerable<StateWeatherModel> stateWeathers, String stateName)
         {
             try
             {
@@ -90,11 +90,11 @@ namespace BussinesLogic
             }
         }
 
-        public static void RemoveState(String stateName) 
+        public void RemoveState(String stateName)
         {
             try
             {
-                dBAccess.RemoveState(stateName);   
+                dBAccess.RemoveState(stateName);
             }
             catch (Exception e)
             {
@@ -102,7 +102,7 @@ namespace BussinesLogic
             }
         }
 
-        public static void RemoveStateTotally(String stateNames) 
+        public void RemoveStateTotally(String stateNames)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace BussinesLogic
             }
         }
 
-        public static void RemoveAllStates() 
+        public void RemoveAllStates()
         {
             try
             {
@@ -128,7 +128,7 @@ namespace BussinesLogic
             }
         }
 
-        public static void RemoveAllStatesTotally()
+        public void RemoveAllStatesTotally()
         {
             try
             {
@@ -141,7 +141,7 @@ namespace BussinesLogic
             }
         }
 
-        public static void RemoveStateWeathers(String stateName)
+        public void RemoveStateWeathers(String stateName)
         {
             try
             {
@@ -154,7 +154,7 @@ namespace BussinesLogic
             }
         }
 
-        public static void RemoveStateConsumptions(String stateName)
+        public void RemoveStateConsumptions(String stateName)
         {
             try
             {
@@ -167,7 +167,7 @@ namespace BussinesLogic
             }
         }
 
-        public static void RemoveStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName)
+        public void RemoveStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName)
         {
             try
             {
@@ -180,7 +180,7 @@ namespace BussinesLogic
             }
         }
 
-        public static void RemoveStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName)
+        public void RemoveStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName)
         {
             try
             {
@@ -193,7 +193,7 @@ namespace BussinesLogic
             }
         }
 
-        public static void RemoveStateByDate(DateTime startDate, DateTime endDate, String stateName)
+        public void RemoveStateByDate(DateTime startDate, DateTime endDate, String stateName)
         {
             try
             {
@@ -206,13 +206,13 @@ namespace BussinesLogic
             }
         }
 
-        public static IEnumerable<StateInfoModel> GetAllStates() 
+        public IEnumerable<StateInfoModel> GetAllStates()
         {
             // no need for try catch since there is no exception
             return dBAccess.GetAllStates();
         }
 
-        public static StateInfoModel GetStateByName(string name) 
+        public StateInfoModel GetStateByName(string name)
         {
             StateInfoModel retVal = StateInfoModel.NotValid();
 
@@ -228,7 +228,7 @@ namespace BussinesLogic
             return retVal;
         }
 
-        public static IEnumerable<StateConsumptionModel> GetStateConsumptionByName(string stateName) 
+        public IEnumerable<StateConsumptionModel> GetStateConsumptionByName(string stateName)
         {
             List<StateConsumptionModel> retVal = new List<StateConsumptionModel>();
 
@@ -251,7 +251,7 @@ namespace BussinesLogic
 
             try
             {
-                dBAccess.GetStateWeatherByStateName(name);
+                retVal = dBAccess.GetStateWeatherByStateName(name).ToList();
             }
             catch (Exception e)
             {
@@ -264,11 +264,14 @@ namespace BussinesLogic
 
         public StateInfoModel GetStateByDate(DateTime startDate, DateTime endDate, String stateName)
         {
+            if (String.IsNullOrEmpty(stateName))
+                throw new Exception("State name can not be null or empty.");
+
             StateInfoModel retVal = new StateInfoModel();
 
             try
             {
-                dBAccess.GetStateByDate(startDate, endDate, stateName);
+                retVal = dBAccess.GetStateByDate(startDate, endDate, stateName);
             }
             catch (Exception e)
             {
@@ -278,7 +281,7 @@ namespace BussinesLogic
 
             return retVal;
         }
-        
+
         public IEnumerable<StateConsumptionModel> GetStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName)
         {
             List<StateConsumptionModel> retVal = new List<StateConsumptionModel>();
@@ -295,7 +298,7 @@ namespace BussinesLogic
 
             return retVal;
         }
-        
+
         public IEnumerable<StateWeatherModel> GetStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName)
         {
             List<StateWeatherModel> retVal = new List<StateWeatherModel>();
@@ -313,7 +316,7 @@ namespace BussinesLogic
             return retVal;
         }
 
-        public static String GetFullStateName(String shortStateName) 
+        public String GetFullStateName(String shortStateName)
         {
             String retVal = String.Empty;
 
@@ -328,9 +331,9 @@ namespace BussinesLogic
             }
 
             return retVal;
-        }    
+        }
 
-        public static String GetShortStateName(String fullStateName) 
+        public String GetShortStateName(String fullStateName)
         {
             String retVal = String.Empty;
 

@@ -1,0 +1,68 @@
+﻿@using SharedModels;
+@{
+    ViewBag.Title = "Index";
+
+    List<SharedModels.HelperClasses.ShowingData> showingDatas = (List<SharedModels.HelperClasses.ShowingData>)HttpContext.Current.Application["showingData"];
+}
+
+<form method="post" action="/Export/Export">
+    <select multiple name="columns">
+        <option value="Drzava" selected>Drzava</option>
+        <option value="UTC vreme" selected>UTC vreme</option>
+        <option value="Potrosnja" selected>Potrosnja</option>
+        <option value="Temperatura" selected>Temperatura</option>
+        <option value="Pritisak" selected>Pritisak</option>
+        <option value="Vlaznost" selected>Vlaznost</option>
+        <option value="Brzina vetra" selected>Brzina vetra</option>
+    </select>
+
+    <input type="submit" value="Export" />
+</form>
+
+<table class="import-table">
+    <tr>
+        <th>Drzava</th>
+        <th>UTC vreme</th>
+        <th>Potrosnja</th>
+        <th>Temperatura</th>
+        <th>Pritisak</th>
+        <th>Vlaznost vazduha</th>
+        <th>Brzina vetra</th>
+    </tr>
+
+    @if (showingDatas != null)
+    {
+        foreach (var sd in showingDatas)
+        {
+            <tr>
+                <td>@sd.StateName</td>
+                <td>@sd.DateUTC.ToString()</td>
+                @if (sd.HasC)
+                {
+                    <td>@sd.ConsumptionValue.ToString()</td>
+                }
+                else
+                {
+                    <td> No data </td>
+                }
+                @if (sd.HasW)
+                {
+                    <td>@sd.Temperature</td>
+                    <td>@sd.Pressure</td>
+                    <td>@sd.Humidity</td>
+                    <td>@sd.WindSpeed</td>
+                }
+                else
+                {
+                    <td> No data </td>
+                    <td> No data </td>
+                    <td> No data </td>
+                    <td> No data </td>
+                }
+            </tr>
+        }
+    }
+
+</table>
+
+

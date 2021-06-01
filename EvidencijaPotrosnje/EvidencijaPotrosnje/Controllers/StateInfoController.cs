@@ -19,10 +19,12 @@ namespace EvidencijaPotrosnje.Controllers
         [HttpPost]
         public ActionResult Index(string StateName)
         {
+            DBLogic dBLogic = new DBLogic();
+
             StateInfoModel state = new StateInfoModel ();
             state.StateName = StateName;
 
-            DBLogic.AddState(state);
+            dBLogic.AddState(state);
             return View();
         }
     }

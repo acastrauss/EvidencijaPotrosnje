@@ -99,6 +99,8 @@ input {
 }
 select {
     color: #03254c;
+    height: 200px;
+    width: 300px
 }
 option {
     color: #03254c;

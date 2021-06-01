@@ -16,32 +16,66 @@ namespace EvidencijaPotrosnje.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            //DBLogic.RemoveAllStates();
 
-            List<StateInfoModel> states = (List<StateInfoModel>) DBLogic.GetAllStates();
+            if (HttpContext.Application["init"] == null)
+                this.InitApp();
+            
+            return View();
+        }
+
+        private void InitApp() 
+        {
+            DBLogic dBLogic = new DBLogic();
+            IMapCW mapCW = new MapCW();
+
+            HttpContext.Application["init"] = true;
+
+            List<StateInfoModel> states = (List<StateInfoModel>)dBLogic.GetAllStates();
 
             List<ShowingData> showingData = new List<ShowingData>();
 
             foreach (var state in states)
             {
-                showingData.AddRange(MapCW.MapData(state));
+                showingData.AddRange(mapCW.MapData(state));
             }
 
-            ViewBag.ShowingData = showingData;
-
-            return View(states);
+            HttpContext.Application["showingData"] = showingData;
         }
 
-        public ActionResult Import(string weatherFile, string stateName, DateTime startDate, DateTime endDate)
+        public ActionResult Import()
         {
+            return RedirectToAction("Index", "Import");
+        }
 
-            ImportParameters parameters = new ImportParameters(HostingEnvironment.MapPath($"~/App_Data/WeatherData/Weather-{weatherFile}.csv"),
-                HostingEnvironment.MapPath($"~/App_Data/ConsumptionData/{weatherFile}.csv"),
-                stateName, startDate, endDate);
-            //ImportParameters parameters = new ImportParameters(HostingEnvironment.MapPath("~/App_Data/WeatherData/Weather-Serbia.csv"), HostingEnvironment.MapPath("~/App_Data/ConsumptionData/Consumption.csv"), "Srbija", DateTime.MinValue, DateTime.MaxValue);
-            ImportData.Load(parameters);
+        [HttpPost]
+        public ActionResult FilterDataName(String stateName) 
+        {
+            IDataManipulation dataManipulation = new DataManipulation();
 
-            return RedirectToAction("Index");
+            var list = (List<ShowingData>)HttpContext.Application["showingData"];
+            HttpContext.Application["showingData"] = new List<ShowingData>();
+            HttpContext.Application["showingData"] = dataManipulation.FilterByName(stateName, list);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult FilterDataDate(DateTime startDate, DateTime endDate) 
+        {
+            IDataManipulation dataManipulation = new DataManipulation();
+
+            var list = (List<ShowingData>)HttpContext.Application["showingData"];
+            HttpContext.Application["showingData"] = new List<ShowingData>();
+            HttpContext.Application["showingData"] = dataManipulation.FilterByTime(startDate, endDate, list);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult DiscardFilters() 
+        {
+            this.InitApp();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

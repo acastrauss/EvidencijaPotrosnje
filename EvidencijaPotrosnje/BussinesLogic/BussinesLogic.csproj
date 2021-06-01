@@ -55,6 +55,10 @@
     <Compile Include="DataManipulation.cs" />
     <Compile Include="DBLogic.cs" />
     <Compile Include="ExportData.cs" />
+    <Compile Include="IDataManipulation.cs" />
+    <Compile Include="IExportData.cs" />
+    <Compile Include="IImportData.cs" />
+    <Compile Include="IMapCW.cs" />
     <Compile Include="ImportData.cs" />
     <Compile Include="MapCW.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

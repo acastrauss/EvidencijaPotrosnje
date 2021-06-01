@@ -13,10 +13,12 @@ namespace BussinesLogic
     /// <summary>
     /// For exporting selected (filtered) data to given file
     /// </summary>
-    public class ExportData
+    public class ExportData : IExportData
     {
-        public static void SaveData(List<ShowingData> showingData)
+        public void SaveData(IEnumerable<ShowingData> showingDataI)
         {
+            List<ShowingData> showingData = showingDataI.ToList();
+
             if (showingData.Count == 0)
             {
                 throw new Exception("List for export cant be emtpy");

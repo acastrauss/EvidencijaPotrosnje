@@ -11,9 +11,9 @@ namespace BussinesLogic
     /// <summary>
     /// For manipulating data for user interface (filtering, etc.)
     /// </summary>
-    public class DataManipulation
+    public class DataManipulation : IDataManipulation
     {
-        public static List<ShowingData> FilterByName(string StateName, List<ShowingData> lista)
+        public IEnumerable<ShowingData> FilterByName(string StateName, IEnumerable<ShowingData> lista)
         {
             List<ShowingData> povratna = new List<ShowingData>();
 
@@ -38,7 +38,7 @@ namespace BussinesLogic
             return povratna;
         }
 
-        public static List<ShowingData> FilterByTime(DateTime DateFrom, DateTime DateTo, List<ShowingData> lista)
+        public IEnumerable<ShowingData> FilterByTime(DateTime DateFrom, DateTime DateTo, IEnumerable<ShowingData> lista)
         {
             if (DateFrom == null)
                 throw new Exception("Filter date can not be null!");
@@ -57,4 +57,5 @@ namespace BussinesLogic
             return povratna;
         }
     }
+
 }

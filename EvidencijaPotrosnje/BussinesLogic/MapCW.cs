@@ -11,9 +11,9 @@ namespace BussinesLogic
     /// <summary>
     /// Maps consumption data and weather data for showing
     /// </summary>
-    public class MapCW
+    public class MapCW : IMapCW
     {
-        public static List<ShowingData> MapData(StateInfoModel stateInfoModel)
+        public IEnumerable<ShowingData> MapData(StateInfoModel stateInfoModel)
         {
             List<ShowingData> showingDatas = new List<ShowingData>();
 
@@ -21,9 +21,9 @@ namespace BussinesLogic
             {
                 var dateAdded = cons.DateShort.AddHours(cons.DateTo.Hour).AddMinutes(cons.DateTo.Minute).AddSeconds(cons.DateTo.Second);
 
-                var weather = stateInfoModel.StateWeathers.Find(x => (x.LocalTime - dateAdded).Days == 0 );
+                var weather = stateInfoModel.StateWeathers.Find(x => (x.LocalTime - dateAdded).Days == 0);
 
-                if(weather != null)
+                if (weather != null)
                 {
                     ShowingData showingData = new ShowingData()
                     {

@@ -1,35 +1,47 @@
 ﻿@using SharedModels;
- 
+
 @{
     ViewBag.Title = "Index";
     ViewBag.States = new List<string>() { "srbija", "mne,ma" };
 
-    List<StateInfoModel> models = ViewBag.Models;
-
-    List<SharedModels.HelperClasses.ShowingData> showingDatas = ViewBag.ShowingData;
+    List<SharedModels.HelperClasses.ShowingData> showingDatas = (List<SharedModels.HelperClasses.ShowingData>)HttpContext.Current.Application["showingData"];
 }
-@model List<StateInfoModel>
 
 <h1>Dobrodošli u aplikaciju Evidencija Potrošnje</h1>
 
-<form method="get" action="/Home/Import">
-    <select name="weatherFile" multiple>
-        <option value="Serbia">Serbia</option>
-        <option value="Germany">Germany</option>
-    </select>
-
-    <select name="stateName" multiple>
-        <option value="Serbia">Serbia</option>
-    </select>
-
-    <input type="date" name="startDate" />
-    <input type="date" name="endDate" />
-
-    <input type="submit" value="Import" />
-
+<form method="post" action="~/Home/FilterDataName">
+    <p>Po nazivu</p>
+    <input type="text" name="stateName" />
+    <input type="submit" value="Filter by name" />
 </form>
 
-<table class="import-table">
+<form method="post" action="~/Home/FilterDataDate">
+    <p>Po datumu</p>
+    <input type="date" name="startDate" />
+    <input type="date" name="endDate" />
+    <input type="submit" value="Filter by date" />
+</form>
+
+<form method="get" action="~/Home/DiscardFilters">
+    <input type="submit" value="Discard filters" />
+</form>
+
+<input type="checkbox" onclick="hideColumn1('import-table', 1)" runat="server" checked="checked"/>
+<label>Drzava</label>
+<input type="checkbox" onclick="hideColumn1('import-table', 2)" runat="server" checked="checked"/>
+<label>UTC vreme</label>
+<input type="checkbox" onclick="hideColumn1('import-table', 3)" runat="server" checked="checked"/>
+<label>Potrosnja</label>
+<input type="checkbox" onclick="hideColumn1('import-table', 4)" runat="server" checked="checked" />
+<label>Temperatura</label>
+<input type="checkbox" onclick="hideColumn1('import-table', 5)" runat="server" checked="checked" />
+<label>Pritisak</label>
+<input type="checkbox" onclick="hideColumn1('import-table', 6)" runat="server" checked="checked" />
+<label>Vlaznost vazduha</label>
+<input type="checkbox" onclick="hideColumn1('import-table', 7)" runat="server" checked="checked" />
+<label>Brzina vetra</label>
+
+<table class="import-table" id="import-table">
     <tr>
         <th>Drzava</th>
         <th>UTC vreme</th>
@@ -40,34 +52,38 @@
         <th>Brzina vetra</th>
     </tr>
 
-    @foreach (var sd in showingDatas)
+    @if (showingDatas != null)
     {
-        <tr>
-            <td>@sd.StateName</td>
-            <td>@sd.DateUTC.ToString()</td>
-            @if (sd.HasC)
-            {
-                <td>@sd.ConsumptionValue.ToString()</td>
-            }
-            else
-            {
-                <td> No data </td>
-            }
-            @if (sd.HasW)
-            {
-                <td>@sd.Temperature</td>
-                <td>@sd.Pressure</td>
-                <td>@sd.Humidity</td>
-                <td>@sd.WindSpeed</td>
-            }
-            else
-            {
-                <td> No data </td>
-                <td> No data </td>
-                <td> No data </td>
-                <td> No data </td>
-            }
-        </tr>
+        foreach (var sd in showingDatas)
+        {
+            <tr>
+                <td>@sd.StateName</td>
+                <td>@sd.DateUTC.ToString()</td>
+                @if (sd.HasC)
+                {
+                    <td>@sd.ConsumptionValue.ToString()</td>
+                }
+                else
+                {
+                    <td> No data </td>
+                }
+                @if (sd.HasW)
+                {
+                    <td>@sd.Temperature</td>
+                    <td>@sd.Pressure</td>
+                    <td>@sd.Humidity</td>
+                    <td>@sd.WindSpeed</td>
+                }
+                else
+                {
+                    <td> No data </td>
+                    <td> No data </td>
+                    <td> No data </td>
+                    <td> No data </td>
+                }
+            </tr>
+        }
     }
 
 </table>
+

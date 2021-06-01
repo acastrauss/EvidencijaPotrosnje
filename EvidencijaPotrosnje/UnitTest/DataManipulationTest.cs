@@ -1,233 +1,161 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using SharedModels;
 using SharedModels.HelperClasses;
 using System.Linq;
+using NUnit.Framework;
+using Moq;
+using BussinesLogic;
 
 namespace UnitTest
 {
-    [TestClass]
+    [TestFixture]
     public class DataManipulationTest
     {
-        [TestMethod]
-        public void TestFilterByName()
+        private IDataManipulation filterData;
+        private List<ShowingData> showingDataList;
+
+        [SetUp]
+        public void SetUp()
         {
-            CurrentData.Data.Clear();
+            Mock<DataManipulation> mockFilter = new Mock<DataManipulation>();
+            filterData = mockFilter.Object;
 
-            DataKeys dataKeys1 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys2 = new DataKeys("Portugal", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys3 = new DataKeys("Spanija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
+            // init data
+            Mock<List<ShowingData>> mockList = new Mock<List<ShowingData>>();
+            ShowingData data1 = new ShowingData("srbija", Convert.ToDateTime("05/05/2016"), 22.22, (float)22.3, (float)22.3, 11, 22);
+            ShowingData data2 = new ShowingData("bugarska", Convert.ToDateTime("05/05/2017"), 22.22, (float)22.3, (float)22.3, 11, 22);
+            ShowingData data3 = new ShowingData("srbija", Convert.ToDateTime("05/05/2018"), 22.22, (float)22.3, (float)22.3, 11, 22);
+            ShowingData data4 = new ShowingData("hrvatska", Convert.ToDateTime("05/05/2019"), 22.22, (float)22.3, (float)22.3, 11, 22);
+            ShowingData data5 = new ShowingData("srbija", Convert.ToDateTime("05/05/2019"), 22.22, (float)22.3, (float)22.3, 11, 22);
 
-            StateInfoModel stateInfoModel1 = new StateInfoModel( "Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel( "Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel( "Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel( "Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel( "Srbija");
+            mockList.Object.Add(data1);
+            mockList.Object.Add(data2);
+            mockList.Object.Add(data3);
+            mockList.Object.Add(data4);
+            mockList.Object.Add(data5);
 
-            CurrentData.Data.Add(dataKeys1, stateInfoModel1);
-            CurrentData.Data.Add(dataKeys2, stateInfoModel2);
-            CurrentData.Data.Add(dataKeys3, stateInfoModel3);
-            CurrentData.Data.Add(dataKeys4, stateInfoModel4);
-            CurrentData.Data.Add(dataKeys5, stateInfoModel5);
-
-            String stateName = "Srbija";
-
-            BussinesLogic.DataManipulation.FilterByName(stateName);
-
-            Assert.IsTrue(CurrentData.Data.Keys.ToList().All(x => x.Name == stateName));
-            
-            CurrentData.Data.Clear();
+            showingDataList = mockList.Object;
         }
-        
-        [TestMethod]
-        public void TestFilterByNameNull() 
+
+        [Test]
+        [TestCase("srbija")]
+        public void TestFilterByName(String stateName)
+        {
+            showingDataList = filterData.FilterByName(stateName, showingDataList).ToList();
+
+            Assert.IsTrue(showingDataList.ToList().All(x => x.StateName == stateName));
+            this.SetUp();
+        }
+
+        [Test]
+        [TestCase(null)]
+        public void TestFilterByNameNull(String stateName)
         {
             try
             {
-                BussinesLogic.DataManipulation.FilterByName(null);
+                filterData.FilterByName(stateName, showingDataList);
                 Assert.Fail();
             }
             catch (Exception e)
             {
                 Assert.IsTrue(e.Message.Equals("Filter string can not be null!"));
             }
+            finally
+            {
+                this.SetUp();
+            }
         }
 
-        [TestMethod]
-        public void TestFilterByNameEmpty() 
+        [Test]
+        [TestCase("")]
+        public void TestFilterByNameEmpty(String stateName)
         {
-            CurrentData.Data.Clear();
-
-            DataKeys dataKeys1 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys2 = new DataKeys("Portugal", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys3 = new DataKeys("Spanija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-
-            StateInfoModel stateInfoModel1 = new StateInfoModel("Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel("Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel("Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel("Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel("Srbija");
-
-            CurrentData.Data.Add(dataKeys1, stateInfoModel1);
-            CurrentData.Data.Add(dataKeys2, stateInfoModel2);
-            CurrentData.Data.Add(dataKeys3, stateInfoModel3);
-            CurrentData.Data.Add(dataKeys4, stateInfoModel4);
-            CurrentData.Data.Add(dataKeys5, stateInfoModel5);
-
-            var currDataTemp = CurrentData.Data;
-
-            BussinesLogic.DataManipulation.FilterByName(String.Empty);
-            Assert.IsTrue(CurrentData.Data == currDataTemp);
-
-            CurrentData.Data.Clear();
+            try
+            {
+                filterData.FilterByName(stateName, showingDataList);
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.Equals("Filter string can not be empty!"));
+            }
+            finally
+            {
+                this.SetUp();
+            }
         }
 
-        [TestMethod]
-        public void TestFilterByNameRandom() 
+        [Test]
+        [TestCase("asd")]
+        public void TestFilterByNameRandom(String stateName)
         {
-
-            CurrentData.Data.Clear();
-
-            DataKeys dataKeys1 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys2 = new DataKeys("Portugal", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys3 = new DataKeys("Spanija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-
-            StateInfoModel stateInfoModel1 = new StateInfoModel("Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel("Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel("Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel("Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel("Srbija");
-
-            CurrentData.Data.Add(dataKeys1, stateInfoModel1);
-            CurrentData.Data.Add(dataKeys2, stateInfoModel2);
-            CurrentData.Data.Add(dataKeys3, stateInfoModel3);
-            CurrentData.Data.Add(dataKeys4, stateInfoModel4);
-            CurrentData.Data.Add(dataKeys5, stateInfoModel5);
-
-            String radnomString = "aSSAKM..';213sa";
-
-            BussinesLogic.DataManipulation.FilterByName(radnomString);
-
-            Assert.IsTrue(CurrentData.Data.Count == 0);
-
-            CurrentData.Data.Clear();
+            showingDataList = filterData.FilterByName(stateName, showingDataList).ToList();
+            Assert.IsTrue(showingDataList.Count == 0);
+            this.SetUp();
         }
 
-        [TestMethod]
-        public void TestFilterByTime()
+        [Test]
+        [TestCase("05/05/2018", "01/06/2021")]
+        public void TestFilterByTime(String startDate, String endDate)
         {
-            CurrentData.Data.Clear();
+            DateTime Datefrom = DateTime.Parse(startDate);
+            DateTime Dateto = DateTime.Parse(endDate);
 
-            DataKeys dataKeys1 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys2 = new DataKeys("Portugal", new DateTime(2005, 4, 5), new DateTime(2012, 5, 6));
-            DataKeys dataKeys3 = new DataKeys("Spanija", new DateTime(2019, 4, 5), new DateTime(2021, 5, 6));
-            DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2019, 4, 5), new DateTime(2020, 5, 6));
-            DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2020, 5, 6));
+            showingDataList = filterData.FilterByTime(Datefrom, Dateto, showingDataList).ToList();
 
-            StateInfoModel stateInfoModel1 = new StateInfoModel("Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel("Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel("Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel("Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel("Srbija");
+            Assert.IsTrue(showingDataList.ToList().All(x => x.DateUTC >= Datefrom && x.DateUTC <= Dateto));
+            this.SetUp();
 
-            CurrentData.Data.Add(dataKeys1, stateInfoModel1);
-            CurrentData.Data.Add(dataKeys2, stateInfoModel2);
-            CurrentData.Data.Add(dataKeys3, stateInfoModel3);
-            CurrentData.Data.Add(dataKeys4, stateInfoModel4);
-            CurrentData.Data.Add(dataKeys5, stateInfoModel5);
-
-            // everything after 1.1.2015. and before now is valid
-            var startDate = new DateTime(2015, 1, 1);
-            var endDate = DateTime.Now;
-            BussinesLogic.DataManipulation.FilterByTime(startDate, endDate);
-
-            Assert.IsTrue(CurrentData.Data.Keys.ToList().All(x => x.StartDate >= startDate && x.EndDate <= endDate));
-
-            CurrentData.Data.Clear();
         }
 
-        [TestMethod]
-        public void TestFilterByTimeAll() 
+        [Test]
+        [TestCase("01/01/0001", "12/31/9999")]
+        public void TestFilterByTimeAll(String startDate, String endDate)
         {
-            CurrentData.Data.Clear();
+            var temp = showingDataList;
 
-            DataKeys dataKeys1 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys2 = new DataKeys("Portugal", new DateTime(2005, 4, 5), new DateTime(2012, 5, 6));
-            DataKeys dataKeys3 = new DataKeys("Spanija", new DateTime(2019, 4, 5), new DateTime(2021, 5, 6));
-            DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2019, 4, 5), new DateTime(2020, 5, 6));
-            DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2020, 5, 6));
+            DateTime Datefrom = DateTime.Parse(startDate);
+            DateTime Dateto = DateTime.Parse(endDate);
+            showingDataList = filterData.FilterByTime(Datefrom, Dateto, showingDataList).ToList();
 
-            StateInfoModel stateInfoModel1 = new StateInfoModel("Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel("Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel("Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel("Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel("Srbija");
 
-            CurrentData.Data.Add(dataKeys1, stateInfoModel1);
-            CurrentData.Data.Add(dataKeys2, stateInfoModel2);
-            CurrentData.Data.Add(dataKeys3, stateInfoModel3);
-            CurrentData.Data.Add(dataKeys4, stateInfoModel4);
-            CurrentData.Data.Add(dataKeys5, stateInfoModel5);
+            bool equals = showingDataList.Count() == temp.Count() &&
+                showingDataList.Count() != 0 &&
+                temp.Count() != 0;
 
-            var currentDataTemp = CurrentData.Data;
+            if (equals)
+            {
+                for (int i = 0; i < temp.Count(); i++)
+                {
+                    equals &= showingDataList[i].Equals(temp[i]);
+                }
+            }
 
-            // everything should be here again
-            var startDate = DateTime.MinValue;
-            var endDate = DateTime.MaxValue;
-            BussinesLogic.DataManipulation.FilterByTime(startDate, endDate);
+            Assert.IsTrue(equals);
 
-            bool t1 = currentDataTemp[dataKeys1] == CurrentData.Data[dataKeys1];
-            bool t2 = currentDataTemp[dataKeys2] == CurrentData.Data[dataKeys2];
-            bool t3 = currentDataTemp[dataKeys3] == CurrentData.Data[dataKeys3];
-            bool t4 = currentDataTemp[dataKeys4] == CurrentData.Data[dataKeys4];
-            bool t5 = currentDataTemp[dataKeys5] == CurrentData.Data[dataKeys5];
-
-            bool isEqual = CurrentData.Data.Equals(currentDataTemp);
-
-            Assert.IsTrue(true);
-
-            CurrentData.Data.Clear();
+            this.SetUp();
         }
-    
-        [TestMethod]
-        public void TestFilterByTimeEmpty()
+
+        [Test]
+        [TestCase("12/31/9999", "01/01/0001")]
+        public void TestFilterByTimeEmpty(String startDate, String endDate)
         {
-            CurrentData.Data.Clear();
+            DateTime start = DateTime.Parse(startDate);
+            DateTime end = DateTime.Parse(endDate);
 
-            DataKeys dataKeys1 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2015, 5, 6));
-            DataKeys dataKeys2 = new DataKeys("Portugal", new DateTime(2005, 4, 5), new DateTime(2012, 5, 6));
-            DataKeys dataKeys3 = new DataKeys("Spanija", new DateTime(2019, 4, 5), new DateTime(2021, 5, 6));
-            DataKeys dataKeys4 = new DataKeys("Francuska", new DateTime(2019, 4, 5), new DateTime(2020, 5, 6));
-            DataKeys dataKeys5 = new DataKeys("Srbija", new DateTime(2010, 4, 5), new DateTime(2020, 5, 6));
+            var tempList = filterData.FilterByTime(start, end, showingDataList).ToList();
 
-            StateInfoModel stateInfoModel1 = new StateInfoModel("Srbija");
-            StateInfoModel stateInfoModel2 = new StateInfoModel("Portugal");
-            StateInfoModel stateInfoModel3 = new StateInfoModel("Spanija");
-            StateInfoModel stateInfoModel4 = new StateInfoModel("Francuska");
-            StateInfoModel stateInfoModel5 = new StateInfoModel("Srbija");
+            Assert.IsTrue(tempList.Count() == 0);
 
-            CurrentData.Data.Add(dataKeys1, stateInfoModel1);
-            CurrentData.Data.Add(dataKeys2, stateInfoModel2);
-            CurrentData.Data.Add(dataKeys3, stateInfoModel3);
-            CurrentData.Data.Add(dataKeys4, stateInfoModel4);
-            CurrentData.Data.Add(dataKeys5, stateInfoModel5);
+            this.SetUp();
+        }
 
-            // everything should be empty
-            var startDate = DateTime.MaxValue; 
-            var endDate = DateTime.MinValue;
-            BussinesLogic.DataManipulation.FilterByTime(startDate, endDate);
-
-            Assert.IsTrue(CurrentData.Data.Count == 0);
-
-            CurrentData.Data.Clear();
-
+        [TearDown]
+        public void TearDown()
+        {
+            showingDataList.Clear();
         }
     }
+
 }

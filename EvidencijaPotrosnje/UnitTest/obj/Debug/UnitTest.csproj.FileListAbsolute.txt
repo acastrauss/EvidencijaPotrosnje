@@ -34,3 +34,6 @@ D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\UnitTest\obj\Debug\UnitT
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\UnitTest\obj\Debug\UnitTest.pdb
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\UnitTest\obj\Debug\UnitTest.csprojAssemblyReference.cache
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\UnitTest\obj\Debug\UnitTest.csproj.CoreCompileInputs.cache
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\UnitTest\bin\Debug\UnitTest.dll.config
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\UnitTest\bin\Debug\EntityFramework.SqlServer.dll
+D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\UnitTest\bin\Debug\EntityFramework.SqlServer.xml
