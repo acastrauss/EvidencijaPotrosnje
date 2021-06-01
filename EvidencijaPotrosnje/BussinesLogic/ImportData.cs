@@ -42,7 +42,7 @@ namespace BussinesLogic
                     }
                     swm.LocalTime = DateTime.ParseExact(fields[0], "dd.MM.yyyy HH:mm", null);
                     
-                    //if (swm.LocalTime <= importParameters.StartDate || swm.LocalTime >= importParameters.EndDate) continue;
+                    if (swm.LocalTime <= importParameters.StartDate || swm.LocalTime >= importParameters.EndDate) continue;
 
                     float airTemp, stationPressure, reducedPressure;
                     swm.AirTemperature = float.TryParse(fields[1], out airTemp) ? airTemp : 0;
@@ -97,8 +97,8 @@ namespace BussinesLogic
                     string[] fields = csvParser.ReadFields();
                     scm.DateUTC = DateTime.UtcNow;
                     scm.DateShort = DateTime.ParseExact(fields[2], "M/d/yyyy", null);
-                    //if (scm.DateShort >= endDate || scm.DateShort < startDate)
-                    //    continue;
+                    if (scm.DateShort >= endDate || scm.DateShort < startDate)
+                        continue;
 
                     // the next 2 is just hours
                     scm.DateFrom = DateTime.ParseExact(fields[3], "H:mm", null);
