@@ -40,10 +40,9 @@ namespace BussinesLogic
                     {
                         continue;
                     }
-                    // OVDE NEDOSTAJE POLJE LOKALNO VREME IZ TABELE WEATHER,ONO CE NAM KASNIJE TREBATI ZA PRIKAZ
                     swm.LocalTime = DateTime.ParseExact(fields[0], "dd.MM.yyyy HH:mm", null);
                     
-                    if (swm.LocalTime <= importParameters.StartDate || swm.LocalTime >= importParameters.EndDate) continue;
+                    //if (swm.LocalTime <= importParameters.StartDate || swm.LocalTime >= importParameters.EndDate) continue;
 
                     float airTemp, stationPressure, reducedPressure;
                     swm.AirTemperature = float.TryParse(fields[1], out airTemp) ? airTemp : 0;

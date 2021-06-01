@@ -1,69 +1,73 @@
 ﻿@using SharedModels;
+ 
 @{
-	ViewBag.Title = "Index";
-	ViewBag.States = new List<string>() { "srbija", "mne,ma" };
+    ViewBag.Title = "Index";
+    ViewBag.States = new List<string>() { "srbija", "mne,ma" };
 
-	List<StateInfoModel> models = ViewBag.Models;
+    List<StateInfoModel> models = ViewBag.Models;
+
+    List<SharedModels.HelperClasses.ShowingData> showingDatas = ViewBag.ShowingData;
 }
 @model List<StateInfoModel>
 
 <h1>Dobrodošli u aplikaciju Evidencija Potrošnje</h1>
 
 <form method="get" action="/Home/Import">
-	<select name="weatherFile" multiple>
-		<option value="Serbia">Serbia</option>
-		<option value="Germany">Germany</option>
-	</select>
-
-	<select name="stateName" multiple>
+    <select name="weatherFile" multiple>
         <option value="Serbia">Serbia</option>
-	</select>
+        <option value="Germany">Germany</option>
+    </select>
 
-	<input type="date" name="startDate" />
-	<input type="date" name="endDate" />
+    <select name="stateName" multiple>
+        <option value="Serbia">Serbia</option>
+    </select>
 
-	<input type="submit" value="Import" />
+    <input type="date" name="startDate" />
+    <input type="date" name="endDate" />
+
+    <input type="submit" value="Import" />
 
 </form>
 
 <table class="import-table">
+    <tr>
+        <th>Drzava</th>
+        <th>UTC vreme</th>
+        <th>Potrosnja</th>
+        <th>Temperatura</th>
+        <th>Pritisak</th>
+        <th>Vlaznost vazduha</th>
+        <th>Brzina vetra</th>
+    </tr>
 
-    @foreach (var state in models)
+    @foreach (var sd in showingDatas)
     {
         <tr>
-            <th>Drzava</th>
-            <td>@state.StateName</td>
+            <td>@sd.StateName</td>
+            <td>@sd.DateUTC.ToString()</td>
+            @if (sd.HasC)
+            {
+                <td>@sd.ConsumptionValue.ToString()</td>
+            }
+            else
+            {
+                <td> No data </td>
+            }
+            @if (sd.HasW)
+            {
+                <td>@sd.Temperature</td>
+                <td>@sd.Pressure</td>
+                <td>@sd.Humidity</td>
+                <td>@sd.WindSpeed</td>
+            }
+            else
+            {
+                <td> No data </td>
+                <td> No data </td>
+                <td> No data </td>
+                <td> No data </td>
+            }
         </tr>
-
-        <tr>
-            <th>UCT vreme</th>
-            <th>Elektricna Energija</th>
-        </tr>
-
-        foreach (var cons in state.StateConsumption)
-        {
-            <tr>
-                <td>@cons.DateShort</td>
-                <td>@cons.Value</td>
-            </tr>
-        }
-
-        <tr>
-            <th>Temperatura</th>
-            <th>Pritisak</th>
-            <th>Vlaznost vazduha</th>
-            <th>Brzina vetra</th>
-        </tr>
-        foreach (var w in state.StateWeathers)
-        {
-            <tr>
-                <td>@w.AirTemperature</td>
-                <td>@w.StationPressure</td>
-                <td>@w.Humidity</td>
-                <td>@w.WindSpeed</td>
-            </tr>
-        }
-
     }
 
 </table>

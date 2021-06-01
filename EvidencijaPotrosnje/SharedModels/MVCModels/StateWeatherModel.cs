@@ -28,7 +28,14 @@ namespace SharedModels
         #endregion
 
         #region ConstructorsAndDestructor
-        public StateWeatherModel() {}
+        public StateWeatherModel() 
+		{	
+			airTemperature = -float.MaxValue;
+			stationPressure = -1;
+			humidity = -1;
+			windSpeed = -1;
+			localTime = DateTime.Now.AddYears(100);
+		}
 
 		/// <summary>
 		/// Not valid value for StateWeatherModel

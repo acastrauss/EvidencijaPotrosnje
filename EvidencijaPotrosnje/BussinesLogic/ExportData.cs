@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharedModels;
 using SharedModels.HelperClasses;
+using Microsoft.VisualBasic.FileIO;
 
 namespace BussinesLogic
 {
@@ -14,36 +15,33 @@ namespace BussinesLogic
     /// </summary>
     public class ExportData
     {
-        public void SaveData(List<StateInfoModel> Countries)
+        public static void SaveData(List<ShowingData> showingData)
         {
             var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase); //put do priject foldera \\\Debug
-            string a = "OutputFile.csv";
+            string a = "Output_" + DateTime.Now.ToString("yyy_MM_d_HH_mm") + ".csv";// +/* DateTime.Now.ToString("yyyy/MM/d/HH/mm/ss") */ //+ ".csv";
             string[] paths = { @path, a };
             string fullPath = System.IO.Path.Combine(paths); // file:\\C:------------
             fullPath = fullPath.Substring(6, fullPath.Length - 6); //Skraceno
-            //var file = @"C:\OutputFile.csv";
-            //CountriesDictionary countriesDictionary = new CountriesDictionary();
 
-            using (var stream = File.CreateText(fullPath))
+            using (var csvWrite = File.CreateText(fullPath))
             {
-                foreach (var Country in Countries)
+                foreach (var data in showingData)
                 {
-                    //string StateName = DBLogic.GetFullStateName(Country.StateConsumption.StateCode);
-                    //string UCTTime = Country.StateConsumption.DateUTC.ToString();
-                    //string Consumption = Country.StateConsumption.Value.ToString();
-                    //string temperature = Country.StateWeather.AirTemperature.ToString();
-                    //string pressure = Country.StateWeather.StationPressure.ToString();
-                    //string humidity = Country.StateWeather.Humidity.ToString();
-                    //string windSpeed = Country.StateWeather.WindSpeed.ToString();
+                    String stataName = data.StateName;
+                    String dateUTC = data.DateUTC.ToString();
+                    String consValue = data.ConsumptionValue.ToString();
+                    String temp = data.Temperature.ToString();
+                    String pressure = data.Pressure.ToString();
+                    String humidity = data.Humidity.ToString();
+                    String ws = data.WindSpeed.ToString();
 
+                    string csvRow = string.Format("{0},{1},{2},{3},{4},{5},{6}"
+                        , stataName, dateUTC, consValue, temp, pressure, humidity, ws);
 
-                    //string csvRow = string.Format("{0},{1},{2},{3},{4},{5},{6}",StateName,UCTTime,Consumption,temperature,pressure,humidity,windSpeed);
-
-                    //stream.WriteLine(csvRow);
+                    csvWrite.WriteLine(csvRow);
                 }
             }
 
         }
-
     }
 }

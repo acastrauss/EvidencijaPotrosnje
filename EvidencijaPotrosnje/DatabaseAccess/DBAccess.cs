@@ -93,14 +93,15 @@ namespace DatabaseAccess
             return retVal;
         }
 
-        private async Task<int> AddWeathersToDBThread(IEnumerable<StateWeatherModel> stateWeatherModels, StatesDB db, int id, State state) 
+        private async Task<int> AddWeathersToDBThread(IEnumerable<StateWeatherModel> stateWeatherModels, StatesDB db, int id) 
         {
             foreach (var swm in stateWeatherModels)
             {
                 var dbmodel = DBAccess.ConvertStateWeatherDBNew(swm);
                 dbmodel.stateID = id;
-                dbmodel.State = state;
+                //dbmodel.State = db.States.Where(x => x.stateID == id).FirstOrDefault();
                 db.StateWeathers.Add(dbmodel);
+
             }
 
             return await db.SaveChangesAsync();
@@ -109,8 +110,7 @@ namespace DatabaseAccess
         public void AddStateWeathers(IEnumerable<StateWeatherModel> models, String stateName)
         {
             int stateId = this.GetStateID(stateName);
-            State state = this.GetStateForID((int)stateId);
-
+            
             List<StateWeatherModel> modelsList = models.ToList();
 
             int listSize = 5000;
@@ -126,38 +126,20 @@ namespace DatabaseAccess
                 {
                     var sublist = modelsList.GetRange(i * listSize, listSize);
 
-                    dbTasks.Add(AddWeathersToDBThread(sublist, db, stateId, state));
+                    dbTasks.Add(AddWeathersToDBThread(sublist, db, stateId));
                     
                 }
 
-                /*
-                var lefovert = modelsList.GetRange(numT * listSize, models.Count() - numT * listSize);
-
-                foreach (var l in lefovert)
-                {
-                    db.StateWeathers.Add(DBAccess.ConvertStateWeatherDBNew(l));
-                }
-
-                try
-                {
-                    //db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-
-                    throw;
-                }
-                */
             }
         }
 
-        private async Task<int> AddConsumptionToDBThread(IEnumerable<StateConsumptionModel> stateConsumptioModels, StatesDB db, int id, State state)
+        private async Task<int> AddConsumptionToDBThread(IEnumerable<StateConsumptionModel> stateConsumptioModels, StatesDB db, int id)
         {
             foreach (var scm in stateConsumptioModels)
             {
                 var dbmodel = DBAccess.ConvertStateConsumptionDBNew(scm);
                 dbmodel.stateID = id;
-                dbmodel.State = state;
+                //dbmodel.State = db.States.Where(x => x.stateID == id).FirstOrDefault();
                 db.StateConsumptions.Add(dbmodel);
             }
 
@@ -167,8 +149,7 @@ namespace DatabaseAccess
         public void AddStateConsumption(IEnumerable<StateConsumptionModel> models, String stateName)
         {
             int stateId = this.GetStateID(stateName);
-            State state = this.GetStateForID((int)stateId);
-
+            
             List<StateConsumptionModel> modelsList = models.ToList();
 
             int listSize = 5000;
@@ -185,28 +166,8 @@ namespace DatabaseAccess
                 {
                     var sublist = modelsList.GetRange(i * listSize, listSize);
 
-                    dbTasks.Add(AddConsumptionToDBThread(sublist, db, stateId, state));
-
+                    dbTasks.Add(AddConsumptionToDBThread(sublist, db, stateId));
                 }
-
-                /*
-                var lefovert = modelsList.GetRange(numT * listSize, models.Count() - numT * listSize);
-                
-                foreach (var l in lefovert)
-                {
-                    db.StateWeathers.Add(DBAccess.ConvertStateWeatherDBNew(l));
-                }
-                
-                try
-                {
-                    //db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-
-                    throw;
-                }
-                */
             }
         }
 

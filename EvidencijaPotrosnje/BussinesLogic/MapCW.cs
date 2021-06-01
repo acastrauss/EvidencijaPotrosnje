@@ -13,20 +13,20 @@ namespace BussinesLogic
     /// </summary>
     public class MapCW
     {
-        public List<ShowingData> MapData(StateInfoModel stateInfoModel)
+        public static List<ShowingData> MapData(StateInfoModel stateInfoModel)
         {
             List<ShowingData> showingDatas = new List<ShowingData>();
 
             foreach (var cons in stateInfoModel.StateConsumption)
             {
-                var weather = stateInfoModel.StateWeathers.Find(x => x.LocalTime == cons.DateUTC);
+                var weather = stateInfoModel.StateWeathers.Find(x => DateTime.Compare(x.LocalTime, cons.DateUTC) == 0);
 
-                if(weather.IsValid())
+                if(weather != null)
                 {
                     ShowingData showingData = new ShowingData()
                     {
                         ConsumptionValue = cons.Value,
-                        DateUTC = cons.DateUTC,
+                        DateUTC = cons.DateShort.AddHours(cons.DateTo.Hour).AddMinutes(cons.DateTo.Minute).AddSeconds(cons.DateTo.Second),
                         Humidity = weather.Humidity,
                         Pressure = weather.StationPressure,
                         StateName = stateInfoModel.StateName,
@@ -45,7 +45,7 @@ namespace BussinesLogic
                     ShowingData showingData = new ShowingData()
                     {
                         ConsumptionValue = cons.Value,
-                        DateUTC = cons.DateUTC,
+                        DateUTC = cons.DateShort.AddHours(cons.DateTo.Hour).AddMinutes(cons.DateTo.Minute).AddSeconds(cons.DateTo.Second),
                         StateName = stateInfoModel.StateName,
                         HasC = true,
                         HasW = false

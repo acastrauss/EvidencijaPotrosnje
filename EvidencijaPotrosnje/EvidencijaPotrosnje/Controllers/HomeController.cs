@@ -19,7 +19,15 @@ namespace EvidencijaPotrosnje.Controllers
             //DBLogic.RemoveAllStates();
 
             List<StateInfoModel> states = (List<StateInfoModel>) DBLogic.GetAllStates();
-            ViewBag.Models = states;
+
+            List<ShowingData> showingData = new List<ShowingData>();
+
+            foreach (var state in states)
+            {
+                showingData.AddRange(MapCW.MapData(state));
+            }
+
+            ViewBag.ShowingData = showingData;
 
             return View(states);
         }
