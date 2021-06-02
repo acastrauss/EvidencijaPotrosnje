@@ -8,6 +8,8 @@ using DatabaseAccess;
 using SharedModels.HelperClasses;
 using System.Data.Entity.Validation;
 
+#pragma warning disable CS0659
+
 namespace BussinesLogic
 {
     /// <summary>
