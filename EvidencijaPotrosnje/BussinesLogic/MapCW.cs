@@ -15,6 +15,11 @@ namespace BussinesLogic
     {
         public IEnumerable<ShowingData> MapData(StateInfoModel stateInfoModel)
         {
+            if(stateInfoModel == null)
+            {
+                throw new Exception("State info model cant be null");
+            }
+
             List<ShowingData> showingDatas = new List<ShowingData>();
 
             foreach (var cons in stateInfoModel.StateConsumption)

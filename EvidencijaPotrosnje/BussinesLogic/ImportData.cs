@@ -131,9 +131,6 @@ namespace BussinesLogic
 
         public void Load(ImportParameters parameters)
         {
-
-            dBLogic.RemoveAllStates();
-
             StateInfoModel state = dBLogic.GetStateByName(parameters.StateName);
 
             if (!String.IsNullOrEmpty(parameters.WeatherFile))

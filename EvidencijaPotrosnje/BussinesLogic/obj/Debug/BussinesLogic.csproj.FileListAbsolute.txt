@@ -1,17 +1,3 @@
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.dll
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.pdb
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\DatabaseAccess.dll
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\SharedModels.dll
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.dll
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\DatabaseAccess.pdb
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\DatabaseAccess.dll.config
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\SharedModels.pdb
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.xml
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.csprojAssemblyReference.cache
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.csproj.CoreCompileInputs.cache
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.csproj.CopyComplete
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.dll
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.pdb
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.dll
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.pdb
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\DatabaseAccess.dll
@@ -26,9 +12,6 @@ C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\ob
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.csproj.CopyComplete
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.dll
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\obj\Debug\BussinesLogic.pdb
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.dll.config
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.SqlServer.dll
-D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\BussinesLogic.dll.config
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\BussinesLogic\bin\Debug\EntityFramework.SqlServer.xml

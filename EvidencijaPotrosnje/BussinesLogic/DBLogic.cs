@@ -34,21 +34,6 @@ namespace BussinesLogic
             return retVal;
         }
 
-        public void AddMoreStates(IEnumerable<StateInfoModel> states)
-        {
-            foreach (var state in states)
-            {
-                try
-                {
-                    dBAccess.AddStates(states);
-                }
-                catch (Exception e)
-                {
-                    continue;
-                }
-            }
-        }
-
         public void AddState(StateInfoModel state)
         {
             try
@@ -63,9 +48,30 @@ namespace BussinesLogic
 
         public void AddStateConsumptions(IEnumerable<StateConsumptionModel> stateConsumption, String stateName)
         {
+            bool anyNull = false;
+
+            if(stateConsumption != null)
+            {
+                foreach (var modelSc in stateConsumption)
+                {
+                    if (modelSc == null)
+                    {
+                        anyNull = true;
+                        break;
+                    }
+                }
+            }
+
+            if (stateConsumption == null || stateName == null || anyNull)
+                throw new Exception("Invalid parameteres to add.");
+
             try
             {
-                dBAccess.AddStateConsumption(stateConsumption, stateName);
+                var maxDate = stateConsumption.Max(x => x.DateShort);
+                var minDate = stateConsumption.Min(x => x.DateShort);
+
+                dBAccess.RemoveStateConsumptionsByDate(minDate, maxDate, stateName).Wait();
+                dBAccess.AddStateConsumption(stateConsumption, stateName).Wait();
             }
             catch (Exception e)
             {
@@ -75,58 +81,37 @@ namespace BussinesLogic
 
         public void AddStateWeather(IEnumerable<StateWeatherModel> stateWeathers, String stateName)
         {
+            bool anyNull = false;
+
+            if (stateWeathers != null)
+            {
+                foreach (var modelSc in stateWeathers)
+                {
+                    if (modelSc == null)
+                    {
+                        anyNull = true;
+                        break;
+                    }
+                }
+            }
+
+            if (stateWeathers == null || stateName == null || anyNull)
+                throw new Exception("Invalid parameteres to add.");
+
             try
             {
-                dBAccess.AddStateWeathers(stateWeathers, stateName);
+                var maxDate = stateWeathers.Max(x => x.LocalTime);
+                var minDate = stateWeathers.Min(x => x.LocalTime);
+
+                dBAccess.RemoveStateWeathersByDate(minDate, maxDate, stateName).Wait();
+                dBAccess.AddStateWeathers(stateWeathers, stateName).Wait();
             }
             catch (DbEntityValidationException e)
             {
-
-                foreach (var item in e.EntityValidationErrors)
-                {
-
-                }
                 throw;
             }
         }
 
-        public void RemoveState(String stateName)
-        {
-            try
-            {
-                dBAccess.RemoveState(stateName);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
-        public void RemoveStateTotally(String stateNames)
-        {
-            try
-            {
-                dBAccess.RemoveStateTotally(stateNames);
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-        }
-
-        public void RemoveAllStates()
-        {
-            try
-            {
-                dBAccess.RemoveAllStates();
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-        }
 
         public void RemoveAllStatesTotally()
         {
@@ -141,37 +126,11 @@ namespace BussinesLogic
             }
         }
 
-        public void RemoveStateWeathers(String stateName)
-        {
-            try
-            {
-                dBAccess.RemoveStateWeathers(stateName);
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-        }
-
-        public void RemoveStateConsumptions(String stateName)
-        {
-            try
-            {
-                dBAccess.RemoveStateConsumption(stateName);
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-        }
-
         public void RemoveStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName)
         {
             try
             {
-                dBAccess.RemoveStateWeathersByDate(startDate, endDate, stateName);
+                dBAccess.RemoveStateWeathersByDate(startDate, endDate, stateName).Wait();
             }
             catch (Exception e)
             {
@@ -184,20 +143,7 @@ namespace BussinesLogic
         {
             try
             {
-                dBAccess.RemoveStateConsumptionsByDate(startDate, endDate, stateName);
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-        }
-
-        public void RemoveStateByDate(DateTime startDate, DateTime endDate, String stateName)
-        {
-            try
-            {
-                dBAccess.RemoveStateByDate(startDate, endDate, stateName);
+                dBAccess.RemoveStateConsumptionsByDate(startDate, endDate, stateName).Wait();
             }
             catch (Exception e)
             {
@@ -264,9 +210,6 @@ namespace BussinesLogic
 
         public StateInfoModel GetStateByDate(DateTime startDate, DateTime endDate, String stateName)
         {
-            if (String.IsNullOrEmpty(stateName))
-                throw new Exception("State name can not be null or empty.");
-
             StateInfoModel retVal = new StateInfoModel();
 
             try
@@ -284,6 +227,7 @@ namespace BussinesLogic
 
         public IEnumerable<StateConsumptionModel> GetStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName)
         {
+            
             List<StateConsumptionModel> retVal = new List<StateConsumptionModel>();
 
             try

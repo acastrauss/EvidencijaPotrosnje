@@ -17,7 +17,6 @@ namespace UnitTest
     public class DBQLTest
     {
         private DBLogic dBLogic;
-        private List<StateInfoModel> stateInfoModels;
 
         [SetUp]
         public void SetUp()
@@ -26,10 +25,7 @@ namespace UnitTest
             dBLogic = mockDbLogic.Object;
 
             Mock<List<StateInfoModel>> mockList = new Mock<List<StateInfoModel>>();
-
-            stateInfoModels = mockList.Object;
         }
-
 
         /// <summary>
         /// Added manually in DB
@@ -42,7 +38,7 @@ namespace UnitTest
         }
 
         [Test]
-        [TestCase("Germany")]
+        [TestCase("France")]
         public void TestIfStateNotExist(String stateName)
         {
             Assert.IsFalse(dBLogic.IfStateExists(stateName));
@@ -228,7 +224,6 @@ namespace UnitTest
             }
         };
 
-
         [Test]
         [TestCaseSource("_sourceStateWeather")]
         public void GetStateWeatherByName(String stateName, StateWeatherModel expectedModel)
@@ -335,16 +330,97 @@ namespace UnitTest
 
         [Test]
         [TestCaseSource("_sourceStateConsumptionDate")]
-        public void TestConsumptionDate(DateTime startDate, DateTime endDate, List<StateConsumptionModel> expected)
+        public void TestConsumptionDate(DateTime startDate, DateTime endDate, String stateName, List<StateConsumptionModel> expected)
         {
+            var scList = dBLogic.GetStateConsumptionsByDate(startDate, endDate, stateName).ToList();
 
+            bool equals = scList.Count == expected.Count &&
+                scList.Count != 0;
+
+            if(equals)
+            {
+                for (int i = 0; i < scList.Count; i++)
+                {
+                    equals &= scList[i].Equals(expected[i]);
+                }
+            }
+
+            Assert.IsTrue(equals);
         }
+
+        private static readonly object[] _sourceStateConsumptionDateNull =
+        {
+            new object[] { DateTime.MinValue, DateTime.MaxValue, null }
+        };
+
+
+        [Test]
+        [TestCaseSource("_sourceStateConsumptionDateNull")]
+        public void TestConsumptionDateNull (DateTime startDate, DateTime endDate, String stateName)
+        {
+            try
+            {
+                dBLogic.GetStateConsumptionsByDate(startDate, endDate, stateName);
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.Equals("State name can not be null or empty."));
+            }
+        }
+
+        private static readonly object[] _sourceStateWeatherDate =
+        {
+            new object[] { DateTime.MinValue, DateTime.MaxValue, "Serbia", new List<StateWeatherModel>()
+            {
+                new StateWeatherModel(
+                22, "22", 22, 22, 22, 22, "22", "22", 22, 22, "22", 22, new DateTime(2021, 2, 2), 56)
+            }
+            }
+        };
+
+        [Test]
+        [TestCaseSource("_sourceStateWeatherDate")]
+        public void GetStateWeatherByDate(DateTime startDate, DateTime endDate, String stateName, List<StateWeatherModel> expected)
+        {
+            var swList = dBLogic.GetStateWeathersByDate(startDate, endDate, stateName).ToList();
+
+            bool equals = swList.Count == expected.Count && swList.Count != 0;
+
+            if(equals) 
+            {
+                for (int i = 0; i < swList.Count; i++)
+                {
+                    equals &= swList[i].Equals(expected[i]);
+                }
+            }
+
+            Assert.IsTrue(equals);
+        }
+
+        private static readonly object[] _sourceStateWeatherDateNull =
+        {
+            new object[] { DateTime.MinValue, DateTime.MaxValue, null }
+        };
+
+        [Test]
+        [TestCaseSource("_sourceStateWeatherDateNull")]
+        public void GetStateWeatherDateNull(DateTime startDate, DateTime endDate, String stateName)
+        {
+            try
+            {
+                dBLogic.GetStateWeathersByDate(startDate, endDate, stateName);
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.Equals("State name can not be null or empty."));
+            }
+        }
+
 
         [TearDown]
-        public void TearDown()
-        {
-            stateInfoModels.Clear();
-        }
+        public void TearDown() {}
 
     }
 }
