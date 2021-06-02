@@ -11,29 +11,34 @@ namespace DatabaseAccess
     {
         bool IfStateExistByName(string name);
         void AddStates(IEnumerable<StateInfoModel> models);
-        void AddStateWeathers(IEnumerable<StateWeatherModel> models, String stateName);
-        void AddStateConsumption(IEnumerable<StateConsumptionModel> models, String stateName);
+        
+        /// <summary>
+        /// All methods that return task run asyncronously, because saving
+        /// changes to DB is slow so it needs to be done with tasks
+        /// </summary>
+        Task AddStateWeathers(IEnumerable<StateWeatherModel> models, String stateName);
+        Task AddStateConsumption(IEnumerable<StateConsumptionModel> models, String stateName);
 
         /// <summary>
         /// Only removes data (consumption and weather) for given state
         /// </summary>
         /// <param name="model"></param>
-        void RemoveState(String stateName);
+        Task RemoveState(String stateName);
         /// <summary>
         /// Removes the whole state
         /// </summary>
         /// <param name="model"></param>
-        void RemoveStateTotally(String stateName);
-        void RemoveAllStates();
-        void RemoveAllStatesTotally();
-        void RemoveStateWeathers(String stateName);
-        void RemoveStateConsumption(String stateName);
-        void RemoveStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName);
-        void RemoveStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName);
+        Task RemoveStateTotally(String stateName);
+        Task RemoveAllStates();
+        Task RemoveAllStatesTotally();
+        Task RemoveStateWeathers(String stateName);
+        Task RemoveStateConsumption(String stateName);
+        Task RemoveStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName);
+        Task RemoveStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName);
         /// <summary>
         /// Removes every data for given date
         /// </summary>
-        void RemoveStateByDate(DateTime startDate, DateTime endDate, String stateName);
+        Task RemoveStateByDate(DateTime startDate, DateTime endDate, String stateName);
         StateInfoModel GetStateByName(String name);
         IEnumerable<StateConsumptionModel> GetStateConsumptionByStateName(String name);
         IEnumerable<StateWeatherModel> GetStateWeatherByStateName(String name);

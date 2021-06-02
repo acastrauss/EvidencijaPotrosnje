@@ -63,9 +63,15 @@ namespace BussinesLogic
 
         public void AddStateConsumptions(IEnumerable<StateConsumptionModel> stateConsumption, String stateName)
         {
+            if (stateConsumption.Count() == 0) return;
+            
             try
             {
-                dBAccess.AddStateConsumption(stateConsumption, stateName);
+                var maxDate = stateConsumption.Max(x => x.DateShort);
+                var minDate = stateConsumption.Min(x => x.DateShort);
+
+                Task.WhenAll(dBAccess.RemoveStateConsumptionsByDate(minDate, maxDate, stateName));
+                Task.WhenAll(dBAccess.AddStateConsumption(stateConsumption, stateName));
             }
             catch (Exception e)
             {
@@ -75,17 +81,19 @@ namespace BussinesLogic
 
         public void AddStateWeather(IEnumerable<StateWeatherModel> stateWeathers, String stateName)
         {
+            if (stateWeathers.Count() == 0) return;
+
             try
             {
-                dBAccess.AddStateWeathers(stateWeathers, stateName);
+                var maxDate = stateWeathers.Max(x => x.LocalTime);
+                var minDate = stateWeathers.Min(x => x.LocalTime);
+
+                dBAccess.RemoveStateWeathersByDate(minDate, maxDate, stateName).Wait();
+                dBAccess.AddStateWeathers(stateWeathers, stateName).Wait();
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
 
-                foreach (var item in e.EntityValidationErrors)
-                {
-
-                }
                 throw;
             }
         }

@@ -128,8 +128,7 @@ namespace BussinesLogic
 
         public void Load(ImportParameters parameters)
         {
-
-            dBLogic.RemoveAllStates();
+            //dBLogic.RemoveAllStates();
 
             StateInfoModel state = dBLogic.GetStateByName(parameters.StateName);
 

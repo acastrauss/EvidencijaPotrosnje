@@ -105,15 +105,13 @@ namespace DatabaseAccess
             {
                 var dbmodel = DBAccess.ConvertStateWeatherDBNew(swm);
                 dbmodel.stateID = id;
-                //dbmodel.State = db.States.Where(x => x.stateID == id).FirstOrDefault();
                 db.StateWeathers.Add(dbmodel);
-
             }
 
-            return await db.SaveChangesAsync();
+            return db.SaveChangesAsync().Result;
         }
 
-        public void AddStateWeathers(IEnumerable<StateWeatherModel> models, String stateName)
+        public async Task AddStateWeathers(IEnumerable<StateWeatherModel> models, String stateName)
         {
             int stateId = this.GetStateID(stateName);
 
@@ -135,9 +133,12 @@ namespace DatabaseAccess
                     var sublist = modelsList.GetRange(i * listSize, listSize);
 
                     dbTasks.Add(AddWeathersToDBThread(sublist, db, stateId));
-
                 }
 
+                var sublistEdge = modelsList.GetRange(numT * listSize, modelsList.Count - numT * listSize);
+                dbTasks.Add(AddWeathersToDBThread(sublistEdge, db, stateId));
+
+                await (Task.WhenAll(dbTasks));
             }
         }
 
@@ -147,14 +148,13 @@ namespace DatabaseAccess
             {
                 var dbmodel = DBAccess.ConvertStateConsumptionDBNew(scm);
                 dbmodel.stateID = id;
-                //dbmodel.State = db.States.Where(x => x.stateID == id).FirstOrDefault();
                 db.StateConsumptions.Add(dbmodel);
             }
 
-            return await db.SaveChangesAsync();
+            return db.SaveChangesAsync().Result;
         }
 
-        public void AddStateConsumption(IEnumerable<StateConsumptionModel> models, String stateName)
+        public async Task AddStateConsumption(IEnumerable<StateConsumptionModel> models, String stateName)
         {
             int stateId = this.GetStateID(stateName);
 
@@ -167,7 +167,6 @@ namespace DatabaseAccess
 
             using (var db = new StatesDB())
             {
-
                 db.Configuration.AutoDetectChangesEnabled = false;
 
                 for (int i = 0; i < numT; i++)
@@ -176,11 +175,92 @@ namespace DatabaseAccess
 
                     dbTasks.Add(AddConsumptionToDBThread(sublist, db, stateId));
                 }
+
+                var sublistEdge = modelsList.GetRange(numT * listSize, modelsList.Count - numT * listSize);
+                dbTasks.Add(AddConsumptionToDBThread(sublistEdge, db, stateId));
+
+                await Task.WhenAll(dbTasks);
             }
         }
 
-        public void RemoveState(String stateName)
+        public async Task<int> RemoveWeathersThread(IEnumerable<StateWeather> toRemove, StatesDB db) 
         {
+            foreach (var sw in toRemove)
+            {
+                db.StateWeathers.Remove(sw);
+            }
+
+            return db.SaveChangesAsync().Result;
+        }
+        
+        public async Task<int> RemoveConsumptionThread(IEnumerable<StateConsumption> toRemove, StatesDB db) 
+        {
+            foreach (var sc in toRemove)
+            {
+                db.StateConsumptions.Remove(sc);
+            }
+
+            return db.SaveChangesAsync().Result;
+        }
+
+        public async Task RemoveState(String stateName)
+        {
+            using (var db = new StatesDB())
+            {
+                var currStateQ = db.States.Where(x => x.stateName == stateName);
+
+                if (currStateQ.Count() == 0)
+                    throw new Exception("There is no state with that name.");
+
+                db.Configuration.AutoDetectChangesEnabled = false;
+
+                var dbTasks = new List<Task<int>>();
+
+                int numT = 5;
+
+
+                // remove weathers
+                int listSize = db.StateWeathers.Count() / numT;
+
+                var swList = db.StateWeathers.ToList();
+
+                for (int i = 0; i < numT; i++)
+                {
+                    var sublist = swList.GetRange(i * listSize, listSize);
+
+                    dbTasks.Add(RemoveWeathersThread(sublist, db));
+                }
+
+                var edgeListW = swList.GetRange(numT * listSize, swList.Count - numT * listSize);
+
+                dbTasks.Add(RemoveWeathersThread(edgeListW, db));
+
+                // remove consumption
+                listSize = db.StateConsumptions.Count() / numT;
+
+                var scList = db.StateConsumptions.ToList();
+
+                for (int i = 0; i < numT; i++)
+                {
+                    var sublist = scList.GetRange(i * listSize, listSize);
+
+                    dbTasks.Add(RemoveConsumptionThread(sublist, db));
+                }
+
+                var edgeListC = scList.GetRange(numT * listSize, scList.Count - numT * listSize);
+                dbTasks.Add(RemoveConsumptionThread(edgeListC, db));
+
+
+                await Task.WhenAll(dbTasks);
+
+            }
+        }
+
+        public async Task RemoveStateTotally(String stateName)
+        {
+            // removes all consumptions and weathers data, but not name
+            await this.RemoveState(stateName);
+
             using (var db = new StatesDB())
             {
                 var currStateQ = db.States.Where(x => x.stateName == stateName);
@@ -192,56 +272,32 @@ namespace DatabaseAccess
 
                 db.States.Remove(currState);
 
-                currState.StateConsumptions.Clear();
-                currState.StateWeathers.Clear();
-
-                db.States.Add(currState);
-
                 db.SaveChanges();
             }
         }
 
-        public void RemoveStateTotally(String stateName)
+        public async Task RemoveAllStates()
         {
+            List<State> allStates = new List<State>();
+
             using (var db = new StatesDB())
             {
-                var currStateQ = db.States.Where(x => x.stateName == stateName);
+                allStates = db.States.ToList();
+            }
 
-                if (currStateQ.Count() == 0)
-                    throw new Exception("There is no state with that name.");
-
-                var currState = currStateQ.FirstOrDefault();
-
-                db.States.Remove(currState);
-
-                db.SaveChanges();
+            foreach (var state in allStates)
+            {
+                await this.RemoveState(state.stateName);
             }
         }
 
-        public void RemoveAllStates()
+        public async Task RemoveAllStatesTotally()
         {
+            // remove all data, except name, for all states
+            await this.RemoveAllStates();
+
             using (var db = new StatesDB())
             {
-                var currCons = db.StateConsumptions;
-                db.StateConsumptions.RemoveRange(currCons);
-
-                var currWeather = db.StateWeathers;
-                db.StateWeathers.RemoveRange(currWeather);
-
-                db.SaveChanges();
-            }
-        }
-
-        public void RemoveAllStatesTotally()
-        {
-            using (var db = new StatesDB())
-            {
-                var currCons = db.StateConsumptions;
-                db.StateConsumptions.RemoveRange(currCons);
-
-                var currWeather = db.StateWeathers;
-                db.StateWeathers.RemoveRange(currWeather);
-
                 var currStates = db.States;
                 db.States.RemoveRange(currStates);
 
@@ -249,77 +305,124 @@ namespace DatabaseAccess
             }
         }
 
-        public void RemoveStateWeathers(String stateName)
+        public async Task RemoveStateWeathers(String stateName)
         {
             using (var db = new StatesDB())
             {
-                var statesWQ = db.StateWeathers.Where(x => x.State.stateName == stateName);
+                db.Configuration.AutoDetectChangesEnabled = false;
 
-                if (statesWQ.Count() == 0)
-                    throw new Exception("There is no state with that name.");
+                var dbTasks = new List<Task<int>>();
 
-                db.StateWeathers.RemoveRange(statesWQ);
+                int numT = 5;
 
-                db.SaveChanges();
+                var swList = db.StateWeathers.Where(x => x.State.stateName.Equals(stateName)).ToList();
+
+                int listSize = swList.Count / numT;
+
+                for (int i = 0; i < numT; i++)
+                {
+                    var sublist = swList.GetRange(i * listSize, listSize);
+
+                    dbTasks.Add(RemoveWeathersThread(sublist, db));
+                }
+
+                var edgeListW = swList.GetRange(numT * listSize, swList.Count - numT * listSize);
+
+                dbTasks.Add(RemoveWeathersThread(edgeListW, db));
+
+                await Task.WhenAll(dbTasks);
             }
         }
 
-        public void RemoveStateConsumption(String stateName)
+        public async Task RemoveStateConsumption(String stateName)
         {
             using (var db = new StatesDB())
             {
-                var statesCQ = db.StateConsumptions.Where(x => x.State.stateName == stateName);
+                var dbTasks = new List<Task<int>>();
 
-                if (statesCQ.Count() == 0)
-                    throw new Exception("There is no state with that name.");
+                int numT = 5;
 
-                db.StateConsumptions.RemoveRange(statesCQ);
+                var scList = db.StateConsumptions.Where(x => x.State.stateName.Equals(stateName)).ToList();
 
-                db.SaveChanges();
+                int listSize = scList.Count / numT;
+
+                for (int i = 0; i < numT; i++)
+                {
+                    var sublist = scList.GetRange(i * listSize, listSize);
+
+                    dbTasks.Add(RemoveConsumptionThread(sublist, db));
+                }
+
+                var edgeListC = scList.GetRange(numT * listSize, scList.Count - numT * listSize);
+                dbTasks.Add(RemoveConsumptionThread(edgeListC, db));
+
+                await Task.WhenAll(dbTasks);
             }
         }
 
-        public void RemoveStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName)
+        public async Task RemoveStateWeathersByDate(DateTime startDate, DateTime endDate, String stateName)
         {
             using (var db = new StatesDB())
             {
-                var statesWQ = db.StateWeathers.Where(x => (x.localTime >= startDate && x.localTime <= endDate && x.State.stateName == stateName));
+                db.Configuration.AutoDetectChangesEnabled = false;
 
-                if (statesWQ.Count() == 0)
-                    throw new Exception("There is no state that this criteria applies to.");
+                var dbTasks = new List<Task<int>>();
 
-                db.StateWeathers.RemoveRange(statesWQ);
+                int numT = 5;
 
-                db.SaveChanges();
+                
+                var swList = db.StateWeathers.Where(x => x.State.stateName.Equals(stateName) && x.localTime >= startDate && x.localTime <= endDate).ToList();
+
+                int listSize = swList.Count / numT;
+
+
+                for (int i = 0; i < numT; i++)
+                {
+                    var sublist = swList.GetRange(i * listSize, listSize);
+
+                    dbTasks.Add(RemoveWeathersThread(sublist, db));
+                }
+
+                var edgeListW = swList.GetRange(numT * listSize, swList.Count - numT * listSize);
+
+                dbTasks.Add(RemoveWeathersThread(edgeListW, db));
+
+                await Task.WhenAll(dbTasks);
             }
         }
-        public void RemoveStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName)
+        public async Task RemoveStateConsumptionsByDate(DateTime startDate, DateTime endDate, String stateName)
         {
             using (var db = new StatesDB())
             {
-                db.StateConsumptions.RemoveRange(
-                    db.StateConsumptions.Where(x => (x.dateFrom >= startDate && x.dateTo <= endDate && x.State.stateName == stateName))
-                    );
+                var dbTasks = new List<Task<int>>();
 
-                db.SaveChanges();
+                int numT = 5;
+
+                var scList = db.StateConsumptions.Where(x => x.State.stateName.Equals(stateName) && x.dateShort >= startDate && x.dateShort <= endDate).ToList();
+
+                int listSize = scList.Count / numT;
+
+                for (int i = 0; i < numT; i++)
+                {
+                    var sublist = scList.GetRange(i * listSize, listSize);
+
+                    dbTasks.Add(RemoveConsumptionThread(sublist, db));
+                }
+
+                var edgeListC = scList.GetRange(numT * listSize, scList.Count - numT * listSize);
+                dbTasks.Add(RemoveConsumptionThread(edgeListC, db));
+
+                await Task.WhenAll(dbTasks);
             }
 
         }
         /// <summary>
         /// Removes every data for given date
         /// </summary>
-        public void RemoveStateByDate(DateTime startDate, DateTime endDate, String stateName)
+        public async Task RemoveStateByDate(DateTime startDate, DateTime endDate, String stateName)
         {
-            using (var db = new StatesDB())
-            {
-                db.StateConsumptions.RemoveRange(
-                    db.StateConsumptions.Where(x => x.State.stateName == stateName && x.dateFrom >= startDate && x.dateTo <= endDate));
-
-                db.StateWeathers.RemoveRange(
-                    db.StateWeathers.Where(x => x.State.stateName == stateName && x.localTime >= startDate && x.localTime <= endDate));
-
-                db.SaveChanges();
-            }
+            await this.RemoveStateConsumptionsByDate(startDate, endDate, stateName);
+            await this.RemoveStateWeathersByDate(startDate, endDate, stateName);
         }
 
         public StateInfoModel GetStateByName(String name)
