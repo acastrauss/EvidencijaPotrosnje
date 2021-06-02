@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BussinesLogic;
+using Moq;
+using NUnit.Framework;
 using SharedModels;
 using SharedModels.HelperClasses;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
-using Moq;
-using BussinesLogic;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace UnitTest
 {
     public class MapCWTest
     {
         private IMapCW MapCW;
-        //private List<ShowingData> showingDataList;
+        private List<ShowingData> showingDataList;
 
         [SetUp]
 
@@ -39,7 +41,7 @@ namespace UnitTest
 
         private static readonly object[] _dekoratror =
         {
-            new object[] { 
+            new object[] {
                 new StateInfoModel() {
                 StateName = "Serbia",
                 StateWeathers = new List<StateWeatherModel>()
@@ -64,13 +66,13 @@ namespace UnitTest
             IEnumerable<ShowingData> datas = MapCW.MapData(model);
             bool isTrue = false;
             datas.ToList();
-            foreach(ShowingData data in datas)
+            foreach (ShowingData data in datas)
             {
-                if((data.StateName == "Serbia") && 
-                    (data.ConsumptionValue == 22) && 
-                    (DateTime.Compare(data.DateUTC, new DateTime(2021, 2, 2) ) == 0 ) &&
+                if ((data.StateName == "Serbia") &&
+                    (data.ConsumptionValue == 22) &&
+                    (DateTime.Compare(data.DateUTC, new DateTime(2021, 2, 2)) == 0) &&
                     (data.Temperature == 22) &&
-                    (data.WindSpeed ==22) &&
+                    (data.WindSpeed == 22) &&
                     (data.Pressure == 22) &&
                     (data.Humidity == 22)
 
@@ -90,7 +92,6 @@ namespace UnitTest
                 new StateInfoModel() {
                 StateName = "Serbia",
                 StateWeathers = new List<StateWeatherModel>(),
-                
                 StateConsumption = new List<StateConsumptionModel>()
                 {
                     new StateConsumptionModel(
@@ -134,7 +135,6 @@ namespace UnitTest
                 22, "22", 22, 22, 22, 22, "22", "22", 22, 22, "22", 22, new DateTime(2021, 2, 2), 56)
                 },
                 StateConsumption = new List<StateConsumptionModel>()
-                
             } }
         };
 
@@ -164,6 +164,5 @@ namespace UnitTest
             Assert.IsTrue(isTrue);
 
         }
-
     }
 }

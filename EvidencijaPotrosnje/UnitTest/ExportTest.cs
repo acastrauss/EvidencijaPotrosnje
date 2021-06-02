@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using SharedModels;
-using SharedModels.HelperClasses;
-using System.Linq;
-using NUnit.Framework;
+﻿using BussinesLogic;
 using Moq;
-using BussinesLogic;
+using NUnit.Framework;
+using SharedModels.HelperClasses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace UnitTest
 {
@@ -68,11 +69,5 @@ namespace UnitTest
             }
 
         }
-
-
-
-
-
-
     }
 }

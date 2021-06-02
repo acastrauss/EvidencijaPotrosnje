@@ -16,7 +16,7 @@ namespace BussinesLogic
     {
         private DBLogic dBLogic = new DBLogic();
 
-        public List<StateWeatherModel> LoadWeather(string wf, StateInfoModel state, DateTime StartDate, DateTime EndDate)
+        public IEnumerable<StateWeatherModel> LoadWeather(ImportParameters importParameters, StateInfoModel state)
         {
             using (TextFieldParser csvParser = new TextFieldParser(wf))
             {
@@ -73,7 +73,7 @@ namespace BussinesLogic
         }
 
 
-        public List<StateConsumptionModel> LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate)
+        public IEnumerable<StateConsumptionModel> LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate)
         {
             using (TextFieldParser csvParser = new TextFieldParser(cf))
             {
@@ -123,6 +123,10 @@ namespace BussinesLogic
                 }
 
                 dBLogic.AddStateConsumptions(stateConsumptionModels, stateName);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1b6a7e851852f58da4671eccda71d56d2d8028ef
                 return stateConsumptionModels;
             }
         }
