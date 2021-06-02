@@ -70,8 +70,8 @@ namespace BussinesLogic
                 var maxDate = stateConsumption.Max(x => x.DateShort);
                 var minDate = stateConsumption.Min(x => x.DateShort);
 
-                Task.WhenAll(dBAccess.RemoveStateConsumptionsByDate(minDate, maxDate, stateName));
-                Task.WhenAll(dBAccess.AddStateConsumption(stateConsumption, stateName));
+                dBAccess.RemoveStateConsumptionsByDate(minDate, maxDate, stateName).Wait();
+                dBAccess.AddStateConsumption(stateConsumption, stateName).Wait();
             }
             catch (Exception e)
             {

@@ -375,7 +375,6 @@ namespace DatabaseAccess
 
                 int listSize = swList.Count / numT;
 
-
                 for (int i = 0; i < numT; i++)
                 {
                     var sublist = swList.GetRange(i * listSize, listSize);
