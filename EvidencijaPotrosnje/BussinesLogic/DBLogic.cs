@@ -9,6 +9,7 @@ using SharedModels.HelperClasses;
 using System.Data.Entity.Validation;
 
 #pragma warning disable CS0659
+#pragma warning disable CS1068
 
 namespace BussinesLogic
 {

@@ -11,6 +11,8 @@ using System.Data.Entity.Validation;
 using System.Linq.Dynamic;
 using System.Collections.ObjectModel;
 
+#pragma warning disable CS1998
+
 namespace DatabaseAccess
 {
     public class DBAccess : IDBAccess

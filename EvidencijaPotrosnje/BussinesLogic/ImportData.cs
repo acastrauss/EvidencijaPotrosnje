@@ -7,6 +7,8 @@ using SharedModels;
 using SharedModels.HelperClasses;
 using Microsoft.VisualBasic.FileIO;
 
+#pragma warning disable CS0219
+
 namespace BussinesLogic
 {
     /// <summary>

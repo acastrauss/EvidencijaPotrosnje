@@ -7,8 +7,6 @@ using NUnit.Framework;
 using Moq;
 using BussinesLogic;
 using SharedModels;
-using System.IO;
-using System.Data.SqlClient;
 
 namespace UnitTest
 {
