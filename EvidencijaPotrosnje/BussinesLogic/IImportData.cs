@@ -10,8 +10,8 @@ namespace BussinesLogic
 {
     public interface IImportData
     {
-        void LoadWeather(ImportParameters importParameters, StateInfoModel state);
-        void LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate);
+        IEnumerable<StateWeatherModel> LoadWeather(ImportParameters importParameters, StateInfoModel state);
+        IEnumerable<StateConsumptionModel> LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate);
         void Load(ImportParameters parameters);
     }
 }
