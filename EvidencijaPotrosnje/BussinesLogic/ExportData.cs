@@ -17,7 +17,9 @@ namespace BussinesLogic
     {
         public string SaveData(IEnumerable<ShowingData> showingDataI, string[] columns)
         {
-            if (showingDataI == null)
+           
+
+            if (showingDataI == null || columns == null)
             {
                 throw new Exception("List for export cant be null");
 

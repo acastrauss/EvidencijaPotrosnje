@@ -4,6 +4,7 @@ using NUnit.Framework;
 using SharedModels.HelperClasses;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,9 +45,10 @@ namespace UnitTest
         {
             try
             {
-                //List<ShowingData> lista = new List<ShowingData>();
-                //exportData.SaveData(lista);
-                //Assert.Fail();
+                List<ShowingData> lista = new List<ShowingData>();
+                string[] stringovi = new string[0];
+                exportData.SaveData(lista, stringovi);
+                Assert.Fail();
             }
             catch (Exception e)
             {
@@ -60,8 +62,9 @@ namespace UnitTest
         {
             try
             {
-                //exportData.SaveData(null);
-                //Assert.Fail();
+
+                exportData.SaveData(null,null);
+                Assert.Fail();
             }
             catch (Exception e)
             {
@@ -69,5 +72,31 @@ namespace UnitTest
             }
 
         }
+
+        [Test]
+        public void TestExportColumsNull()
+        {
+            try
+            {
+                exportData.SaveData(null, null);
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.Equals("List for export cant be null"));
+            }
+
+        }
+        [Test]
+        public void TestExport()
+        {
+
+            string[] kolone = new string[] { "Drzava", "UTC vreme", "Potrosnja", "Temperatura", "Pritisak", "Vlaznost", "Brzina vetra" }; 
+            string putanja = exportData.SaveData(showingDataList,kolone);
+
+            Assert.IsTrue(Path.IsPathRooted(putanja));
+        }
+
+
     }
 }

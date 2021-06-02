@@ -18,6 +18,13 @@ namespace BussinesLogic
 
         public IEnumerable<StateWeatherModel> LoadWeather(ImportParameters importParameters, StateInfoModel state)
         {
+
+            if(importParameters == null || state == null)
+            {
+                throw new Exception("Load parameters cant be null.");
+            }
+
+
             using (TextFieldParser csvParser = new TextFieldParser(importParameters.WeatherFile))
             {
                 //csvParser.CommentTokens = new string[] { "#" };
@@ -75,6 +82,11 @@ namespace BussinesLogic
 
         public IEnumerable<StateConsumptionModel> LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate)
         {
+            if(cf == null || state == null)
+            {
+                throw new Exception("Load parameters cant be null.");
+            }
+
             using (TextFieldParser csvParser = new TextFieldParser(cf))
             {
                 Dictionary<string, StateConsumptionModel> dictionary = new Dictionary<string, StateConsumptionModel>();
@@ -130,6 +142,8 @@ namespace BussinesLogic
         public void Load(ImportParameters parameters)
         {
             StateInfoModel state = dBLogic.GetStateByName(parameters.StateName);
+
+            bool loaded = false;
 
             if (!String.IsNullOrEmpty(parameters.WeatherFile))
             {

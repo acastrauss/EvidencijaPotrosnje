@@ -11,14 +11,14 @@
 
 <form method="post" action="~/Home/FilterDataName">
     <p>Po nazivu</p>
-    <input type="text" name="stateName" />
+    <input type="text" name="stateName" required/>
     <input type="submit" value="Filter by name" />
 </form>
 
 <form method="post" action="~/Home/FilterDataDate">
     <p>Po datumu</p>
-    <input type="date" name="startDate" />
-    <input type="date" name="endDate" />
+    <input type="date" name="startDate" required/>
+    <input type="date" name="endDate" required/>
     <input type="submit" value="Filter by date" />
 </form>
 

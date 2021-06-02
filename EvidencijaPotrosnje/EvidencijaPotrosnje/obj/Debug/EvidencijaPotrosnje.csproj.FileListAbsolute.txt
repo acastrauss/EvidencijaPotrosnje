@@ -1,4 +1,3 @@
-C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EvidencijaPotrosnje.dll.config
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EvidencijaPotrosnje.dll
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EvidencijaPotrosnje.pdb
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\roslyn\csc.exe
