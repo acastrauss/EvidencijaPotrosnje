@@ -18,7 +18,7 @@ namespace BussinesLogic
 
         public IEnumerable<StateWeatherModel> LoadWeather(ImportParameters importParameters, StateInfoModel state)
         {
-            using (TextFieldParser csvParser = new TextFieldParser(wf))
+            using (TextFieldParser csvParser = new TextFieldParser(importParameters.WeatherFile))
             {
                 //csvParser.CommentTokens = new string[] { "#" };
                 csvParser.SetDelimiters(new string[] { "," });
@@ -43,7 +43,7 @@ namespace BussinesLogic
                     }
                     swm.LocalTime = DateTime.ParseExact(fields[0], "dd.MM.yyyy HH:mm", null);
 
-                    if (swm.LocalTime <= StartDate || swm.LocalTime >= EndDate) continue;
+                    if (swm.LocalTime <= importParameters.StartDate || swm.LocalTime >= importParameters.EndDate) continue;
 
                     float airTemp, stationPressure, reducedPressure;
                     swm.AirTemperature = float.TryParse(fields[1], out airTemp) ? airTemp : 0;
@@ -123,10 +123,6 @@ namespace BussinesLogic
                 }
 
                 dBLogic.AddStateConsumptions(stateConsumptionModels, stateName);
-<<<<<<< HEAD
-=======
-
->>>>>>> 1b6a7e851852f58da4671eccda71d56d2d8028ef
                 return stateConsumptionModels;
             }
         }
@@ -140,7 +136,7 @@ namespace BussinesLogic
 
             if (!String.IsNullOrEmpty(parameters.WeatherFile))
             {
-                (new ImportData()).LoadWeather(parameters.WeatherFile, state, (DateTime)parameters.StartDate, (DateTime)parameters.EndDate);
+                (new ImportData()).LoadWeather(parameters, state);
             }
 
             if (
