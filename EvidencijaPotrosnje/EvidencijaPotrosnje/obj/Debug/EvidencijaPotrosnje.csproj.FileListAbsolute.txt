@@ -81,7 +81,6 @@ D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\DatabaseAccess.dll
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\DatabaseAccess.pdb
 D:\res_projekat\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\DatabaseAccess.dll.config
-C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EvidencijaPotrosnje.dll.config
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EvidencijaPotrosnje.dll
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EvidencijaPotrosnje.pdb
 C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\roslyn\csc.exe
@@ -250,3 +249,4 @@ D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.csproj.CopyComplete
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.dll
 D:\Fax\RES\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\obj\Debug\EvidencijaPotrosnje.pdb
+C:\Users\Dušan\Desktop\EvidencijaPotrosnje\EvidencijaPotrosnje\EvidencijaPotrosnje\bin\EvidencijaPotrosnje.dll.config

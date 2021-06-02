@@ -16,9 +16,9 @@ namespace BussinesLogic
     {
         private DBLogic dBLogic = new DBLogic();
 
-        public void LoadWeather(ImportParameters importParameters, StateInfoModel state)
+        public List<StateWeatherModel> LoadWeather(string wf, StateInfoModel state, DateTime StartDate, DateTime EndDate)
         {
-            using (TextFieldParser csvParser = new TextFieldParser(importParameters.WeatherFile))
+            using (TextFieldParser csvParser = new TextFieldParser(wf))
             {
                 //csvParser.CommentTokens = new string[] { "#" };
                 csvParser.SetDelimiters(new string[] { "," });
@@ -43,7 +43,7 @@ namespace BussinesLogic
                     }
                     swm.LocalTime = DateTime.ParseExact(fields[0], "dd.MM.yyyy HH:mm", null);
 
-                    if (swm.LocalTime <= importParameters.StartDate || swm.LocalTime >= importParameters.EndDate) continue;
+                    if (swm.LocalTime <= StartDate || swm.LocalTime >= EndDate) continue;
 
                     float airTemp, stationPressure, reducedPressure;
                     swm.AirTemperature = float.TryParse(fields[1], out airTemp) ? airTemp : 0;
@@ -68,12 +68,12 @@ namespace BussinesLogic
                 }
 
                 dBLogic.AddStateWeather(stateWeatherModels, stateInformation);
+                return stateWeatherModels;
             }
-
         }
 
 
-        public void LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate)
+        public List<StateConsumptionModel> LoadConsumption(string cf, StateInfoModel state, DateTime startDate, DateTime endDate)
         {
             using (TextFieldParser csvParser = new TextFieldParser(cf))
             {
@@ -123,6 +123,7 @@ namespace BussinesLogic
                 }
 
                 dBLogic.AddStateConsumptions(stateConsumptionModels, stateName);
+                return stateConsumptionModels;
             }
         }
 
@@ -135,7 +136,7 @@ namespace BussinesLogic
 
             if (!String.IsNullOrEmpty(parameters.WeatherFile))
             {
-                (new ImportData()).LoadWeather(parameters, state);
+                (new ImportData()).LoadWeather(parameters.WeatherFile, state, (DateTime)parameters.StartDate, (DateTime)parameters.EndDate);
             }
 
             if (

@@ -99,7 +99,9 @@
   <ItemGroup>
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -119,6 +121,7 @@
     <Content Include="App_Data\WeatherData\Weather-Serbia.xls" />
     <Content Include="App_Data\ConsumptionData\Consumption.csv" />
     <Content Include="App_Data\WeatherData\Weather-Srbija.csv" />
+    <Content Include="App_Data\ConsumptionData\Serbia.csv" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

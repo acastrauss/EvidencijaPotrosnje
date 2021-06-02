@@ -13,19 +13,31 @@ namespace EvidencijaPotrosnje.Controllers
         // GET: StateInfo
         public ActionResult Index()
         {
+            ViewBag.StateError = TempData["StateError"];
             return View();
         }
 
         [HttpPost]
         public ActionResult Index(string StateName)
         {
-            DBLogic dBLogic = new DBLogic();
+            try
+            {
+                if (string.IsNullOrEmpty(StateName))
+                    throw new Exception("Ime drzave ne moze biti prazno");
 
-            StateInfoModel state = new StateInfoModel ();
-            state.StateName = StateName;
+                DBLogic dBLogic = new DBLogic();
 
-            dBLogic.AddState(state);
-            return View();
+                StateInfoModel state = new StateInfoModel ();
+                state.StateName = StateName;
+
+                dBLogic.AddState(state);
+                return View();
+            }
+            catch (Exception e)
+            {
+                TempData["StateError"] = e.Message;
+                return RedirectToAction("Index");
+            }
         }
     }
 }

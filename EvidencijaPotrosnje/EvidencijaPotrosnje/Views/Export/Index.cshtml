@@ -5,6 +5,8 @@
     List<SharedModels.HelperClasses.ShowingData> showingDatas = (List<SharedModels.HelperClasses.ShowingData>)HttpContext.Current.Application["showingData"];
 }
 
+<label>@ViewBag.ExportError</label>
+
 <form method="post" action="/Export/Export">
     <select multiple name="columns">
         <option value="Drzava" selected>Drzava</option>
