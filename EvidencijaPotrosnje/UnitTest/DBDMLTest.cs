@@ -29,7 +29,7 @@ namespace UnitTest
         /// Before this test, DB was filled with some entities
         /// </summary>
         [Test]
-        public void DeleteAllStatesTotally()
+        public void _9DeleteAllStatesTotally()
         {
             dBLogic.RemoveAllStatesTotally();
 
@@ -51,7 +51,7 @@ namespace UnitTest
 
         [Test]
         [TestCaseSource("_sourceStateInfoAddMore")]
-        public void AddStateTest(StateInfoModel expected)
+        public void _2AddStateTest(StateInfoModel expected)
         {
             dBLogic.AddState(expected);
 
@@ -59,13 +59,11 @@ namespace UnitTest
 
             Assert.IsTrue(state[0].Equals(expected));
             
-            // to reset db
-            dBLogic.RemoveAllStatesTotally();
         }
 
         [Test]
         [TestCase(null)]
-        public void AddStateNull(StateInfoModel toAdd)
+        public void _1AddStateNull(StateInfoModel toAdd)
         {
             try
             {
@@ -92,7 +90,7 @@ namespace UnitTest
         /// </summary>
         [Test]
         [TestCaseSource("_sourceStateConsumptionByDate")]
-        public void RemoveStateConsumptionByDate(DateTime startDate, DateTime endDate, String stateName)
+        public void _7RemoveStateConsumptionByDate(DateTime startDate, DateTime endDate, String stateName)
         {
             dBLogic.RemoveStateConsumptionsByDate(startDate, endDate, stateName);
 
@@ -101,7 +99,7 @@ namespace UnitTest
 
         [Test]
         [TestCaseSource("_sourceStateConsumptionByDate")]
-        public void RemoveStateWeatherByDate(DateTime startDate, DateTime endDate, String stateName)
+        public void _8RemoveStateWeatherByDate(DateTime startDate, DateTime endDate, String stateName)
         {
             dBLogic.RemoveStateWeathersByDate(startDate, endDate, stateName);
 
@@ -129,7 +127,7 @@ namespace UnitTest
 
         [Test]
         [TestCaseSource("_sourceStateConsumptionsAdd")]
-        public void TestAddStateConsumption(String stateName, List<StateConsumptionModel> expected)
+        public void _5TestAddStateConsumption(String stateName, List<StateConsumptionModel> expected)
         {
             
             dBLogic.AddStateConsumptions(expected, stateName);
@@ -151,7 +149,7 @@ namespace UnitTest
 
         [Test]
         [TestCase(null, null)]
-        public void TestAddStateConsumptionNull(String stateName, List<StateConsumptionModel> expected)
+        public void _3TestAddStateConsumptionNull(String stateName, List<StateConsumptionModel> expected)
         {
             try
             {
@@ -180,7 +178,7 @@ namespace UnitTest
 
         [Test]
         [TestCaseSource("_sourceStateWeathersAdd")]
-        public void TestAddStateWeather(String stateName, List<StateWeatherModel> expected)
+        public void _6TestAddStateWeather(String stateName, List<StateWeatherModel> expected)
         {
             dBLogic.AddStateWeather(expected, stateName);
 
@@ -201,7 +199,7 @@ namespace UnitTest
 
         [Test]
         [TestCase(null, null)]
-        public void TestAddStateWeatherNull(String stateName, List<StateWeatherModel> expected)
+        public void _4TestAddStateWeatherNull(String stateName, List<StateWeatherModel> expected)
         {
             try
             {
