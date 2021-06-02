@@ -15,7 +15,7 @@ namespace BussinesLogic
     /// </summary>
     public class ExportData : IExportData
     {
-        public void SaveData(IEnumerable<ShowingData> showingDataI)
+        public string SaveData(IEnumerable<ShowingData> showingDataI, string[] columns)
         {
             if (showingDataI == null)
             {
@@ -29,7 +29,7 @@ namespace BussinesLogic
             {
                 throw new Exception("List for export cant be emtpy");
             }
-            
+           
 
             var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase); //put do priject foldera \\\Debug
             string a = "Output_" + DateTime.Now.ToString("yyy_MM_d_HH_mm") + ".csv";// +/* DateTime.Now.ToString("yyyy/MM/d/HH/mm/ss") */ //+ ".csv";
@@ -41,21 +41,50 @@ namespace BussinesLogic
             {
                 foreach (var data in showingData)
                 {
-                    String stataName = data.StateName;
-                    String dateUTC = data.DateUTC.ToString();
-                    String consValue = data.ConsumptionValue.ToString();
-                    String temp = data.Temperature.ToString();
-                    String pressure = data.Pressure.ToString();
-                    String humidity = data.Humidity.ToString();
-                    String ws = data.WindSpeed.ToString();
+                    string csvRow = "";
 
-                    string csvRow = string.Format("{0},{1},{2},{3},{4},{5},{6}"
-                        , stataName, dateUTC, consValue, temp, pressure, humidity, ws);
+                    if (columns.Contains("Drzava"))
+                    {
+                        String stataName = data.StateName;
+                        csvRow += stataName + ","; 
+                    }
+                    if (columns.Contains("UTC vreme"))
+                    {
+                        String dateUTC = data.DateUTC.ToString();
+                        csvRow += dateUTC + ",";
+                    }
+                    if (columns.Contains("Potrosnja"))
+                    {
+                        String consValue = data.ConsumptionValue.ToString();
+                        csvRow += consValue + ",";
+                    }
+                    if (columns.Contains("Temperatura"))
+                    {
+                        String temp = data.Temperature.ToString();
+                        csvRow += temp + ",";
+                    }
+                    if (columns.Contains("Pritisak"))
+                    {
+                        String pressure = data.Pressure.ToString();
+                        csvRow += pressure + ",";
+                    }
+                    if (columns.Contains("Vlaznost"))
+                    {
+                        String humidity = data.Humidity.ToString();
+                        csvRow += humidity + ",";
+                    }
+                    if (columns.Contains("Brzina vetra"))
+                    {
+                        String ws = data.WindSpeed.ToString();
+                        csvRow += ws + ",";
+                    }
 
                     csvWrite.WriteLine(csvRow);
+                    csvRow = "";
                 }
             }
 
+            return fullPath;
         }
     }
 }

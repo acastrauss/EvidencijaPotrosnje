@@ -68,7 +68,6 @@ namespace BussinesLogic
                 }
 
                 dBLogic.AddStateWeather(stateWeatherModels, stateInformation);
-
                 return stateWeatherModels;
             }
         }
@@ -124,7 +123,6 @@ namespace BussinesLogic
                 }
 
                 dBLogic.AddStateConsumptions(stateConsumptionModels, stateName);
-
                 return stateConsumptionModels;
             }
         }

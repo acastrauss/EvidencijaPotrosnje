@@ -15,28 +15,38 @@ namespace EvidencijaPotrosnje.Controllers
         // GET: Import
         public ActionResult Index()
         {
-            var wDir = Directory.CreateDirectory(HostingEnvironment.MapPath($"~/App_Data/WeatherData/"));
-            var wFiles = wDir.GetFiles().ToList().Select(x => x.Name).ToList();
-            List<String> weatFiles = new List<string>();
-            foreach (var wf in wFiles)
+            try
             {
-                weatFiles.Add(wf.Split('.')[0].Split('-')[1]);
+                var wDir = Directory.CreateDirectory(HostingEnvironment.MapPath($"~/App_Data/WeatherData/"));
+                var wFiles = wDir.GetFiles().ToList().Select(x => x.Name).ToList();
+                List<String> weatFiles = new List<string>();
+                foreach (var wf in wFiles)
+                {
+                    weatFiles.Add(wf.Split('.')[0].Split('-')[1]);
+                }
+
+                var cDir = Directory.CreateDirectory(HostingEnvironment.MapPath($"~/App_Data/ConsumptionData/"));
+                var cFiles = cDir.GetFiles().ToList().Select(x => x.Name).ToList();
+                List<String> consFiles = new List<string>();
+
+                foreach (var cf in cFiles)
+                {
+                    consFiles.Add(cf.Split('.')[0]);
+                }
+
+                ViewBag.wFiles = weatFiles;
+                ViewBag.cFiles = consFiles;
+                ViewBag.ErrorMessage = TempData["ErrorMessage"];
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = "Nesto neocekivano se desilo!";
+
+                return View();
             }
             
-            var cDir = Directory.CreateDirectory(HostingEnvironment.MapPath($"~/App_Data/ConsumptionData/"));
-            var cFiles = cDir.GetFiles().ToList().Select(x => x.Name).ToList();
-            List<String> consFiles = new List<string>();
-
-            foreach (var cf in cFiles)
-            {
-                consFiles.Add(cf.Split('.')[0]);
-            }
-            
-            ViewBag.wFiles = weatFiles;
-            ViewBag.cFiles = consFiles;
-            ViewBag.ErrorMessage = TempData["ErrorMessage"];
-
-            return View();
         }
 
         [HttpPost]

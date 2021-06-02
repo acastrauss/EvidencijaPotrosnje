@@ -9,6 +9,6 @@ namespace BussinesLogic
 {
     public interface IExportData
     {
-        void SaveData(IEnumerable<ShowingData> showingDataI);
+        string SaveData(IEnumerable<ShowingData> showingDataI, string[] columns);
     }
 }

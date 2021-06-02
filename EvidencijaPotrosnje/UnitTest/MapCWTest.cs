@@ -92,7 +92,6 @@ namespace UnitTest
                 new StateInfoModel() {
                 StateName = "Serbia",
                 StateWeathers = new List<StateWeatherModel>(),
-
                 StateConsumption = new List<StateConsumptionModel>()
                 {
                     new StateConsumptionModel(
@@ -136,7 +135,6 @@ namespace UnitTest
                 22, "22", 22, 22, 22, 22, "22", "22", 22, 22, "22", 22, new DateTime(2021, 2, 2), 56)
                 },
                 StateConsumption = new List<StateConsumptionModel>()
-
             } }
         };
 
